@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#d4af37">
+    <title>DAKPRO ÉLITE — Espace Livreur</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #0b0b0d;
+            color: #f5f5f7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background: linear-gradient(145deg, #161619, #101012);
+            border-bottom: 1px solid #2a2a32;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        .logo-title {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffcc00 0%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        .badge-livreur {
+            background: rgba(52, 211, 153, 0.1);
+            border: 1px solid #34d399;
+            color: #34d399;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        main {
+            flex: 1;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .navigation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        @media(min-width: 768px) {
+            .navigation-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media(min-width: 1024px) {
+            .navigation-grid { grid-template-columns: repeat(6, 1fr); }
+        }
+        .nav-card {
+            background: linear-gradient(145deg, #161619, #101012);
+            border: 1px solid #2a2a32;
+            border-radius: 14px;
+            padding: 20px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-card:hover, .nav-card.active {
+            border-color: #ffcc00;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(212, 175, 55, 0.25);
+            background: linear-gradient(145deg, #1c1c21, #121215);
+        }
+        .nav-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .nav-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #f5f5f7;
+        }
+        #dashboard-container {
+            background: linear-gradient(145deg, #161619, #101012);
+            border: 1px solid #2a2a32;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            min-height: 400px;
+        }
+        .profile-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #12161f;
+            border: 2px solid #d4af37;
+            border-radius: 14px;
+            padding: 25px;
+        }
+        .profile-field {
+            margin-bottom: 15px;
+        }
+        .profile-field label {
+            display: block;
+            font-size: 12px;
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+        .profile-field input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #444;
+            border-radius: 8px;
+            background: #000;
+            color: #fff;
+            font-size: 14px;
+        }
+        .profile-field input:focus {
+            border-color: #d4af37;
+            outline: none;
+        }
+        .btn-save {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #d4af37;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn-save:hover {
+            background: #f0e68c;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #71717a;
+            border-top: 1px solid #2a2a32;
+            background: #0b0b0d;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-title">DAKPRO ÉLITE 🚀 Espace Livreur</div>
+        <div class="badge-livreur" id="userBadge">Partenaire Logistique</div>
+    </header>
+
+    <main>
+        <div class="navigation-grid">
+            <div class="nav-card active" onclick="chargerModule('dashboard', this)">
+                <div class="nav-icon">📊</div>
+                <div class="nav-name">Tableau de Bord</div>
+            </div>
+            <div class="nav-card" onclick="chargerModule('commandes', this)">
+                <div class="nav-icon">📦</div>
+                <div class="nav-name">Commandes à Prendre</div>
+            </div>
+            <div class="nav-card" onclick="chargerModule('livraisons', this)">
+                <div class="nav-icon">🛵</div>
+                <div class="nav-name">Mes Livraisons</div>
+            </div>
+            <div class="nav-card" onclick="chargerModule('revenus', this)">
+                <div class="nav-icon">💰</div>
+                <div class="nav-name">Mes Revenus</div>
+            </div>
+            <div class="nav-card" onclick="chargerModule('retraits', this)">
+                <div class="nav-icon">🏦</div>
+                <div class="nav-name">Retraits</div>
+            </div>
+            <div class="nav-card" onclick="chargerModule('profil', this)">
+                <div class="nav-icon">👤</div>
+                <div class="nav-name">Mon Profil</div>
+            </div>
+        </div>
+
+        <div id="dashboard-container">
+            <div style="text-align: center; padding: 50px; color: #ffcc00;">
+                <h3>Chargement de votre espace...</h3>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2026 DAKPRO ÉLITE — Tous droits réservés. Logistique Sécurisée Élite.
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyDR7INHKaazaqZt-xIcjk10JFiy58uXKO8",
+          authDomain: "dakproelite.firebaseapp.com",
+          databaseURL: "https://dakproelite-default-rtdb.firebaseio.com",
+          projectId: "dakproelite",
+          storageBucket: "dakproelite.firebasestorage.app",
+          messagingSenderId: "580591769206",
+          appId: "1:580591769206:web:859724d4b2dbf904087157"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        let currentUser = null;
+
+        // Gestionnaire des modules intégrés
+        window.chargerModule = function(nomModule, elementClique) {
+            document.querySelectorAll('.nav-card').forEach(card => card.classList.remove('active'));
+            if(elementClique) elementClique.classList.add('active');
+
+            const container = document.getElementById("dashboard-container");
+
+            if (nomModule === 'dashboard') {
+                container.innerHTML = `
+                    <div style="padding: 10px;">
+                        <h2 style="color: #ffcc00; margin-bottom: 15px;">Tableau de Bord Livreur</h2>
+                        <p style="color: #ccc; margin-bottom: 8px;">Bienvenue dans votre interface de gestion logistique.</p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-top: 20px;">
+                            <div style="background: #1c1c21; padding: 20px; border-radius: 10px; border: 1px solid #333;">
+                                <h4>Livraisons du jour</h4>
+                                <p style="font-size: 24px; color: #34d399; margin-top: 10px;">0</p>
+                            </div>
+                            <div style="background: #1c1c21; padding: 20px; border-radius: 10px; border: 1px solid #333;">
+                                <h4>Solde Disponible</h4>
+                                <p style="font-size: 24px; color: #ffcc00; margin-top: 10px;">0 FCFA</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (nomModule === 'profil') {
+                if (!currentUser) {
+                    container.innerHTML = "<p>Veuillez vous connecter pour voir votre profil.</p>";
+                    return;
+                }
+                
+                const userRef = ref(db, "users/" + currentUser.uid);
+                get(userRef).then((snapshot) => {
+                    const data = snapshot.exists() ? snapshot.val() : {};
+                    container.innerHTML = `
+                        <div class="profile-card">
+                            <h3 style="color: #ffcc00; margin-bottom: 20px; text-align: center;">Mon Profil Livreur</h3>
+                            <form id="profileForm">
+                                <div class="profile-field">
+                                    <label>Nom complet</label>
+                                    <input type="text" id="profileName" value="${data.nom || currentUser.displayName || ''}" required>
+                                </div>
+                                <div class="profile-field">
+                                    <label>Adresse e-mail (Non modifiable)</label>
+                                    <input type="email" value="${currentUser.email || ''}" disabled style="opacity: 0.7;">
+                                </div>
+                                <div class="profile-field">
+                                    <label>Numéro de téléphone</label>
+                                    <input type="text" id="profilePhone" value="${data.telephone || ''}">
+                                </div>
+                                <button type="submit" class="btn-save" id="saveProfileBtn">Mettre à jour le profil</button>
+                                <div id="profileMsg" style="margin-top: 10px; text-align: center; font-size: 12px;"></div>
+                            </form>
+                        </div>
+                    `;
+
+                    document.getElementById("profileForm").addEventListener("submit", async (e) => {
+                        e.preventDefault();
+                        const newName = document.getElementById("profileName").value.trim();
+                        const newPhone = document.getElementById("profilePhone").value.trim();
+                        const msgDiv = document.getElementById("profileMsg");
+
+                        try {
+                            await updateProfile(currentUser, { displayName: newName });
+                            await update(ref(db, "users/" + currentUser.uid), {
+                                nom: newName,
+                                telephone: newPhone,
+                                updatedAt: Date.now()
+                            });
+                            msgDiv.style.color = "#34d399";
+                            msgDiv.textContent = "Profil mis à jour avec succès !";
+                        } catch (err) {
+                            msgDiv.style.color = "#ff8585";
+                            msgDiv.textContent = "Erreur lors de la mise à jour : " + err.message;
+                        }
+                    });
+                });
+            } else {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #a1a1aa;">
+                        <h3>Module ${nomModule.toUpperCase()}</h3>
+                        <p style="margin-top: 10px;">Cette section est en cours de chargement ou sera bientôt disponible.</p>
+                    </div>
+                `;
+            }
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                console.log("Livreur authentifié :", user.uid);
+                chargerModule('dashboard', document.querySelector('.nav-card'));
+            } else {
+                window.location.replace("connexion.html");
+            }
+        });
+    </script>
+</body>
+</html>

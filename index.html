@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#d4af37">
+<meta name="application-name" content="DAKPRO ÉLITE">
+<title>DAKPRO ÉLITE | Catalogue Global des Livraisons</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{min-height:100vh;display:flex;flex-direction:column;background:#050505;color:#fff;font-family:Arial,sans-serif;}
+
+/* EN-TÊTE FIXE ET STRUCTURÉ */
+header {
+  background: #12161f;
+  border-bottom: 2px solid #d4af37;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+}
+
+.brand-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* LOGO GRAVÉ / INAMOVIBLE */
+.logo {
+  display: block;
+  width: 55px;
+  height: 55px;
+  min-width: 55px;
+  min-height: 55px;
+  border-radius: 50%;
+  border: 2px solid #d4af37;
+  object-fit: cover;
+  box-shadow: inset 0 3px 6px rgba(0,0,0,0.8), 0 2px 4px rgba(212,175,55,0.2);
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.6));
+  user-select: none;
+  pointer-events: none;
+}
+
+.brand-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #d4af37;
+  letter-spacing: 0.5px;
+}
+
+.auth-menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-account {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.btn-login {
+  background: transparent;
+  color: #d4af37;
+  border: 1px solid #d4af37;
+}
+
+.btn-login:hover {
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.btn-register {
+  background: #d4af37;
+  color: #000;
+  border: none;
+}
+
+.btn-register:hover {
+  background: #f0e68c;
+}
+
+/* CONTENU PRINCIPAL */
+main {
+  flex: 1;
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero-notice {
+  background: #2a2107;
+  border: 1px solid #d4af37;
+  color: #f0e68c;
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-bottom: 25px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* BARRE DE RECHERCHE ET FILTRES */
+.filter-card {
+  background: #12161f;
+  border: 1px solid #333;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 25px;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #444;
+  border-radius: 9px;
+  background: #000;
+  color: #fff;
+  outline: none;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.search-bar:focus {
+  border-color: #d4af37;
+}
+
+.filters-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+select {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #444;
+  border-radius: 8px;
+  background: #000;
+  color: #fff;
+  outline: none;
+  font-size: 13px;
+}
+
+select:focus {
+  border-color: #d4af37;
+}
+
+/* SECTIONS GÉOGRAPHIQUES */
+.pays-section {
+  background: #12161f;
+  border: 1px solid #2a2a32;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.pays-header {
+  font-size: 18px;
+  color: #d4af37;
+  font-weight: bold;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dept-block {
+  background: #080808;
+  border: 1px solid #222;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.dept-header {
+  font-size: 15px;
+  color: #34d399;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.commune-block {
+  background: #161619;
+  border-left: 3px solid #d4af37;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.commune-header {
+  font-size: 13px;
+  color: #f0e68c;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* GRILLE RESPONSIVE : 2 mobile, 4 tablette, 6 ordinateur */
+.commandes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media(min-width: 768px) {
+  .commandes-grid { grid-template-columns: repeat(4, 1fr); }
+}
+@media(min-width: 1200px) {
+  .commandes-grid { grid-template-columns: repeat(6, 1fr); }
+}
+
+/* CARTE DE COMMANDE SUR FOND JAUNE OR AVEC TEXTES LISIBLES */
+.commande-card {
+  background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 100%);
+  border: 1px solid #b8860b;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #1a1a1a;
+  box-shadow: 0 4px 12px rgba(212,175,55,0.2);
+  transition: transform 0.2s;
+}
+
+.commande-card:hover {
+  transform: translateY(-3px);
+  border-color: #fff;
+}
+
+.cmd-img-container {
+  width: 100%;
+  height: 110px;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+.cmd-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cmd-img-placeholder {
+  font-size: 10px;
+  color: #555;
+  font-weight: bold;
+}
+
+.cmd-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.cmd-id {
+  font-size: 10px;
+  color: #3b2f00;
+  font-weight: 800;
+}
+
+.cmd-amount {
+  font-size: 12px;
+  color: #064e3b;
+  font-weight: 900;
+}
+
+.cmd-detail {
+  font-size: 11px;
+  color: #222;
+  margin-bottom: 3px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.cmd-detail span {
+  color: #444;
+  font-weight: normal;
+}
+
+.cmd-detail a {
+  color: #064e3b;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.btn-take {
+  background: #0f172a;
+  color: #34d399;
+  border: 1px solid #34d399;
+  padding: 9px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 11px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.btn-take:hover {
+  background: #1e293b;
+  color: #fff;
+}
+
+.badge-pris {
+  background: rgba(185, 28, 28, 0.9);
+  border: 1px solid #7f1d1d;
+  color: #fff;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* MODAL DE SAISIE DU NOM ET PRÉNOM DU LIVREUR */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-box {
+  background: #12161f;
+  border: 2px solid #d4af37;
+  border-radius: 14px;
+  padding: 25px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+
+.modal-box h3 {
+  color: #d4af37;
+  font-size: 18px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.modal-box p {
+  font-size: 12px;
+  color: #ccc;
+  margin-bottom: 15px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.modal-field {
+  margin-bottom: 12px;
+}
+
+.modal-field label {
+  display: block;
+  font-size: 11px;
+  color: #aaa;
+  margin-bottom: 4px;
+}
+
+.modal-field input {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #444;
+  border-radius: 8px;
+  background: #000;
+  color: #fff;
+  font-size: 13px;
+  outline: none;
+}
+
+.modal-field input:focus {
+  border-color: #d4af37;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btn-modal-submit {
+  flex: 1;
+  background: #34d399;
+  color: #000;
+  border: none;
+  padding: 11px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-modal-cancel {
+  flex: 1;
+  background: #333;
+  color: #fff;
+  border: none;
+  padding: 11px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 12px;
+  color: #777;
+  border-top: 1px solid #222;
+  background: #050505;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-container">
+    <img class="logo" src="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png" alt="DAKPRO ÉLITE">
+    <div class="brand-title">DAKPRO ÉLITE</div>
+  </div>
+  <div class="auth-menu">
+    <a href="connexion.html" class="btn-account btn-login">Se connecter</a>
+    <a href="inscription.html" class="btn-account btn-register">S'inscrire</a>
+  </div>
+</header>
+
+<main>
+  <div class="hero-notice">
+    🛵 <b>Plateforme Nationale & Internationale de Livraison</b> — Colis classés par zone. Cliquez sur "Prendre la livraison", remplissez votre nom et prénom pour verrouiller la course et contacter le client via WhatsApp.
+  </div>
+
+  <div class="filter-card">
+    <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Rechercher un Pays, Département ou Commune..." onkeyup="filtrerAffichage()">
+    <div class="filters-row">
+      <select id="selectPays" onchange="filtrerAffichage()">
+        <option value="">Tous les Pays</option>
+      </select>
+      <select id="selectDept" onchange="filtrerAffichage()">
+        <option value="">Tous les Départements</option>
+      </select>
+      <select id="selectCommune" onchange="filtrerAffichage()">
+        <option value="">Toutes les Communes</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="catalogContainer">
+    <div style="text-align:center; padding:40px; color:#d4af37;">Chargement du catalogue des livraisons...</div>
+  </div>
+</main>
+
+<!-- MODAL VALIDATION NOM & PRÉNOM -->
+<div id="livreurModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3>Validation du Livreur</h3>
+    <p>Veuillez entrer votre Nom et Prénom exacts pour enregistrer votre prise en charge et contacter le client.</p>
+    <div class="modal-field">
+      <label>Nom</label>
+      <input type="text" id="livreurNomInput" placeholder="Votre nom" required>
+    </div>
+    <div class="modal-field">
+      <label>Prénom</label>
+      <input type="text" id="livreurPrenomInput" placeholder="Votre prénom" required>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn-modal-cancel" onclick="fermerModal()">Annuler</button>
+      <button type="button" class="btn-modal-submit" onclick="validerEtOuvrirWhatsApp()">Continuer</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 DAKPRO ÉLITE — Logistique & Distribution Sécurisée Élite.
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getDatabase, ref, get, child, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDR7INHKaazaqZt-xIcjk10JFiy58uXKO8",
+  authDomain: "dakproelite.firebaseapp.com",
+  databaseURL: "https://dakproelite-default-rtdb.firebaseio.com",
+  projectId: "dakproelite",
+  storageBucket: "dakproelite.firebasestorage.app",
+  messagingSenderId: "580591769206",
+  appId: "1:580591769206:web:859724d4b2dbf904087157"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+let catalogueData = {};
+let selectedCommande = null;
+
+async function chargerCatalogueCommandes() {
+  const dbRef = ref(db);
+  let listeCommandes = [];
+
+  try {
+    const snapshot = await get(child(dbRef, `commandes`));
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+      Object.keys(data).forEach(acheteurUid => {
+        const commandesAcheteur = data[acheteurUid];
+        Object.keys(commandesAcheteur).forEach(cmdId => {
+          const cmd = commandesAcheteur[cmdId];
+          
+          // Extraction géographique sécurisée
+          let pays = (cmd.livraison && (cmd.livraison.pays || cmd.livraison.country)) || (cmd.client && (cmd.client.pays || cmd.client.country)) || "Bénin";
+          let dept = (cmd.livraison && (cmd.livraison.departement || cmd.livraison.region)) || (cmd.client && (cmd.client.departement || cmd.client.region)) || "Littoral";
+          let commune = (cmd.livraison && (cmd.livraison.commune || cmd.livraison.ville)) || (cmd.client && (cmd.client.commune || cmd.client.ville)) || "Cotonou";
+
+          // Extraction infos client / contact
+          let nomClient = (cmd.client && (cmd.client.nom || cmd.client.prenom)) || cmd.acheteurEmail || "Client DAKPRO";
+          let telClient = (cmd.client && (cmd.client.telephone || cmd.client.phone)) || (cmd.livraison && cmd.livraison.telephone) || "";
+          let emailClient = cmd.acheteurEmail || (cmd.client && cmd.client.email) || "";
+          let adresseComplete = (cmd.client && cmd.client.adresse) || (cmd.livraison && cmd.livraison.adresse) || "Adresse standard";
+
+          // Extraction image, nom et prix du produit (depuis la structure articles ou article)
+          let imageProduit = "";
+          let nomProduit = "Article Dakpro Élite";
+          if (cmd.articles && Array.isArray(cmd.articles) && cmd.articles.length > 0) {
+            imageProduit = cmd.articles[0].image || cmd.articles[0].img || cmd.articles[0].photo || "";
+            nomProduit = cmd.articles[0].nom || cmd.articles[0].title || nomProduit;
+          } else if (cmd.article) {
+            imageProduit = cmd.article.image || cmd.article.img || "";
+            nomProduit = cmd.article.nom || nomProduit;
+          }
+
+          listeCommandes.push({
+            id: cmdId,
+            acheteurUid: acheteurUid,
+            pays: pays.trim(),
+            dept: dept.trim(),
+            commune: commune.trim(),
+            nomClient: nomClient.trim(),
+            telClient: telClient.trim(),
+            emailClient: emailClient.trim(),
+            adresseComplete: adresseComplete.trim(),
+            imageProduit: imageProduit,
+            nomProduit: nomProduit,
+            ...cmd
+          });
+        });
+      });
+    }
+  } catch (err) {
+    console.error("Erreur de chargement des commandes :", err);
+  }
+
+  // Regroupement hiérarchique : Pays -> Département -> Commune
+  catalogueData = {};
+  listeCommandes.forEach(cmd => {
+    if (!catalogueData[cmd.pays]) catalogueData[cmd.pays] = {};
+    if (!catalogueData[cmd.pays][cmd.dept]) catalogueData[cmd.pays][cmd.dept] = {};
+    if (!catalogueData[cmd.pays][cmd.dept][cmd.commune]) catalogueData[cmd.pays][cmd.dept][cmd.commune] = [];
+    catalogueData[cmd.pays][cmd.dept][cmd.commune].push(cmd);
+  });
+
+  remplirSélecteurs();
+  afficherCatalogue();
+}
+
+function remplirSélecteurs() {
+  const selectPays = document.getElementById("selectPays");
+  selectPays.innerHTML = '<option value="">Tous les Pays</option>';
+
+  Object.keys(catalogueData).forEach(pays => {
+    const opt = document.createElement("option");
+    opt.value = pays;
+    opt.textContent = pays;
+    selectPays.appendChild(opt);
+  });
+}
+
+function afficherCatalogue() {
+  const container = document.getElementById("catalogContainer");
+
+  if (Object.keys(catalogueData).length === 0) {
+    container.innerHTML = `<div style="text-align:center; padding:40px; color:#aaa;">Aucun colis disponible actuellement.</div>`;
+    return;
+  }
+
+  let html = "";
+  Object.keys(catalogueData).forEach(pays => {
+    html += `<div class="pays-section" data-pays="${pays.toLowerCase()}">`;
+    html += `<div class="pays-header">🌍 Pays : ${pays}</div>`;
+
+    Object.keys(catalogueData[pays]).forEach(dept => {
+      html += `<div class="dept-block" data-dept="${dept.toLowerCase()}">`;
+      html += `<div class="dept-header">📂 Département / Région : ${dept}</div>`;
+
+      Object.keys(catalogueData[pays][dept]).forEach(commune => {
+        html += `<div class="commune-block" data-commune="${commune.toLowerCase()}">`;
+        html += `<div class="commune-header">📍 Commune / Ville : ${commune}</div>`;
+        html += `<div class="commandes-grid">`;
+
+        catalogueData[pays][dept][commune].forEach(cmd => {
+          const montant = cmd.montantTotal ? `${cmd.montantTotal} ${cmd.devise || 'XOF'}` : '0 XOF';
+          const estPris = cmd.livreurId || (cmd.contactLivraison && cmd.contactLivraison.nomLivreur);
+          const nomLivreurPris = cmd.contactLivraison ? cmd.contactLivraison.nomLivreur : (cmd.livreurId || 'un livreur');
+
+          html += `
+            <div class="commande-card">
+              <div>
+                <div class="cmd-img-container">
+                  ${cmd.imageProduit ? `<img src="${cmd.imageProduit}" alt="Produit" class="cmd-img">` : `<span class="cmd-img-placeholder">📦 Pas d'image</span>`}
+                </div>
+                <div class="cmd-info-row">
+                  <span class="cmd-id">ID: ${cmd.id}</span>
+                  <span class="cmd-amount">${montant}</span>
+                </div>
+                <div class="cmd-detail" style="color:#111; font-weight:900; margin-bottom:4px;">🛍️ ${cmd.nomProduit}</div>
+                <div class="cmd-detail"><span>👤 Client :</span> <b>${cmd.nomClient}</b></div>
+                <div class="cmd-detail"><span>📞 Tél :</span> <a href="tel:${cmd.telClient}">${cmd.telClient || 'Non renseigné'}</a></div>
+                <div class="cmd-detail"><span>📧 Email :</span> ${cmd.emailClient || 'Non renseigné'}</div>
+                <div class="cmd-detail"><span>🏠 Adresse :</span> ${cmd.adresseComplete}</div>
+              </div>
+              
+              ${estPris ? `
+                <div class="badge-pris">
+                  🔒 Déjà pris en charge par<br><b>${nomLivreurPris}</b>
+                </div>
+              ` : `
+                <button class="btn-take" onclick='ouvrirModal(${JSON.stringify(cmd)})'>
+                  💬 Prendre la livraison (WhatsApp)
+                </button>
+              `}
+            </div>
+          `;
+        });
+
+        html += `</div></div>`;
+      });
+      html += `</div>`;
+    });
+    html += `</div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+window.ouvrirModal = function(cmd) {
+  selectedCommande = cmd;
+  document.getElementById("livreurNomInput").value = "";
+  document.getElementById("livreurPrenomInput").value = "";
+  document.getElementById("livreurModal").style.display = "flex";
+};
+
+window.fermerModal = function() {
+  document.getElementById("livreurModal").style.display = "none";
+  selectedCommande = null;
+};
+
+window.validerEtOuvrirWhatsApp = async function() {
+  const nom = document.getElementById("livreurNomInput").value.trim();
+  const prenom = document.getElementById("livreurPrenomInput").value.trim();
+
+  if (!nom || !prenom) {
+    alert("Veuillez remplir votre nom et votre prénom.");
+    return;
+  }
+
+  if (!selectedCommande) return;
+
+  const nomCompletLivreur = `${nom} ${prenom}`;
+  const timestamp = Date.now();
+
+  try {
+    const contactData = {
+      nomLivreur: nomCompletLivreur,
+      nom: nom,
+      prenom: prenom,
+      dateContact: timestamp,
+      statut: "Pris en charge"
+    };
+
+    await set(ref(db, `commandes/${selectedCommande.acheteurUid}/${selectedCommande.id}/contactLivraison`), contactData);
+    await set(ref(db, `commandes/${selectedCommande.acheteurUid}/${selectedCommande.id}/livreurId`), nomCompletLivreur);
+
+    let cleanPhone = selectedCommande.telClient.replace(/[^0-9+]/g, "");
+    const messageWp = encodeURIComponent(`Bonjour, je suis votre livreur ${nomCompletLivreur} de DAKPRO ÉLITE concernant votre commande #${selectedCommande.id} (${selectedCommande.nomProduit}). Je prends en charge votre livraison.`);
+    const whatsappUrl = cleanPhone ? `https://wa.me/${cleanPhone}?text=${messageWp}` : `https://wa.me/?text=${messageWp}`;
+
+    fermerModal();
+    window.open(whatsappUrl, "_blank");
+    chargerCatalogueCommandes();
+  } catch (err) {
+    console.error("Erreur lors de l'enregistrement du contact :", err);
+    alert("Erreur technique lors de la validation.");
+  }
+};
+
+window.filtrerAffichage = function() {
+  const query = document.getElementById("searchInput").value.toLowerCase().trim();
+  const selPays = document.getElementById("selectPays").value.toLowerCase();
+  const selDept = document.getElementById("selectDept").value.toLowerCase();
+  const selCommune = document.getElementById("selectCommune").value.toLowerCase();
+
+  const sections = document.querySelectorAll(".pays-section");
+  sections.forEach(sec => {
+    const pText = sec.getAttribute("data-pays");
+    let pMatch = (selPays === "" || pText === selPays) && (pText.includes(query) || query === "");
+
+    const deptBlocks = sec.querySelectorAll(".dept-block");
+    let deptAnyMatch = false;
+
+    deptBlocks.forEach(dBlock => {
+      const dText = dBlock.getAttribute("data-dept");
+      let dMatch = (selDept === "" || dText === selDept) && (dText.includes(query) || pText.includes(query) || query === "");
+
+      const commBlocks = dBlock.querySelectorAll(".commune-block");
+      let commAnyMatch = false;
+
+      commBlocks.forEach(cBlock => {
+        const cText = cBlock.getAttribute("data-commune");
+        let cMatch = (selCommune === "" || cText === selCommune) && (cText.includes(query) || dText.includes(query) || pText.includes(query) || query === "");
+
+        cBlock.style.display = cMatch ? "block" : "none";
+        if (cMatch) commAnyMatch = true;
+      });
+
+      dBlock.style.display = (dMatch && commAnyMatch) ? "block" : "none";
+      if (dMatch && commAnyMatch) deptAnyMatch = true;
+    });
+
+    sec.style.display = (pMatch && deptAnyMatch) ? "block" : "none";
+  });
+};
+
+chargerCatalogueCommandes();
+</script>
+</body>
+</html>
