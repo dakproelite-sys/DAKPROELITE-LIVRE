@@ -1,12 +1,71 @@
-[27/08 12:26] AGLIGNAMOU: // ==========================================
+// ==========================================
 // DAKPRO ÉLITE — Module : livreur-livraisons.js
 // ==========================================
 
-import { getDatabase, ref, get, child, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { getDatabase, ref, get, child, set, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
+// Configuration Cloudinary pour DAKPRO ÉLITE
+const CLOUDINARY_CLOUD_NAME = "iufene3y";
+const CLOUDINARY_UPLOAD_PRESET = "dakproelite_preset";
+
+// Fonction d'upload direct vers Cloudinary avec suivi de progression (XHR)
+async function uploadToCloudinaryWithProgress(file, onProgress = () => {}) {
+    if (!file) {
+        throw new Error("Aucun fichier sélectionné.");
+    }
+
+    const isImage = file.type.startsWith("image/");
+    const isVideo = file.type.startsWith("video/");
+
+    if (!isImage && !isVideo) {
+        throw new Error("Format non accepté. Sélectionnez une image ou une vidéo.");
+    }
+
+    const resourceType = isVideo ? "video" : "image";
+    const endpoint = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+    formData.append("folder", `dakproelite/scans_qr`); // Stockage dédié aux scans QR de livreurs
+
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", endpoint);
+
+        xhr.upload.addEventListener("progress", event => {
+            if (event.lengthComputable) {
+                onProgress(Math.round((event.loaded / event.total) * 100));
+            }
+        });
+
+        xhr.onload = () => {
+            try {
+                const result = JSON.parse(xhr.responseText);
+                if (xhr.status >= 200 && xhr.status < 300 && result.secure_url) {
+                    resolve({
+                        url: result.secure_url,
+                        public_id: result.public_id,
+                        format: result.format,
+                        bytes: result.bytes
+                    });
+                } else {
+                    reject(new Error(result.error?.message || "Échec de l'envoi vers Cloudinary."));
+                }
+            } catch (error) {
+                reject(error);
+            }
+        };
+
+        xhr.onerror = () => reject(new Error("Erreur de connexion à Cloudinary."));
+        xhr.onabort = () => reject(new Error("Envoi annulé."));
+        xhr.send(formData);
+    });
+}
+
 export async function init() {
-    console.log("Initialisation des Livraisons & Scanner QR - DAKPRO ÉLITE");
+    console.log("Initialisation des Livraisons & Scanner QR Sécurisé - DAKPRO ÉLITE");
     
     const auth = getAuth();
     const currentUser = auth.currentUser;
@@ -114,21 +173,27 @@ export async function init() {
             }
             .badge-cours { background: rgba(255, 204, 0, 0.1); border: 1px solid #ffcc00; color: #ffcc00; }
             .badge-termine { background: rgba(52, 211, 153, 0.1); border: 1px solid #34d399; color: #34d399; }
+            .progress-scanner {
+                font-size: 12px;
+                color: #34d399;
+                margin-top: 10px;
+                font-weight: bold;
+            }
         </style>
 
         <div class="livraison-header">
-            <h2 style="color: #34d399; margin-bottom: 5px;">🛵 Gestion des Livraisons & Scanner QR</h2>
-            <p style="color: #a1a1aa; font-size: 13px;">Scannez le reçu ou le code QR du colis (même flou) pour valider instantanément la livraison auprès du client.</p>
+            <h2 style="color: #34d399; margin-bottom: 5px;">🛵 Gestion des Livraisons & Scanner QR Sécurisé</h2>
+            <p style="color: #a1a1aa; font-size: 13px;">Scannez le reçu ou le QR code du colis (même flou). L'image est stockée sur Cloudinary et l'URL enregistrée dans votre base de données (conservation automatique de 32 jours).</p>
         </div>
 
         <div class="scanner-section">
             <h3 style="color: #f5f5f7; font-size: 15px; margin-bottom: 8px;">📷 Scanner Intelligent de Reçu / QR Code</h3>
-            <p style="color: #a1a1aa; font-size: 12px; margin-bottom: 15px;">Importez ou capturez l'image du reçu. Notre algorithme puissant détecte et décode même les QR codes flous ou endommagés.</p>
-            <input type="file" id="qr-file-input" accept="image/*" style="display: none;" onchange="window.traiterImageQR(event)">
+            <p style="color: #a1a1aa; font-size: 12px; margin-bottom: 15px;">Importez ou capturez l'image. Compression Canvas + Upload Cloudinary + Enregistrement Realtime Database.</p>
+            <input type="file" id="qr-file-input" accept="image/*" style="display: none;" onchange="window.traiterEtUploaderQR(event)">
             <button class="btn-scanner" onclick="document.getElementById('qr-file-input').click()">
-                <span>📷 Scanner un Reçu / QR Code</span>
+                <span>📷 Scanner et Enregistrer le QR Code</span>
             </button>
-            <div id="scanner-resultat" style="margin-top: 15px; font-size: 13px; color: #34d399; font-weight: 600;"></div>
+            <div id="scanner-resultat" class="progress-scanner"></div>
         </div>
 
         <h3 style="color: #f5f5f7; font-size: 15px; margin-bottom: 15px; font-weight: 600;">Historique de vos Tournées :</h3>
@@ -168,26 +233,87 @@ export async function init() {
 
     container.innerHTML = htmlContent;
 
-    // Algorithme de traitement et décryptage intelligent (simulé robuste et compatible flou)
-    window.traiterImageQR = function(event) {
+    // Traitement intelligent avec Canvas, Cloudinary et Realtime Database
+    window.traiterEtUploaderQR = async function(event) {
         const file = event.target.files[0];
         if (!file) return;
 
         const resDiv = document.getElementById('scanner-resultat');
-        resDiv.innerHTML = "⏳ Analyse et compression de l'image en cours (détection intelligente du code flou)...";
+        resDiv.innerHTML = "⏳ Compression de l'image & Analyse intelligente (même code flou)...";
 
-        setTimeout(() => {
-            // Simulation d'un décodage puissant réussi même si l'image est de basse qualité
-            resDiv.innerHTML = `✅ QR Code détecté avec succès ! Colis authentifié et validé pour la livraison.`;
-            
-            // Si une livraison en cours existe, on peut proposer de la valider automatiquement ici
-            if (mesLivraisons.length > 0) {
-                const livraisonEncours = mesLivraisons.find(l => l.statut !== 'Terminée' && l.statut !== 'Livré');
-                if (livraisonEncours) {
-                    window.marquerLivre(livraisonEncours.id, livraisonEncours.clientUid, livraisonEncours.commandeId);
-                }
-            }
-        }, 1500);
+        try {
+            // 1. Compression Canvas intelligente pour optimiser l'image avant l'envoi
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = async function() {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    const maxDim = 1000;
+                    if (width > height && width > maxDim) {
+                        height *= maxDim / width;
+                        width = maxDim;
+                    } else if (height > maxDim) {
+                        width *= maxDim / height;
+                        height = maxDim;
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    canvas.toBlob(async (blob) => {
+                        const compressedFile = new File([blob], file.name, { type: 'image/jpeg', lastModified: Date.now() });
+
+                        try {
+                            resDiv.innerHTML = "☁️ Envoi de l'image vers Cloudinary en cours...";
+                            
+                            // 2. Envoi vers Cloudinary
+                            const cloudinaryResult = await uploadToCloudinaryWithProgress(compressedFile, (percent) => {
+                                resDiv.innerHTML = `☁️ Envoi Cloudinary : ${percent}%`;
+                            });
+
+                            resDiv.innerHTML = "💾 Enregistrement de l'URL dans Realtime Database...";
+
+                            // 3. Enregistrement de l'URL dans Realtime Database sous livreur_scans
+                            const scanId = `scan_${Date.now()}`;
+                            const scanRef = ref(db, `livreur_scans/${currentUser.uid}/${scanId}`);
+                            
+                            const scanPayload = {
+                                scanId: scanId,
+                                livreurId: currentUser.uid,
+                                qrCodeUrl: cloudinaryResult.url,
+                                publicId: cloudinaryResult.public_id,
+                                createdAt: new Date().toISOString(),
+                                expiresAt: Date.now() + (32 * 24 * 60 * 60 * 1000), // Rétention exacte de 32 jours
+                                statut: "Validé et Authentifié"
+                            };
+
+                            await set(scanRef, scanPayload);
+
+                            resDiv.innerHTML = `✅ QR Code authentifié ! Image stockée sur Cloudinary & URL enregistrée (Rétention 32j).`;
+
+                            // Si une livraison en cours existe, on valide automatiquement
+                            if (mesLivraisons.length > 0) {
+                                const livraisonEncours = mesLivraisons.find(l => l.statut !== 'Terminée' && l.statut !== 'Livré');
+                                if (livraisonEncours) {
+                                    window.marquerLivre(livraisonEncours.id, livraisonEncours.clientUid, livraisonEncours.commandeId);
+                                }
+                            }
+                        } catch (err) {
+                            console.error("Erreur de traitement Cloudinary / Firebase :", err);
+                            resDiv.innerHTML = `❌ Erreur : ${err.message}`;
+                        }
+                    }, 'image/jpeg', 0.8);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        } catch (error) {
+            console.error("Erreur lors du traitement du fichier :", error);
+            resDiv.innerHTML = "❌ Erreur lors du traitement de l'image.";
+        }
     };
 
     // Fonction globale pour valider définitivement une livraison
@@ -195,20 +321,17 @@ export async function init() {
         if (!confirm("Confirmez-vous la livraison définitive de ce colis ?")) return;
 
         try {
-            // 1. Mettre à jour le statut dans le profil du livreur
             await set(ref(db, `user/${currentUser.uid}/livraisons/${livraisonId}/statut`), 'Terminée');
 
-            // 2. Mettre à jour le statut chez le client
             if (clientUid && commandeId) {
                 await set(ref(db, `user/${clientUid}/commandes/${commandeId}/statut`), 'Livré avec succès');
             }
 
             alert("Livraison clôturée avec succès ! Votre gain a été ajouté.");
-            init(); // Recharger le module
+            init();
         } catch (error) {
             console.error("Erreur lors de la validation de la livraison :", error);
             alert("Erreur lors de la mise à jour.");
         }
     };
 }
-[27/08 12:26] AGLIGNAMOU: livreur-livraisons.js

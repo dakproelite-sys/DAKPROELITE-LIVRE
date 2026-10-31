@@ -6,7 +6,7 @@ import { getDatabase, ref, get, child, set, push } from "https://www.gstatic.com
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 export async function init() {
-    console.log("Initialisation des Retraits Livreur - DAKPRO ÉLITE");
+    console.log("Initialisation des Retraits Livreur Élite - DAKPRO ÉLITE");
     
     const auth = getAuth();
     const currentUser = auth.currentUser;
@@ -35,29 +35,38 @@ export async function init() {
     let coordonneesEnregistrees = {};
 
     try {
-        const userSnap = await get(child(dbRef, `user/${currentUser.uid}`));
+        // 1. Récupération des informations depuis le profil utilisateur global
+        const userSnap = await get(child(dbRef, `users/${currentUser.uid}`));
         if (userSnap.exists()) {
-            const userData = userSnap.val();
-            livreurProfil = userData.profil || {};
-            coordonneesEnregistrees = userData.retraits?.coordonnees || {};
+            livreurProfil = userSnap.val();
+        }
 
-            // Calcul des revenus validés
-            if (userData.livraisons) {
-                Object.values(userData.livraisons).forEach(liv => {
-                    if (liv.statut === 'Terminée' || liv.statut === 'Livré') {
-                        totalRevenus += parseFloat(liv.montantLivreur || liv.montant || 0);
-                    }
-                });
-            }
+        // 2. Récupération des coordonnées et données spécifiques depuis le nœud livreurs_profil_retrait
+        const retraitSnap = await get(child(dbRef, `livreurs_profil_retrait/${currentUser.uid}`));
+        if (retraitSnap.exists()) {
+            const retraitData = retraitSnap.val();
+            coordonneesEnregistrees = retraitData.coordonnees || {};
+        }
+
+        // 3. Calcul des revenus validés à partir des livraisons terminées
+        const livraisonsSnap = await get(child(dbRef, `user/${currentUser.uid}/livraisons`));
+        if (livraisonsSnap.exists()) {
+            const livData = livraisonsSnap.val();
+            Object.values(livData).forEach(liv => {
+                if (liv.statut === 'Terminée' || liv.statut === 'Livré') {
+                    totalRevenus += parseFloat(liv.montantLivreur || liv.montant || 0);
+                }
+            });
         }
     } catch (error) {
         console.error("Erreur lors de la récupération des données :", error);
     }
 
-    const estVerifie = livreurProfil.verifie === true; // Vérification du statut admin/documents
+    const estVerifie = livreurProfil.verifie === true || livreurProfil.statutValidation === 'Validé' || livreurProfil.statutValidation === 'valide';
     const moyenActuel = coordonneesEnregistrees.moyen || 'MTN Mobile Money';
     const numeroActuel = coordonneesEnregistrees.numero || '';
     const titulaireActuel = coordonneesEnregistrees.titulaire || '';
+    const SEUIL_MINIMUM = 10500; // Seuil minimum configuré à 10 500 XOF
 
     let htmlContent = `
         <style>
@@ -147,13 +156,13 @@ export async function init() {
 
         <div class="retrait-header">
             <h2 style="color: #ffcc00; margin-bottom: 5px;">🏦 Gestion des Retraits Élite</h2>
-            <p style="color: #a1a1aa; font-size: 13px;">Enregistrez vos coordonnées de paiement et lancez vos demandes à partir de 10 900 XOF.</p>
+            <p style="color: #a1a1aa; font-size: 13px;">Publiez vos coordonnées de paiement et lancez vos demandes à partir de ${SEUIL_MINIMUM.toLocaleString()} XOF.</p>
         </div>
 
         <div class="solde-box">
             <div style="color: #a1a1aa; font-size: 13px; margin-bottom: 5px; font-weight: 600;">Solde Disponible pour Retrait :</div>
-            <div style="color: #34d399; font-size: 32px; font-weight: 800; margin-bottom: 5px;">${totalRevenus} XOF</div>
-            <div style="color: #ffcc00; font-size: 12px;">Seuil minimum requis : 10 900 XOF</div>
+            <div style="color: #34d399; font-size: 32px; font-weight: 800; margin-bottom: 5px;">${totalRevenus.toLocaleString()} XOF</div>
+            <div style="color: #ffcc00; font-size: 12px;">Seuil minimum requis : ${SEUIL_MINIMUM.toLocaleString()} XOF</div>
         </div>
     `;
 
@@ -168,35 +177,36 @@ export async function init() {
 
     htmlContent += `
         <div class="form-section">
-            <h3 style="color: #ffcc00; font-size: 15px; margin-bottom: 15px;">📍 Coordonnées de Retrait (Mobile Money / Banque)</h3>
+            <h3 style="color: #ffcc00; font-size: 15px; margin-bottom: 15px;">📍 Publication de vos Coordonnées (Mobile Money / Banque)</h3>
             <div class="form-grid">
                 <div class="form-group">
                     <label class="form-label">Moyen de Paiement</label>
                     <select id="retrait-moyen" class="form-select">
                         <option value="MTN Mobile Money" ${moyenActuel === 'MTN Mobile Money' ? 'selected' : ''}>MTN Mobile Money</option>
                         <option value="Moov Money" ${moyenActuel === 'Moov Money' ? 'selected' : ''}>Moov Money</option>
+                        <option value="Celtiis Cash" ${moyenActuel === 'Celtiis Cash' ? 'selected' : ''}>Celtiis Cash</option>
                         <option value="Orange Money" ${moyenActuel === 'Orange Money' ? 'selected' : ''}>Orange Money</option>
                         <option value="Wave" ${moyenActuel === 'Wave' ? 'selected' : ''}>Wave</option>
                         <option value="Virement Bancaire" ${moyenActuel === 'Virement Bancaire' ? 'selected' : ''}>Virement Bancaire</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Numéro de Compte / Téléphone Complet</label>
+                    <label class="form-label">Numéro de Téléphone / Compte</label>
                     <input type="text" id="retrait-numero" class="form-input" value="${numeroActuel}" placeholder="Ex: +22997000000">
                 </div>
                 <div class="form-group full">
-                    <label class="form-label">Nom et Prénom du Titulaire</label>
-                    <input type="text" id="retrait-titulaire" class="form-input" value="${titulaireActuel}" placeholder="Nom exact du compte">
+                    <label class="form-label">Nom Exact du Titulaire (Nom sur le compte)</label>
+                    <input type="text" id="retrait-titulaire" class="form-input" value="${titulaireActuel}" placeholder="Nom et prénom exacts enregistrés">
                 </div>
             </div>
-            <button class="btn-action" onclick="window.sauvegarderCoordonneesRetrait()">Enregistrer mes coordonnées</button>
+            <button class="btn-action" onclick="window.sauvegarderCoordonneesRetrait()">Publier mes coordonnées de retrait</button>
         </div>
 
         <div class="form-section">
             <h3 style="color: #34d399; font-size: 15px; margin-bottom: 15px;">💸 Lancer une Demande de Retrait</h3>
             <div class="form-group full" style="margin-bottom: 15px;">
                 <label class="form-label">Montant à retirer (XOF)</label>
-                <input type="number" id="retrait-montant" class="form-input" placeholder="Minimum 10900 XOF" min="10900">
+                <input type="number" id="retrait-montant" class="form-input" placeholder="Minimum 10 500 XOF" min="${SEUIL_MINIMUM}">
             </div>
             <button class="btn-action" style="background: linear-gradient(135deg, #34d399 0%, #059669 100%); color: #0b0b0d;" onclick="window.lancerDemandeRetrait(${totalRevenus}, ${estVerifie})">Soumettre la Demande à l'Admin</button>
         </div>
@@ -204,43 +214,47 @@ export async function init() {
 
     container.innerHTML = htmlContent;
 
-    // Fonction pour enregistrer les coordonnées dans la Realtime Database
+    // Fonction d'enregistrement dynamique dans le nœud structuré livreurs_profil_retrait
     window.sauvegarderCoordonneesRetrait = async function() {
         const moyen = document.getElementById('retrait-moyen').value;
         const numero = document.getElementById('retrait-numero').value.trim();
         const titulaire = document.getElementById('retrait-titulaire').value.trim();
 
         if (!numero || !titulaire) {
-            alert("Veuillez remplir tous les champs de vos coordonnées de retrait.");
+            alert("Veuillez renseigner votre numéro ainsi que le nom exact du titulaire.");
             return;
         }
 
         try {
-            await set(ref(db, `user/${currentUser.uid}/retraits/coordonnees`), {
+            const coordonneesPayload = {
                 moyen,
                 numero,
-                titulaire
-            });
-            alert("Coordonnées de retrait enregistrées avec succès !");
+                titulaire,
+                updatedAt: new Date().toISOString()
+            };
+
+            // Enregistrement direct dans le nœud officiel livreurs_profil_retrait
+            await set(ref(db, `livreurs_profil_retrait/${currentUser.uid}/coordonnees`), coordonneesPayload);
+            alert("✅ Vos coordonnées de retrait ont été publiées et enregistrées avec succès !");
             init();
         } catch (error) {
             console.error("Erreur enregistrement coordonnées :", error);
-            alert("Erreur lors de la sauvegarde.");
+            alert("Erreur lors de la sauvegarde des coordonnées.");
         }
     };
 
-    // Fonction pour lancer la demande de retrait
+    // Fonction pour lancer la demande de retrait avec vérification du solde et du seuil minimum (10 500 XOF)
     window.lancerDemandeRetrait = async function(soldeDisponible, verifie) {
         if (!verifie) {
-            alert("Action impossible : Votre compte n'est pas encore vérifié par l'administration.");
+            alert("Action impossible : Votre compte livreur n'est pas encore vérifié ou validé par l'administration.");
             return;
         }
 
         const montantInput = document.getElementById('retrait-montant').value;
         const montantRetrait = parseFloat(montantInput);
 
-        if (isNaN(montantRetrait) || montantRetrait < 10900) {
-            alert("Le montant minimum pour effectuer un retrait est de 10 900 XOF.");
+        if (isNaN(montantRetrait) || montantRetrait < SEUIL_MINIMUM) {
+            alert(`Le montant minimum pour effectuer un retrait est de ${SEUIL_MINIMUM.toLocaleString()} XOF.`);
             return;
         }
 
@@ -249,30 +263,34 @@ export async function init() {
             return;
         }
 
-        if (!coordonneesEnregistrees.numero) {
-            alert("Veuillez d'abord enregistrer vos coordonnées de retrait ci-dessus.");
+        // Vérification des coordonnées enregistrées dans livreurs_profil_retrait
+        const snapCoords = await get(child(dbRef, `livreurs_profil_retrait/${currentUser.uid}/coordonnees`));
+        if (!snapCoords.exists() || !snapCoords.val().numero) {
+            alert("Veuillez d'abord publier et enregistrer vos coordonnées de retrait ci-dessus avant de lancer une demande.");
             return;
         }
 
-        if (!confirm(`Confirmez-vous la demande de retrait de ${montantRetrait} XOF ? Elle sera analysée et validée par un administrateur.`)) return;
+        const coords = snapCoords.val();
+
+        if (!confirm(`Confirmez-vous la demande de retrait de ${montantRetrait.toLocaleString()} XOF vers votre compte ${coords.moyen} (${coords.numero}) ?`)) return;
 
         try {
             const timestamp = Date.now();
-            const nouvelleDemandeRef = push(ref(db, `user/${currentUser.uid}/retraits/demandes`));
+            const nouvelleDemandeRef = push(ref(db, `livreurs_profil_retrait/${currentUser.uid}/demandes`));
             
             await set(nouvelleDemandeRef, {
                 montant: montantRetrait,
-                coordonnees: coordonneesEnregistrees,
+                coordonnees: coords,
                 statut: 'En attente d\'analyse administrateur',
                 date: timestamp
             });
 
-            alert("Demande de retrait soumise avec succès ! Elle est en cours d'analyse par l'administration.");
+            alert("🎉 Demande de retrait soumise avec succès ! Elle est en cours d'analyse par l'administration.");
             document.getElementById('retrait-montant').value = '';
             init();
         } catch (error) {
             console.error("Erreur lors de la demande de retrait :", error);
-            alert("Erreur technique lors de la soumission.");
+            alert("Erreur technique lors de la soumission de la demande.");
         }
     };
 }

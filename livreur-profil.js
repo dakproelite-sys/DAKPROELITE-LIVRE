@@ -2,11 +2,74 @@
 // DAKPRO ÉLITE — Module : livreur-profil.js
 // ==========================================
 
-import { getDatabase, ref, get, child, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { getDatabase, ref, get, child, set, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
+// Configuration Cloudinary pour DAKPRO ÉLITE
+const CLOUDINARY_CLOUD_NAME = "iufene3y";
+const CLOUDINARY_UPLOAD_PRESET = "dakproelite_preset";
+
+// Fonction d'upload direct vers Cloudinary avec suivi de progression (XHR)
+async function uploadToCloudinaryWithProgress(file, onProgress = () => {}) {
+    if (!file) {
+        throw new Error("Aucun fichier sélectionné.");
+    }
+
+    const isImage = file.type.startsWith("image/");
+    const isVideo = file.type.startsWith("video/");
+
+    if (!isImage && !isVideo) {
+        throw new Error("Format non accepté. Sélectionnez une image ou une vidéo.");
+    }
+
+    const resourceType = isVideo ? "video" : "image";
+    const endpoint = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+    formData.append("folder", `dakproelite/${resourceType}s`);
+
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", endpoint);
+
+        xhr.upload.addEventListener("progress", event => {
+            if (event.lengthComputable) {
+                onProgress(Math.round((event.loaded / event.total) * 100));
+            }
+        });
+
+        xhr.onload = () => {
+            try {
+                const result = JSON.parse(xhr.responseText);
+                if (xhr.status >= 200 && xhr.status < 300 && result.secure_url) {
+                    resolve({
+                        url: result.secure_url,
+                        public_id: result.public_id,
+                        resource_type: result.resource_type,
+                        format: result.format,
+                        bytes: result.bytes,
+                        width: result.width || null,
+                        height: result.height || null,
+                        duration: result.duration || null
+                    });
+                } else {
+                    reject(new Error(result.error?.message || "Échec de l'envoi vers Cloudinary."));
+                }
+            } catch (error) {
+                reject(error);
+            }
+        };
+
+        xhr.onerror = () => reject(new Error("Erreur de connexion à Cloudinary."));
+        xhr.onabort = () => reject(new Error("Envoi annulé."));
+        xhr.send(formData);
+    });
+}
+
 export async function init() {
-    console.log("Initialisation du Profil Livreur & Vérification - DAKPRO ÉLITE");
+    console.log("Initialisation du Profil Livreur & QR Code Sécurisé - DAKPRO ÉLITE");
     
     const auth = getAuth();
     const currentUser = auth.currentUser;
@@ -24,48 +87,68 @@ export async function init() {
 
     container.innerHTML = `
         <div style="text-align: center; padding: 40px; color: #ffcc00;">
-            <p>Chargement de votre profil livreur VIP...</p>
+            <p>Chargement de votre profil livreur et de votre carte sécurisée...</p>
         </div>
     `;
 
     const db = getDatabase();
     const dbRef = ref(db);
     let profilData = {};
+    let docAdminData = {};
 
     try {
-        const snapshot = await get(child(dbRef, `user/${currentUser.uid}/profil`));
-        if (snapshot.exists()) {
-            profilData = snapshot.val();
+        const userSnapshot = await get(child(dbRef, `users/${currentUser.uid}`));
+        if (userSnapshot.exists()) {
+            profilData = userSnapshot.val();
+        }
+
+        const docsSnapshot = await get(child(dbRef, `documents_livreur`));
+        if (docsSnapshot.exists()) {
+            const allDocs = docsSnapshot.val();
+            Object.keys(allDocs).forEach(docKey => {
+                if (allDocs[docKey].livreurId === currentUser.uid) {
+                    docAdminData = allDocs[docKey];
+                }
+            });
         }
     } catch (error) {
-        console.error("Erreur chargement profil :", error);
+        console.error("Erreur lors de la récupération des données :", error);
     }
 
-    const nomComplet = profilData.nomComplet || '';
+    const nomComplet = profilData.nomComplet || profilData.nom || '';
+    const emailUser = currentUser.email || '';
     const pays = profilData.pays || '';
     const departement = profilData.departement || '';
     const commune = profilData.commune || '';
     const quartierVille = profilData.quartierVille || '';
-    const whatsapp = profilData.whatsapp || '';
+    const whatsapp = profilData.whatsapp || profilData.telephone || '';
     const numeroPiece = profilData.numeroPiece || '';
-    const statutValidation = profilData.statutValidation || 'En cours de traitement'; // En cours de traitement, Validé, Refusé
+    
+    const statutValidation = profilData.statutValidation || docAdminData.statutVerification || 'en_attente';
     const motifRefus = profilData.motifRefus || '';
-    const avatarSrc = profilData.avatarSrc || '';
-    const photoPieceSrc = profilData.photoPieceSrc || '';
-    const photoIdentiteSrc = profilData.photoIdentiteSrc || '';
+    
+    const avatarSrc = profilData.avatarSrc || docAdminData.avatarUrl || '';
+    const photoIdentiteSrc = profilData.photoIdentiteSrc || docAdminData.documentUrl || '';
+    const photoPieceSrc = profilData.photoPieceSrc || docAdminData.carteIdentiteUrl || '';
 
     let initiales = "VIP";
     if (nomComplet) {
-        const parts = nomComplet.trim().split('es');
+        const parts = nomComplet.trim().split(' ');
         initiales = parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : nomComplet.substring(0, 2).toUpperCase();
     }
 
     let statutBadgeStyle = "background: rgba(255, 204, 0, 0.1); border: 1px solid #ffcc00; color: #ffcc00;";
-    if (statutValidation === 'Validé') {
+    let statutTexte = "EN ATTENTE DE VALIDATION PAR L'ADMINISTRATION";
+    if (statutValidation === 'Validé' || statutValidation === 'valide') {
         statutBadgeStyle = "background: rgba(52, 211, 153, 0.1); border: 1px solid #34d399; color: #34d399;";
-    } else if (statutValidation === 'Refusé') {
+        statutTexte = "VALIDÉ & CERTIFIÉ OFFICIEL";
+    } else if (statutValidation === 'Refusé' || statutValidation === 'rejete') {
         statutBadgeStyle = "background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ef4444;";
+        statutTexte = "REFUSÉ - VEUILLEZ CORRIGER VOS INFORMATIONS";
     }
+
+    // URL officielle spécifique au rôle livreur couplée au nom de domaine dakproelite.com
+    const verificationUrl = `https://dakproelite.com/livreur-verifier.html?uid=${currentUser.uid}`;
 
     let htmlContent = `
         <style>
@@ -146,6 +229,10 @@ export async function init() {
             .form-input:focus {
                 border-color: #34d399;
             }
+            .form-input:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
             .btn-enregistrer {
                 background: linear-gradient(135deg, #34d399 0%, #059669 100%);
                 color: #0b0b0d;
@@ -162,6 +249,11 @@ export async function init() {
             .btn-enregistrer:hover {
                 opacity: 0.9;
             }
+            .btn-enregistrer:disabled {
+                background: #333;
+                color: #777;
+                cursor: not-allowed;
+            }
             .statut-banner {
                 padding: 15px;
                 border-radius: 10px;
@@ -173,7 +265,7 @@ export async function init() {
             }
             .doc-preview {
                 width: 100%;
-                height: 100px;
+                height: 110px;
                 background: #101012;
                 border: 1px dashed #2a2a32;
                 border-radius: 8px;
@@ -190,16 +282,110 @@ export async function init() {
                 height: 100%;
                 object-fit: cover;
             }
+            .progress-text {
+                font-size: 11px;
+                color: #34d399;
+                margin-top: 4px;
+                font-weight: bold;
+                text-align: center;
+            }
+
+            /* CARTE PROFESSIONNELLE DE LIVREUR VIP AVEC QR CODE SECURISE */
+            .carte-pro-container {
+                background: linear-gradient(135deg, #1a1a24 0%, #0f0f13 100%);
+                border: 2px solid #d4af37;
+                border-radius: 16px;
+                padding: 20px;
+                max-width: 440px;
+                margin: 25px auto;
+                box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);
+                color: #fff;
+                font-family: Arial, sans-serif;
+            }
+            .carte-pro-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-bottom: 1px solid #333;
+                padding-bottom: 12px;
+                margin-bottom: 15px;
+            }
+            .carte-pro-logo {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: 1px solid #d4af37;
+                object-fit: cover;
+            }
+            .carte-pro-body {
+                display: flex;
+                gap: 15px;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .carte-pro-avatar {
+                width: 85px;
+                height: 105px;
+                border-radius: 8px;
+                border: 2px solid #d4af37;
+                object-fit: cover;
+                background: #000;
+            }
+            .carte-pro-infos {
+                font-size: 11px;
+                line-height: 1.4;
+                color: #e5e5e7;
+                flex: 1;
+            }
+            .carte-pro-infos b {
+                color: #d4af37;
+            }
+            .carte-pro-qrcode-box {
+                background: #fff;
+                padding: 5px;
+                border-radius: 6px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            .badge-valide-pro {
+                margin-top: 12px;
+                background: #064e3b;
+                color: #34d399;
+                text-align: center;
+                padding: 6px;
+                border-radius: 6px;
+                font-size: 11px;
+                font-weight: bold;
+                border: 1px solid #34d399;
+            }
+            .btn-download-carte {
+                background: #d4af37;
+                color: #000;
+                border: none;
+                padding: 10px;
+                border-radius: 6px;
+                font-weight: bold;
+                font-size: 12px;
+                cursor: pointer;
+                width: 100%;
+                margin-top: 12px;
+                transition: background 0.2s;
+            }
+            .btn-download-carte:hover {
+                background: #f0e68c;
+            }
         </style>
 
         <div class="profil-header">
-            <h2 style="color: #34d399; margin-bottom: 5px;">👤 Profil Livreur & Vérification Administrative</h2>
-            <p style="color: #a1a1aa; font-size: 13px;">Gérez vos informations, votre photo avec compression intelligente et vos documents officiels.</p>
+            <h2 style="color: #34d399; margin-bottom: 5px;">👤 Profil Livreur & Carte Sécurisée</h2>
+            <p style="color: #a1a1aa; font-size: 13px;">Gérez vos informations et accédez à votre carte professionnelle officielle dotée d'un QR code infalsifiable.</p>
         </div>
 
         <div class="statut-banner">
-            Statut du compte : ${statutValidation.toUpperCase()}
-            ${statutValidation === 'Refusé' && motifRefus ? `<br><span style="font-weight:400; font-size:12px; color:#fca5a5; margin-top:5px; display:block;">Motif : ${motifRefus}</span>` : ''}
+            Statut du compte : ${statutTexte}
+            ${motifRefus ? `<br><span style="font-weight:400; font-size:12px; color:#fca5a5; margin-top:5px; display:block;">Motif : ${motifRefus}</span>` : ''}
         </div>
 
         <div class="profil-card">
@@ -207,126 +393,198 @@ export async function init() {
                 <div class="avatar-cercle" id="avatar-apercu">
                     ${avatarSrc ? `<img src="${avatarSrc}" alt="Avatar">` : initiales}
                 </div>
-                <input type="file" id="input-avatar" accept="image/*" capture="environment" style="display:none;" onchange="window.compresserEtChargerImage(event, 'avatar')">
-                <button type="button" style="background:#101012; border:1px solid #34d399; color:#34d399; padding:6px 15px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer;" onclick="document.getElementById('input-avatar').click()">📷 Changer la Photo de Profil (Caméra/Galerie)</button>
+                <input type="file" id="input-avatar" accept="image/*" style="display:none;" onchange="window.gererUploadCloudinary(event, 'avatar')">
+                <button type="button" style="background:#101012; border:1px solid #34d399; color:#34d399; padding:6px 15px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer;" onclick="document.getElementById('input-avatar').click()">📷 Choisir & Publier Photo de Profil</button>
+                <div id="progress-avatar" class="progress-text"></div>
             </div>
 
             <div class="form-grid">
                 <div class="form-group full">
-                    <label class="form-label">Nom Complet</label>
-                    <input type="text" id="prof-nom" class="form-input" value="${nomComplet}" placeholder="Votre nom et prénom">
+                    <label class="form-label">Nom et Prénom</label>
+                    <input type="text" id="prof-nom" class="form-input" value="${nomComplet}" placeholder="Votre nom et prénom exacts">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Numéro WhatsApp Complet</label>
+                    <label class="form-label">Adresse E-mail (Non modifiable)</label>
+                    <input type="email" class="form-input" value="${emailUser}" disabled>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Numéro WhatsApp / Appel</label>
                     <input type="text" id="prof-whatsapp" class="form-input" value="${whatsapp}" placeholder="+22997000000">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Pays</label>
-                    <input type="text" id="prof-pays" class="form-input" value="${pays}" placeholder="Ex: Bénin">
+                    <input type="text" id="prof-pays" class="form-input" value="${pays}" placeholder="Ex: Bénin, Togo, France">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Département / Région</label>
                     <input type="text" id="prof-departement" class="form-input" value="${departement}" placeholder="Département">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Commune</label>
+                    <label class="form-label">Commune / Ville</label>
                     <input type="text" id="prof-commune" class="form-input" value="${commune}" placeholder="Commune">
                 </div>
                 <div class="form-group full">
-                    <label class="form-label">Quartier ou Ville</label>
-                    <input type="text" id="prof-quartier" class="form-input" value="${quartierVille}" placeholder="Quartier, Ville précise">
+                    <label class="form-label">Quartier ou Adresse précise</label>
+                    <input type="text" id="prof-quartier" class="form-input" value="${quartierVille}" placeholder="Quartier, Rue...">
                 </div>
             </div>
         </div>
 
         <div class="profil-card">
-            <h3 style="color: #34d399; font-size: 15px; margin-bottom: 15px;">📂 Documents Administratifs et Pièce d'Identité</h3>
+            <h3 style="color: #34d399; font-size: 15px; margin-bottom: 15px;">📂 Documents Administratifs (CNI / Passeport / Photo d'Identité)</h3>
             
             <div class="form-grid">
                 <div class="form-group full">
-                    <label class="form-label">Numéro de la Carte CNI ou Passeport</label>
-                    <input type="text" id="prof-numero-piece" class="form-input" value="${numeroPiece}" placeholder="Ex: CNI-123456789 ou Passeport">
+                    <label class="form-label">Numéro de la Pièce d'Identité (CNI / Passeport)</label>
+                    <input type="text" id="prof-numero-piece" class="form-input" value="${numeroPiece}" placeholder="Ex: CNI-123456789">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" id="group-identite">
                     <label class="form-label">Photo d'Identité (Visage)</label>
-                    <input type="file" id="input-identite" accept="image/*" capture="environment" style="display:none;" onchange="window.compresserEtChargerImage(event, 'identite')">
-                    <button type="button" style="background:#101012; border:1px solid #2a2a32; color:#f5f5f7; padding:8px; border-radius:6px; font-size:12px; cursor:pointer;" onclick="document.getElementById('input-identite').click()">📸 Prendre / Choisir Photo Identité</button>
+                    <input type="file" id="input-identite" accept="image/*" style="display:none;" onchange="window.gererUploadCloudinary(event, 'identite')">
+                    <button type="button" id="btn-publier-identite" style="background:#101012; border:1px solid #2a2a32; color:#f5f5f7; padding:10px; border-radius:6px; font-size:12px; cursor:pointer;" onclick="document.getElementById('input-identite').click()">📁 Choisir & Publier Photo Identité</button>
+                    <div id="progress-identite" class="progress-text"></div>
                     <div class="doc-preview" id="preview-identite">
-                        ${photoIdentiteSrc ? `<img src="${photoIdentiteSrc}">` : 'Aucune photo'}
+                        ${photoIdentiteSrc ? `<img src="${photoIdentiteSrc}">` : 'Aucun document publié'}
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Photo CNI ou Passeport (Pièce)</label>
-                    <input type="file" id="input-piece" accept="image/*" capture="environment" style="display:none;" onchange="window.compresserEtChargerImage(event, 'piece')">
-                    <button type="button" style="background:#101012; border:1px solid #2a2a32; color:#f5f5f7; padding:8px; border-radius:6px; font-size:12px; cursor:pointer;" onclick="document.getElementById('input-piece').click()">📸 Prendre / Choisir Pièce</button>
+                <div class="form-group" id="group-piece">
+                    <label class="form-label">Photo CNI ou Passeport (Recto/Verso)</label>
+                    <input type="file" id="input-piece" accept="image/*" style="display:none;" onchange="window.gererUploadCloudinary(event, 'piece')">
+                    <button type="button" id="btn-publier-piece" style="background:#101012; border:1px solid #2a2a32; color:#f5f5f7; padding:10px; border-radius:6px; font-size:12px; cursor:pointer;" onclick="document.getElementById('input-piece').click()">📁 Choisir & Publier Pièce Officielle</button>
+                    <div id="progress-piece" class="progress-text"></div>
                     <div class="doc-preview" id="preview-piece">
-                        ${photoPieceSrc ? `<img src="${photoPieceSrc}">` : 'Aucune photo'}
+                        ${photoPieceSrc ? `<img src="${photoPieceSrc}">` : 'Aucun document publié'}
                     </div>
                 </div>
             </div>
 
-            <button class="btn-enregistrer" onclick="window.sauvegarderProfilLivreur()">Enregistrer et Soumettre pour Validation</button>
+            <button id="btn-submit-profil" class="btn-enregistrer" onclick="window.sauvegarderProfilLivreurComplet()">Enregistrer et Publier le Profil</button>
         </div>
+
+        ${(statutValidation === 'Validé' || statutValidation === 'valide') ? `
+            <div class="carte-pro-container" id="carteProCard">
+                <div class="carte-pro-header">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <img src="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png" class="carte-pro-logo" alt="Logo">
+                        <span style="font-size:13px; font-weight:bold; color:#d4af37; letter-spacing:1px;">DAKPRO ÉLITE VIP</span>
+                    </div>
+                    <span style="font-size:10px; background:#d4af37; color:#000; padding:3px 8px; border-radius:4px; font-weight:bold;">CARTE SÉCURISÉE</span>
+                </div>
+                <div class="carte-pro-body">
+                    <img src="${avatarSrc || 'https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png'}" class="carte-pro-avatar" alt="Avatar">
+                    <div class="carte-pro-infos">
+                        <div><b>Nom :</b> ${nomComplet || 'Non renseigné'}</div>
+                        <div><b>Tél :</b> ${whatsapp || 'Non renseigné'}</div>
+                        <div><b>Email :</b> ${emailUser}</div>
+                        <div><b>Ville :</b> ${commune || ''}, ${pays || 'Bénin'}</div>
+                        <div><b>ID :</b> ${currentUser.uid.substring(0, 10).toUpperCase()}</div>
+                    </div>
+                    <div class="carte-pro-qrcode-box">
+                        <!-- QR Code pointant vers dakproelite.com/livreur-verifier.html -->
+                        <img id="qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=${encodeURIComponent(verificationUrl)}" alt="QR Code Vérification">
+                        <span style="font-size:8px; color:#000; margin-top:2px; font-weight:bold;">SCAN & VÉRIF</span>
+                    </div>
+                </div>
+                <div class="badge-valide-pro">
+                    ✅ LIVREUR OFFICIEL VALIDÉ & CERTIFIÉ
+                </div>
+                <button class="btn-download-carte" onclick="window.telechargerCartePro()">📥 Télécharger ma Carte Pro</button>
+            </div>
+        ` : ''}
     `;
 
     container.innerHTML = htmlContent;
 
-    // Variables temporaires pour stocker les images en base64 compressées à 60%
-    let currentAvatarBase64 = avatarSrc;
-    let currentIdentiteBase64 = photoIdentiteSrc;
-    let currentPieceBase64 = photoPieceSrc;
+    if (photoIdentiteSrc) {
+        const btnId = document.getElementById('btn-publier-identite');
+        if (btnId) {
+            btnId.disabled = true;
+            btnId.style.background = "#1a1a2e";
+            btnId.style.color = "#34d399";
+            btnId.textContent = "🔒 Document d'Identité Publié (En attente de validation)";
+        }
+    }
+    if (photoPieceSrc) {
+        const btnPc = document.getElementById('btn-publier-piece');
+        if (btnPc) {
+            btnPc.disabled = true;
+            btnPc.style.background = "#1a1a2e";
+            btnPc.style.color = "#34d399";
+            btnPc.textContent = "🔒 Pièce Officielle Publiée (En attente de validation)";
+        }
+    }
 
-    // Fonction de compression d'image à 60% (0.6) via Canvas
-    window.compresserEtChargerImage = function(event, type) {
+    let currentAvatarUrl = avatarSrc;
+    let currentIdentiteUrl = photoIdentiteSrc;
+    let currentPieceUrl = photoPieceSrc;
+
+    window.gererUploadCloudinary = async function(event, type) {
         const file = event.target.files[0];
         if (!file) return;
 
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const img = new Image();
-            img.onload = function() {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
+        const progressDiv = document.getElementById(`progress-${type}`);
+        progressDiv.textContent = "Compression Canvas & Envoi Cloudinary...";
 
-                // Redimensionnement intelligent pour alléger
-                let width = img.width;
-                let height = img.height;
-                const maxDim = 800;
-                if (width > height && width > maxDim) {
-                    height *= maxDim / width;
-                    width = maxDim;
-                } else if (height > maxDim) {
-                    width *= maxDim / height;
-                    height = maxDim;
-                }
+        try {
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const img = new Image();
+                img.onload = async function() {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    const maxDim = 1000;
+                    if (width > height && width > maxDim) {
+                        height *= maxDim / width;
+                        width = maxDim;
+                    } else if (height > maxDim) {
+                        width *= maxDim / height;
+                        height = maxDim;
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
 
-                canvas.width = width;
-                canvas.height = height;
-                ctx.drawImage(img, 0, 0, width, height);
+                    canvas.toBlob(async (blob) => {
+                        const compressedFile = new File([blob], file.name, { type: 'image/jpeg', lastModified: Date.now() });
 
-                // Compression à 60% (0.6)
-                const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.6);
+                        try {
+                            const result = await uploadToCloudinaryWithProgress(compressedFile, (percent) => {
+                                progressDiv.textContent = `Progression : ${percent}%`;
+                            });
 
-                if (type === 'avatar') {
-                    currentAvatarBase64 = compressedDataUrl;
-                    document.getElementById('avatar-apercu').innerHTML = `<img src="${compressedDataUrl}" alt="Avatar">`;
-                } else if (type === 'identite') {
-                    currentIdentiteBase64 = compressedDataUrl;
-                    document.getElementById('preview-identite').innerHTML = `<img src="${compressedDataUrl}">`;
-                } else if (type === 'piece') {
-                    currentPieceBase64 = compressedDataUrl;
-                    document.getElementById('preview-piece').innerHTML = `<img src="${compressedDataUrl}">`;
-                }
+                            progressDiv.textContent = "✅ Publié avec succès !";
+
+                            if (type === 'avatar') {
+                                currentAvatarUrl = result.url;
+                                document.getElementById('avatar-apercu').innerHTML = `<img src="${result.url}" alt="Avatar">`;
+                            } else if (type === 'identite') {
+                                currentIdentiteUrl = result.url;
+                                document.getElementById('preview-identite').innerHTML = `<img src="${result.url}">`;
+                            } else if (type === 'piece') {
+                                currentPieceUrl = result.url;
+                                document.getElementById('preview-piece').innerHTML = `<img src="${result.url}">`;
+                            }
+                        } catch (err) {
+                            console.error("Erreur Cloudinary :", err);
+                            progressDiv.textContent = "❌ Échec de l'envoi.";
+                            alert("Erreur lors de l'envoi vers Cloudinary : " + err.message);
+                        }
+                    }, 'image/jpeg', 0.8);
+                };
+                img.src = e.target.result;
             };
-            img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
+            reader.readAsDataURL(file);
+        } catch (error) {
+            console.error("Erreur de lecture du fichier :", error);
+            progressDiv.textContent = "❌ Erreur fichier.";
+        }
     };
 
-    // Fonction de sauvegarde globale du profil livreur
-    window.sauvegarderProfilLivreur = async function() {
+    window.sauvegarderProfilLivreurComplet = async function() {
         const nomCompletVal = document.getElementById('prof-nom').value.trim();
         const whatsappVal = document.getElementById('prof-whatsapp').value.trim();
         const paysVal = document.getElementById('prof-pays').value.trim();
@@ -335,38 +593,70 @@ export async function init() {
         const quartierVal = document.getElementById('prof-quartier').value.trim();
         const numeroPieceVal = document.getElementById('prof-numero-piece').value.trim();
 
-        if (!nomCompletVal || !whatsappVal || !numeroPieceVal) {
-            alert("Veuillez remplir votre nom complet, votre numéro WhatsApp et le numéro de votre pièce d'identité.");
+        if (!nomCompletVal || !whatsappVal || !paysVal || !numeroPieceVal) {
+            alert("Veuillez remplir les champs obligatoires (Nom complet, WhatsApp, Pays, Numéro de pièce).");
             return;
         }
 
         try {
-            const profilRef = ref(db, `user/${currentUser.uid}/profil`);
-            
-            // Conserver le statut actuel s'il existe déjà, sinon mettre "En cours de traitement"
-            const nouveauStatut = statutValidation === 'Validé' ? 'Validé' : 'En cours de traitement';
+            const submitBtn = document.getElementById('btn-submit-profil');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = "Publication en cours...";
+            }
 
-            await set(profilRef, {
+            const userRef = ref(db, `users/${currentUser.uid}`);
+            const profileData = {
+                uid: currentUser.uid,
+                email: currentUser.email,
+                nom: nomCompletVal,
                 nomComplet: nomCompletVal,
+                telephone: whatsappVal,
                 whatsapp: whatsappVal,
                 pays: paysVal,
                 departement: departementVal,
                 commune: communeVal,
                 quartierVille: quartierVal,
                 numeroPiece: numeroPieceVal,
-                avatarSrc: currentAvatarBase64,
-                photoIdentiteSrc: currentIdentiteBase64,
-                photoPieceSrc: currentPieceBase64,
-                statutValidation: nouveauStatut,
-                verifie: nouveauStatut === 'Validé',
-                email: currentUser.email
-            });
+                avatarSrc: currentAvatarUrl,
+                photoIdentiteSrc: currentIdentiteUrl,
+                photoPieceSrc: currentPieceUrl,
+                statutValidation: 'en_attente',
+                role: 'livreur',
+                updatedAt: new Date().toISOString()
+            };
+            await update(userRef, profileData);
 
-            alert("Profil et documents mis à jour avec succès ! Soumis à l'administration.");
+            const docId = `doc_liv_${currentUser.uid.substring(0, 8)}_${Date.now()}`;
+            const docRef = ref(db, `documents_livreur/${docId}`);
+            const documentAdminPayload = {
+                livreurId: currentUser.uid,
+                nomLivreur: nomCompletVal,
+                telephone: whatsappVal,
+                typeDocument: "Permis de conduire / Carte d'identité",
+                numeroPiece: numeroPieceVal,
+                documentUrl: currentIdentiteUrl,
+                carteIdentiteUrl: currentPieceUrl,
+                avatarUrl: currentAvatarUrl,
+                statutVerification: "en_attente",
+                createdAt: new Date().toISOString()
+            };
+            await set(docRef, documentAdminPayload);
+
+            alert("🎉 Votre profil et vos documents administratifs ont été publiés avec succès ! En attente de validation par l'administration.");
             init();
         } catch (error) {
-            console.error("Erreur lors de la sauvegarde du profil :", error);
-            alert("Erreur lors de l'enregistrement de votre profil.");
+            console.error("Erreur lors de l'enregistrement dans Firebase :", error);
+            alert("Erreur technique lors de la sauvegarde : " + error.message);
+            const submitBtn = document.getElementById('btn-submit-profil');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Enregistrer et Publier le Profil";
+            }
         }
+    };
+
+    window.telechargerCartePro = function() {
+        window.print();
     };
 }
