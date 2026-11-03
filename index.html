@@ -2,764 +2,1720 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#d4af37">
-<meta name="application-name" content="DAKPRO ÉLITE">
-<title>DAKPRO ÉLITE | Catalogue Global des Livraisons</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<meta name="theme-color" content="#06142d">
+<meta name="application-name" content="DAKPRO ÉLITE LIVRE">
+<meta name="description" content="DAKPRO ÉLITE LIVRE : réseau international de livraison et communication entre livreurs.">
+
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png">
+
+<title>DAKPRO ÉLITE LIVRE | Réseau international</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{min-height:100vh;display:flex;flex-direction:column;background:#050505;color:#fff;font-family:Arial,sans-serif;}
+:root{
+ --navy:#041128;
+ --navy2:#071c3d;
+ --navy3:#0c2b58;
+ --navy4:#17477f;
 
-/* EN-TÊTE FIXE ET STRUCTURÉ */
-header {
-  background: #12161f;
-  border-bottom: 2px solid #d4af37;
-  padding: 12px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-}
+ --gold:#e4b638;
+ --gold2:#ffdf78;
+ --gold3:#fff0b8;
 
-.brand-container {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+ --red:#e52e50;
+ --red-dark:#a31530;
+ --red-light:#ffe7ed;
 
-/* LOGO GRAVÉ / INAMOVIBLE */
-.logo {
-  display: block;
-  width: 55px;
-  height: 55px;
-  min-width: 55px;
-  min-height: 55px;
-  border-radius: 50%;
-  border: 2px solid #d4af37;
-  object-fit: cover;
-  box-shadow: inset 0 3px 6px rgba(0,0,0,0.8), 0 2px 4px rgba(212,175,55,0.2);
-  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.6));
-  user-select: none;
-  pointer-events: none;
+ --black:#020610;
+ --black2:#091224;
+
+ --white:#fff;
+ --surface:linear-gradient(145deg,#071c3d,#041128);
+ --surface2:linear-gradient(145deg,#0c2b58,#071c3d);
+ --text:#f3f6ff;
+ --muted:#a4b5d6;
+ --border:#1c3f75;
+
+ --shadow:0 14px 40px rgba(0,0,0,0.5);
 }
 
-.brand-title {
-  font-size: 18px;
-  font-weight: bold;
-  color: #d4af37;
-  letter-spacing: 0.5px;
+*{
+ box-sizing:border-box;
+ margin:0;
+ padding:0;
 }
 
-.auth-menu {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+html{
+ scroll-behavior:smooth;
 }
 
-.btn-account {
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: bold;
-  text-decoration: none;
-  transition: all 0.2s;
+body{
+ min-height:100vh;
+ background:
+ radial-gradient(circle at 10% 10%,rgba(229,46,80,0.2),transparent 45%),
+ radial-gradient(circle at 90% 85%,rgba(228,182,56,0.18),transparent 45%),
+ linear-gradient(135deg,#020610,#071c3d 50%,#041128);
+ color:var(--text);
+ font-family:Arial,Helvetica,sans-serif;
+ overflow-x:hidden;
 }
 
-.btn-login {
-  background: transparent;
-  color: #d4af37;
-  border: 1px solid #d4af37;
+button,input,textarea{
+ font:inherit;
 }
 
-.btn-login:hover {
-  background: rgba(212, 175, 55, 0.1);
+button{
+ cursor:pointer;
 }
 
-.btn-register {
-  background: #d4af37;
-  color: #000;
-  border: none;
+header{
+ position:sticky;
+ top:0;
+ z-index:100;
+ background:linear-gradient(110deg,#020610,#0e2954 55%,#020610);
+ border-bottom:4px solid var(--gold);
+ box-shadow:0 8px 30px rgba(0,0,0,0.7);
 }
 
-.btn-register:hover {
-  background: #f0e68c;
+.header-inner{
+ max-width:1500px;
+ margin:auto;
+ padding:14px 20px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:15px;
 }
 
-/* CONTENU PRINCIPAL */
-main {
-  flex: 1;
-  padding: 20px;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
+.brand{
+ display:flex;
+ align-items:center;
+ gap:15px;
+ min-width:0;
 }
 
-.hero-notice {
-  background: #2a2107;
-  border: 1px solid #d4af37;
-  color: #f0e68c;
-  padding: 14px 18px;
-  border-radius: 10px;
-  font-size: 13px;
-  margin-bottom: 25px;
-  text-align: center;
-  line-height: 1.5;
+.logo-frame{
+ width:88px;
+ height:88px;
+ min-width:88px;
+ padding:6px;
+ border-radius:50%;
+ background:linear-gradient(145deg,#17477f,#041128);
+ border:2px solid var(--gold);
+ box-shadow:
+  0 8px 20px rgba(0,0,0,0.7),
+  inset 0 4px 10px rgba(229,46,80,0.4),
+  inset 0 -3px 6px rgba(228,182,56,0.8);
+ display:flex;
+ align-items:center;
+ justify-content:center;
 }
 
-/* BARRE DE RECHERCHE ET FILTRES */
-.filter-card {
-  background: #12161f;
-  border: 1px solid #333;
-  border-radius: 14px;
-  padding: 18px;
-  margin-bottom: 25px;
+.logo{
+ width:100%;
+ height:100%;
+ display:block;
+ object-fit:contain;
+ border-radius:50%;
+ background:#020610;
+ filter:contrast(1.1) brightness(0.95);
+ box-shadow:inset 0 2px 6px rgba(0,0,0,0.9);
+ pointer-events:none;
+ user-select:none;
 }
 
-.search-bar {
-  width: 100%;
-  padding: 13px;
-  border: 1px solid #444;
-  border-radius: 9px;
-  background: #000;
-  color: #fff;
-  outline: none;
-  font-size: 14px;
-  margin-bottom: 12px;
+.brand-title{
+ color:white;
+ font-size:22px;
+ font-weight:1000;
+ letter-spacing:1px;
+ text-shadow:0 2px 10px rgba(0,0,0,0.9);
 }
 
-.search-bar:focus {
-  border-color: #d4af37;
+.brand-sub{
+ color:var(--gold2);
+ font-size:10px;
+ font-weight:900;
+ letter-spacing:2px;
+ margin-top:6px;
+ text-shadow:0 1px 4px rgba(0,0,0,0.8);
 }
 
-.filters-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 10px;
+.header-actions{
+ display:flex;
+ flex-wrap:wrap;
+ align-items:center;
+ justify-content:flex-end;
+ gap:8px;
 }
 
-select {
-  width: 100%;
-  padding: 11px;
-  border: 1px solid #444;
-  border-radius: 8px;
-  background: #000;
-  color: #fff;
-  outline: none;
-  font-size: 13px;
+.btn{
+ border:1px solid transparent;
+ border-radius:10px;
+ padding:10px 15px;
+ font-size:11px;
+ font-weight:1000;
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ gap:7px;
+ text-decoration:none;
+ transition:.2s ease;
 }
 
-select:focus {
-  border-color: #d4af37;
+.btn:hover{
+ filter:brightness(1.15);
+ transform:translateY(-2px);
 }
 
-/* SECTIONS GÉOGRAPHIQUES */
-.pays-section {
-  background: #12161f;
-  border: 1px solid #2a2a32;
-  border-radius: 14px;
-  padding: 20px;
-  margin-bottom: 25px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+.btn-gold{
+ color:#020610;
+ background:linear-gradient(135deg,#fff0b5,#e4b638,#c18c19);
+ border-color:#ffe28a;
+ box-shadow:0 4px 15px rgba(228,182,56,0.4);
 }
 
-.pays-header {
-  font-size: 18px;
-  color: #d4af37;
-  font-weight: bold;
-  border-bottom: 1px solid #333;
-  padding-bottom: 10px;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.btn-blue{
+ color:white;
+ background:linear-gradient(135deg,#347ac5,#0b2854);
+ border-color:#6797cf;
 }
 
-.dept-block {
-  background: #080808;
-  border: 1px solid #222;
-  border-radius: 10px;
-  padding: 14px;
-  margin-bottom: 14px;
+.btn-red{
+ color:white;
+ background:linear-gradient(135deg,#f45c77,#a31530);
+ border-color:#ff8094;
+ box-shadow:0 4px 15px rgba(229,46,80,0.4);
 }
 
-.dept-header {
-  font-size: 15px;
-  color: #34d399;
-  font-weight: bold;
-  margin-bottom: 10px;
+.auth-status{
+ color:var(--gold2);
+ font-size:10px;
+ font-weight:900;
+ padding:8px;
+ text-shadow:0 1px 3px rgba(0,0,0,0.8);
 }
 
-.commune-block {
-  background: #161619;
-  border-left: 3px solid #d4af37;
-  border-radius: 6px;
-  padding: 12px;
-  margin-bottom: 10px;
+main{
+ max-width:1500px;
+ margin:auto;
+ padding:20px;
 }
 
-.commune-header {
-  font-size: 13px;
-  color: #f0e68c;
-  font-weight: bold;
-  margin-bottom: 10px;
+.hero{
+ position:relative;
+ overflow:hidden;
+ background:linear-gradient(135deg,#071c3d,#041128 60%,#17477f);
+ border:2px solid var(--gold);
+ border-radius:20px;
+ padding:38px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:20px;
+ box-shadow:var(--shadow);
+ margin-bottom:20px;
 }
 
-/* GRILLE RESPONSIVE : 2 mobile, 4 tablette, 6 ordinateur */
-.commandes-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-@media(min-width: 768px) {
-  .commandes-grid { grid-template-columns: repeat(4, 1fr); }
-}
-@media(min-width: 1200px) {
-  .commandes-grid { grid-template-columns: repeat(6, 1fr); }
+.hero h1{
+ color:white;
+ font-size:clamp(24px,4vw,40px);
+ margin:12px 0;
+ text-shadow:0 3px 12px rgba(0,0,0,0.7);
 }
 
-/* CARTE DE COMMANDE SUR FOND JAUNE OR AVEC TEXTES LISIBLES */
-.commande-card {
-  background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 100%);
-  border: 1px solid #b8860b;
-  border-radius: 10px;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  color: #1a1a1a;
-  box-shadow: 0 4px 12px rgba(212,175,55,0.2);
-  transition: transform 0.2s;
+.hero p{
+ color:#d5e3f8;
+ max-width:750px;
+ font-size:13px;
+ line-height:1.8;
 }
 
-.commande-card:hover {
-  transform: translateY(-3px);
-  border-color: #fff;
+.eyebrow{
+ display:inline-block;
+ background:linear-gradient(135deg,#f45c77,#a31530);
+ color:white;
+ border:1px solid #ff8094;
+ padding:7px 14px;
+ border-radius:30px;
+ font-size:10px;
+ font-weight:1000;
+ letter-spacing:1.5px;
+ box-shadow:0 4px 12px rgba(229,46,80,0.4);
 }
 
-.cmd-img-container {
-  width: 100%;
-  height: 110px;
-  background: #fff;
-  border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(0,0,0,0.15);
+.hero-icon{
+ font-size:80px;
+ filter:drop-shadow(0 8px 20px rgba(228,182,56,0.5));
 }
 
-.cmd-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.notice{
+ background:linear-gradient(110deg,#0a1931,#173a6b);
+ border:1px solid var(--gold);
+ border-left:6px solid var(--red);
+ border-radius:14px;
+ padding:16px;
+ color:white;
+ font-size:11px;
+ line-height:1.8;
+ margin-bottom:20px;
+ box-shadow:var(--shadow);
 }
 
-.cmd-img-placeholder {
-  font-size: 10px;
-  color: #555;
-  font-weight: bold;
+.notice b{
+ color:var(--gold2);
 }
 
-.cmd-info-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 6px;
+.stats{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:18px;
+ margin-bottom:22px;
 }
 
-.cmd-id {
-  font-size: 10px;
-  color: #3b2f00;
-  font-weight: 800;
+.stat{
+ padding:22px;
+ background:linear-gradient(145deg,#071c3d,#041128);
+ border:1px solid var(--border);
+ border-radius:16px;
+ box-shadow:var(--shadow);
+ transition:.2s;
 }
 
-.cmd-amount {
-  font-size: 12px;
-  color: #064e3b;
-  font-weight: 900;
+.stat:hover{
+ border-color:var(--gold);
+ transform:translateY(-2px);
 }
 
-.cmd-detail {
-  font-size: 11px;
-  color: #222;
-  margin-bottom: 3px;
-  line-height: 1.3;
-  font-weight: 600;
+.stat:nth-child(1){ border-top:5px solid var(--gold); }
+.stat:nth-child(2){ border-top:5px solid var(--red); }
+
+.stat span{
+ display:block;
+ color:var(--muted);
+ font-size:11px;
+ font-weight:900;
 }
 
-.cmd-detail span {
-  color: #444;
-  font-weight: normal;
+.stat strong{
+ display:block;
+ color:white;
+ font-size:34px;
+ font-weight:1000;
+ margin-top:8px;
+ text-shadow:0 2px 10px rgba(0,0,0,0.6);
 }
 
-.cmd-detail a {
-  color: #064e3b;
-  font-weight: bold;
-  text-decoration: underline;
+.panel{
+ background:linear-gradient(145deg,#071c3d,#041128);
+ border:1px solid var(--border);
+ border-radius:18px;
+ padding:20px;
+ margin-bottom:20px;
+ box-shadow:var(--shadow);
+ overflow:hidden;
 }
 
-.btn-take {
-  background: #0f172a;
-  color: #34d399;
-  border: 1px solid #34d399;
-  padding: 9px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 10px;
-  font-size: 11px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  text-decoration: none;
-  transition: all 0.2s;
+.panel-head{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ margin:-20px -20px 18px;
+ padding:18px 20px;
+ background:linear-gradient(110deg,#020610,#0e2954);
+ border-bottom:3px solid var(--gold);
 }
 
-.btn-take:hover {
-  background: #1e293b;
-  color: #fff;
+.panel-head h2{
+ color:white;
+ font-size:14px;
+ text-shadow:0 2px 6px rgba(0,0,0,0.6);
 }
 
-.badge-pris {
-  background: rgba(185, 28, 28, 0.9);
-  border: 1px solid #7f1d1d;
-  color: #fff;
-  padding: 8px;
-  border-radius: 6px;
-  font-size: 10px;
-  text-align: center;
-  font-weight: bold;
-  margin-top: 10px;
+.panel-head p{
+ color:#c8d8ef;
+ font-size:10px;
+ margin-top:4px;
 }
 
-/* MODAL DE SAISIE DU NOM ET PRÉNOM DU LIVREUR */
-.modal-overlay {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.85);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 20px;
+.count{
+ color:#020610;
+ background:linear-gradient(135deg,#fff0b4,#e4b638);
+ border:1px solid #c69624;
+ border-radius:30px;
+ padding:7px 14px;
+ font-size:10px;
+ font-weight:1000;
+ white-space:nowrap;
+ box-shadow:0 3px 12px rgba(228,182,56,0.35);
 }
 
-.modal-box {
-  background: #12161f;
-  border: 2px solid #d4af37;
-  border-radius: 14px;
-  padding: 25px;
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+.search{
+ width:100%;
+ padding:14px 16px;
+ border-radius:12px;
+ border:1px solid var(--border);
+ background:#020610;
+ color:white;
+ outline:none;
+ margin-bottom:18px;
+ font-size:12px;
+ transition:all .2s;
 }
 
-.modal-box h3 {
-  color: #d4af37;
-  font-size: 18px;
-  margin-bottom: 10px;
-  text-align: center;
+.search:focus,
+.chat-input:focus{
+ border-color:var(--gold);
+ box-shadow:0 0 0 3px rgba(228,182,56,0.3);
 }
 
-.modal-box p {
-  font-size: 12px;
-  color: #ccc;
-  margin-bottom: 15px;
-  text-align: center;
-  line-height: 1.4;
+.directory-grid{
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:16px;
 }
 
-.modal-field {
-  margin-bottom: 12px;
+.driver-card{
+ background:linear-gradient(145deg,#0c2b58,#071c3d);
+ border:1px solid var(--border);
+ border-radius:15px;
+ overflow:hidden;
+ box-shadow:0 8px 22px rgba(0,0,0,0.45);
+ transition:.25s ease;
 }
 
-.modal-field label {
-  display: block;
-  font-size: 11px;
-  color: #aaa;
-  margin-bottom: 4px;
+.driver-card:hover{
+ transform:translateY(-4px);
+ box-shadow:0 12px 30px rgba(229,46,80,0.3);
+ border-color:var(--red);
 }
 
-.modal-field input {
-  width: 100%;
-  padding: 11px;
-  border: 1px solid #444;
-  border-radius: 8px;
-  background: #000;
-  color: #fff;
-  font-size: 13px;
-  outline: none;
+.driver-head{
+ background:linear-gradient(110deg,#041128,#17477f);
+ border-bottom:3px solid var(--gold);
+ padding:14px;
+ display:flex;
+ align-items:center;
+ gap:12px;
 }
 
-.modal-field input:focus {
-  border-color: #d4af37;
+.avatar{
+ width:44px;
+ height:44px;
+ min-width:44px;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ color:#020610;
+ background:linear-gradient(135deg,#fff0b5,#e4b638);
+ font-size:18px;
+ font-weight:1000;
+ border:2px solid white;
+ box-shadow:0 3px 10px rgba(0,0,0,0.5);
 }
 
-.modal-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
+.driver-name{
+ color:white;
+ font-size:12px;
+ font-weight:1000;
+ overflow-wrap:anywhere;
 }
 
-.btn-modal-submit {
-  flex: 1;
-  background: #34d399;
-  color: #000;
-  border: none;
-  padding: 11px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  font-size: 13px;
+.online{
+ display:flex;
+ align-items:center;
+ gap:6px;
+ color:#c8d8ef;
+ font-size:9px;
+ margin-top:4px;
 }
 
-.btn-modal-cancel {
-  flex: 1;
-  background: #333;
-  color: #fff;
-  border: none;
-  padding: 11px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  font-size: 13px;
+.online-dot{
+ width:8px;
+ height:8px;
+ border-radius:50%;
+ background:#8792a5;
+ display:inline-block;
 }
 
-footer {
-  text-align: center;
-  padding: 20px;
-  font-size: 12px;
-  color: #777;
-  border-top: 1px solid #222;
-  background: #050505;
+.online-dot.active{
+ background:#00ff85;
+ box-shadow:0 0 10px #00ff85;
+}
+
+.driver-info{
+ padding:14px;
+ font-size:10px;
+ line-height:1.9;
+ color:#c8d8ef;
+}
+
+.driver-info b{
+ color:var(--gold2);
+}
+
+.driver-phone{
+ display:block;
+ color:var(--gold2);
+ font-size:13px;
+ font-weight:1000;
+ padding:0 14px 10px;
+ overflow-wrap:anywhere;
+}
+
+.driver-actions{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:8px;
+ padding:0 12px 14px;
+}
+
+.driver-action{
+ padding:10px 6px;
+ border-radius:9px;
+ border:1px solid transparent;
+ color:white;
+ text-decoration:none;
+ text-align:center;
+ font-size:10px;
+ font-weight:1000;
+ transition:.2s;
+}
+
+.driver-action:hover{
+ filter:brightness(1.1);
+}
+
+.action-call{
+ background:linear-gradient(135deg,#347ac5,#0b2854);
+ border-color:#6797cf;
+}
+
+.action-message{
+ background:linear-gradient(135deg,#e9c45d,#bd8619);
+ color:#020610;
+ border-color:#ffe28a;
+}
+
+.action-whatsapp{
+ background:linear-gradient(135deg,#00a968,#007747);
+ border-color:#4ce9a9;
+}
+
+.driver-actions .full{
+ grid-column:1/-1;
+}
+
+/* MESSAGERIE */
+.chat-modal{
+ position:fixed;
+ inset:0;
+ z-index:1000;
+ background:rgba(2,6,16,0.88);
+ backdrop-filter:blur(8px);
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:12px;
+}
+
+.chat-window{
+ width:100%;
+ max-width:580px;
+ height:min(780px,94vh);
+ display:flex;
+ flex-direction:column;
+ overflow:hidden;
+ background:#071c3d;
+ border:2px solid var(--gold);
+ border-radius:18px;
+ box-shadow:0 20px 60px rgba(0,0,0,0.9);
+}
+
+.chat-header{
+ background:linear-gradient(110deg,#041128,#17477f);
+ color:white;
+ border-bottom:3px solid var(--gold);
+ padding:15px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+}
+
+.chat-user{
+ display:flex;
+ align-items:center;
+ gap:12px;
+ min-width:0;
+}
+
+.chat-user strong{
+ display:block;
+ font-size:13px;
+ overflow-wrap:anywhere;
+}
+
+.chat-user small{
+ display:block;
+ color:var(--gold2);
+ margin-top:4px;
+ font-size:10px;
+}
+
+.chat-close{
+ background:var(--red);
+ color:white;
+ border:0;
+ border-radius:9px;
+ padding:8px 12px;
+ font-weight:1000;
+ transition:.2s;
+}
+
+.chat-close:hover{
+ filter:brightness(1.15);
+}
+
+.chat-messages{
+ flex:1;
+ overflow-y:auto;
+ padding:15px;
+ display:flex;
+ flex-direction:column;
+ gap:12px;
+ background:
+  linear-gradient(rgba(7,28,61,0.96),rgba(7,28,61,0.96)),
+  repeating-linear-gradient(45deg,#0c2b58 0 2px,transparent 2px 8px);
+}
+
+.message{
+ max-width:85%;
+ padding:11px 14px;
+ border-radius:14px;
+ font-size:12px;
+ line-height:1.6;
+ overflow-wrap:anywhere;
+ box-shadow:0 3px 8px rgba(0,0,0,0.35);
+}
+
+.message.mine{
+ align-self:flex-end;
+ background:linear-gradient(135deg,#17477f,#0c2b58);
+ border:1px solid #347ac5;
+ color:white;
+ border-bottom-right-radius:4px;
+}
+
+.message.theirs{
+ align-self:flex-start;
+ background:#020610;
+ border:1px solid var(--border);
+ color:white;
+ border-bottom-left-radius:4px;
+}
+
+.message small{
+ display:block;
+ color:var(--muted);
+ font-size:9px;
+ margin-top:6px;
+ text-align:right;
+}
+
+.message audio{
+ width:100%;
+ max-width:250px;
+ margin-top:6px;
+}
+
+.message img{
+ width:100%;
+ max-width:220px;
+ border-radius:10px;
+ margin-top:6px;
+ display:block;
+ border:1px solid var(--border);
+}
+
+.chat-compose{
+ background:#041128;
+ border-top:1px solid var(--border);
+ padding:12px;
+ display:flex;
+ align-items:center;
+ gap:8px;
+}
+
+.chat-input{
+ min-width:0;
+ flex:1;
+ padding:12px 16px;
+ border:1px solid var(--border);
+ border-radius:28px;
+ background:#020610;
+ color:white;
+ outline:none;
+ font-size:12px;
+}
+
+.icon-button{
+ width:42px;
+ height:42px;
+ min-width:42px;
+ border:0;
+ border-radius:50%;
+ color:white;
+ background:linear-gradient(135deg,#347ac5,#0b2854);
+ font-size:16px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ box-shadow:0 3px 12px rgba(0,0,0,0.4);
+ transition:.2s;
+}
+
+.icon-button:hover{
+ transform:scale(1.05);
+}
+
+.icon-button.recording{
+ background:var(--red);
+ box-shadow:0 0 0 6px rgba(229,46,80,0.35);
+ animation:pulseRec 1.2s infinite;
+}
+
+@keyframes pulseRec{
+ 0%{transform:scale(1);}
+ 50%{transform:scale(1.1); filter:brightness(1.2);}
+ 100%{transform:scale(1);}
+}
+
+.send-button{
+ background:linear-gradient(135deg,#00a968,#007747);
+ color:white;
+ border:0;
+ border-radius:28px;
+ padding:12px 18px;
+ font-weight:1000;
+ font-size:11px;
+ box-shadow:0 3px 12px rgba(0,169,104,0.35);
+ transition:.2s;
+}
+
+.send-button:hover{
+ filter:brightness(1.15);
+}
+
+/* APPEL AUDIO AVEC CONTRÔLES COMPLETS */
+.call-modal{
+ position:fixed;
+ inset:0;
+ z-index:1200;
+ background:rgba(2,6,16,0.94);
+ backdrop-filter:blur(9px);
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:15px;
+}
+
+.call-box{
+ width:100%;
+ max-width:410px;
+ padding:32px;
+ text-align:center;
+ background:linear-gradient(145deg,#071c3d,#020610);
+ border:2px solid var(--gold);
+ border-radius:24px;
+ box-shadow:0 20px 60px rgba(0,0,0,0.95);
+ color:white;
+}
+
+.call-avatar{
+ width:100px;
+ height:100px;
+ margin:0 auto 20px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ border-radius:50%;
+ color:#020610;
+ background:linear-gradient(135deg,#fff0b5,#e4b638);
+ border:4px solid white;
+ box-shadow:0 0 0 10px rgba(228,182,56,0.25),0 0 35px rgba(228,182,56,0.5);
+ font-size:40px;
+}
+
+.call-box h3{
+ font-size:19px;
+ margin-bottom:8px;
+ text-shadow:0 2px 5px rgba(0,0,0,0.6);
+}
+
+.call-status{
+ color:var(--gold2);
+ font-size:12px;
+ line-height:1.7;
+ min-height:45px;
+ font-weight:bold;
+ text-shadow:0 1px 3px rgba(0,0,0,0.8);
+}
+
+.call-actions{
+ display:flex;
+ justify-content:center;
+ gap:16px;
+ margin-top:28px;
+ flex-wrap:wrap;
+}
+
+.call-button{
+ width:60px;
+ height:60px;
+ border:0;
+ border-radius:50%;
+ color:white;
+ font-size:22px;
+ box-shadow:0 6px 18px rgba(0,0,0,0.5);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ transition:.2s ease;
+}
+
+.call-button:hover{
+ transform:scale(1.1);
+ filter:brightness(1.15);
+}
+
+.accept-call{ background:linear-gradient(135deg,#00a968,#00834f); }
+.reject-call{ background:linear-gradient(135deg,#f45c77,#a31530); }
+.mute-call{ background:linear-gradient(135deg,#347ac5,#0b2854); }
+.pause-call{ background:linear-gradient(135deg,#e9c45d,#bd8619); color:#020610; }
+
+.call-audio{
+ display:none;
+}
+
+.empty{
+ padding:28px;
+ text-align:center;
+ border:1px dashed var(--border);
+ background:#020610;
+ border-radius:12px;
+ color:var(--muted);
+ font-size:12px;
+ line-height:1.8;
+}
+
+footer{
+ text-align:center;
+ padding:24px;
+ color:white;
+ background:linear-gradient(110deg,#020610,#0c2b58,#020610);
+ border-top:4px solid var(--gold);
+ font-size:10px;
+ font-weight:1000;
+ letter-spacing:.5px;
+}
+
+footer span{
+ color:var(--gold2);
+}
+
+@media(max-width:900px){
+ .directory-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+
+@media(max-width:650px){
+ .header-inner{ padding:10px; gap:8px; }
+ .logo-frame{ width:64px; height:64px; min-width:64px; padding:4px; }
+ .brand{ gap:10px; }
+ .brand-title{ font-size:12px; }
+ .brand-sub{ display:none; }
+ .header-actions{ gap:4px; }
+ .header-actions .btn{ padding:8px; font-size:9px; }
+ .auth-status{ display:none; }
+ main{ padding:12px 10px; }
+ .hero{ padding:20px; }
+ .hero h1{ font-size:22px; }
+ .hero p{ font-size:11px; }
+ .hero-icon{ font-size:40px; }
+ .stats{ gap:10px; }
+ .stat{ padding:14px; }
+ .stat strong{ font-size:26px; }
+ .directory-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+ .panel{ padding:14px; }
+ .panel-head{ margin:-14px -14px 14px; padding:14px; }
+ .panel-head h2{ font-size:12px; }
+ .driver-head{ padding:10px; gap:8px; }
+ .avatar{ width:36px; height:36px; min-width:36px; font-size:16px; }
+ .driver-name{ font-size:10px; }
+ .driver-phone{ font-size:11px; padding:0 10px 10px; }
+ .driver-info{ padding:10px; font-size:9px; }
+ .driver-actions{ padding:0 8px 10px; gap:6px; }
+ .driver-action{ font-size:9px; padding:9px 4px; }
+}
+
+@media(max-width:380px){
+ .directory-grid{ grid-template-columns:1fr; }
+ .brand-title{ font-size:10px; }
+ .logo-frame{ width:52px; height:52px; min-width:52px; }
+ .hero-icon{ display:none; }
+}
+
+button:disabled{
+ opacity:.5;
+ cursor:not-allowed;
+}
+
+@media(prefers-reduced-motion:reduce){
+ *{
+  scroll-behavior:auto!important;
+  transition:none!important;
+  animation:none!important;
+ }
 }
 </style>
 </head>
+
 <body>
 
 <header>
-  <div class="brand-container">
-    <img class="logo" src="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png" alt="DAKPRO ÉLITE">
-    <div class="brand-title">DAKPRO ÉLITE</div>
+ <div class="header-inner">
+
+  <div class="brand">
+   <div class="logo-frame">
+    <img class="logo"
+     src="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png"
+     alt="DAKPRO ÉLITE">
+   </div>
+   <div>
+    <div class="brand-title">DAKPRO ÉLITE LIVRE</div>
+    <div class="brand-sub">RÉSEAU INTERNATIONAL DE LIVRAISON</div>
+   </div>
   </div>
-  <div class="auth-menu">
-    <a href="connexion.html" class="btn-account btn-login">Se connecter</a>
-    <a href="inscription.html" class="btn-account btn-register">S'inscrire</a>
+
+  <div class="header-actions">
+   <span class="auth-status" id="authStatus">Vérification...</span>
+
+   <button class="btn btn-gold" id="accountBtn">
+    👤 Mon Compte
+   </button>
+
+   <button class="btn btn-gold" id="installBtn" style="display:none">📲 Installer</button>
+   <button class="btn btn-red" id="logoutBtn" style="display:none">Déconnexion</button>
   </div>
+
+ </div>
 </header>
 
 <main>
-  <div class="hero-notice">
-    🛵 <b>Plateforme Nationale & Internationale de Livraison</b> — Colis classés par zone. Cliquez sur "Prendre la livraison", remplissez votre nom et prénom pour verrouiller la course et contacter le client via WhatsApp.
+
+ <section class="hero">
+  <div>
+   <div class="eyebrow">RÉSEAU NATIONAL ET INTERNATIONAL</div>
+   <h1>DAKPRO ÉLITE LIVRE</h1>
+   <p>
+    Plateforme de communication et de coordination logistique avancée.
+    Retrouvez les livreurs, discutez en messagerie, partagez des messages vocaux, envoyez des photos et communiquez par appel audio sécurisé.
+   </p>
+  </div>
+  <div class="hero-icon">🚚</div>
+ </section>
+
+ <div class="notice">
+  🔐 <b>ESPACE DE COMMUNICATION DAKPRO :</b>
+  Les échanges, messages vocaux, photos, localisations GPS et appels sont gérés de manière sécurisée et confidentielle. Les données de plus de <b>6 jours</b> sont automatiquement nettoyées.
+ </div>
+
+ <section class="stats">
+  <div class="stat">
+   <span>📦 Nombre total de commandes</span>
+   <strong id="totalOrders">—</strong>
+  </div>
+  <div class="stat">
+   <span>🛵 Livreurs enregistrés</span>
+   <strong id="totalDrivers">—</strong>
+  </div>
+ </section>
+
+ <section class="panel">
+  <div class="panel-head">
+   <div>
+    <h2>🌍 ANNUAIRE INTERNATIONAL DES LIVREURS</h2>
+    <p>Retrouvez les livreurs et contactez-les directement.</p>
+   </div>
+   <span class="count" id="directoryCount">Chargement...</span>
   </div>
 
-  <div class="filter-card">
-    <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Rechercher un Pays, Département ou Commune..." onkeyup="filtrerAffichage()">
-    <div class="filters-row">
-      <select id="selectPays" onchange="filtrerAffichage()">
-        <option value="">Tous les Pays</option>
-      </select>
-      <select id="selectDept" onchange="filtrerAffichage()">
-        <option value="">Tous les Départements</option>
-      </select>
-      <select id="selectCommune" onchange="filtrerAffichage()">
-        <option value="">Toutes les Communes</option>
-      </select>
-    </div>
-  </div>
+  <input
+   id="driverSearch"
+   class="search"
+   type="search"
+   placeholder="🔎 Rechercher par pays, commune, ville, département ou numéro..."
+  >
 
-  <div id="catalogContainer">
-    <div style="text-align:center; padding:40px; color:#d4af37;">Chargement du catalogue des livraisons...</div>
+  <div id="driverDirectory" class="directory-grid">
+   <div class="empty">Chargement des livreurs...</div>
   </div>
+ </section>
+
 </main>
 
-<!-- MODAL VALIDATION NOM & PRÉNOM -->
-<div id="livreurModal" class="modal-overlay">
-  <div class="modal-box">
-    <h3>Validation du Livreur</h3>
-    <p>Veuillez entrer votre Nom et Prénom exacts pour enregistrer votre prise en charge et contacter le client.</p>
-    <div class="modal-field">
-      <label>Nom</label>
-      <input type="text" id="livreurNomInput" placeholder="Votre nom" required>
+<!-- MESSAGERIE INTERNE -->
+<div class="chat-modal" id="chatModal">
+ <div class="chat-window">
+  <div class="chat-header">
+   <div class="chat-user">
+    <div class="avatar" id="chatAvatar">🛵</div>
+    <div>
+     <strong id="chatDriverName">Livreur</strong>
+     <small id="chatDriverStatus">Messagerie privée DAKPRO</small>
     </div>
-    <div class="modal-field">
-      <label>Prénom</label>
-      <input type="text" id="livreurPrenomInput" placeholder="Votre prénom" required>
-    </div>
-    <div class="modal-actions">
-      <button type="button" class="btn-modal-cancel" onclick="fermerModal()">Annuler</button>
-      <button type="button" class="btn-modal-submit" onclick="validerEtOuvrirWhatsApp()">Continuer</button>
-    </div>
+   </div>
+   <button class="chat-close" id="closeChat">✕</button>
   </div>
+
+  <div class="chat-messages" id="chatMessages">
+   <div class="empty">Chargement des messages...</div>
+  </div>
+
+  <div class="chat-compose">
+   <button class="icon-button" id="recordButton" title="Enregistrer un message vocal">🎙️</button>
+   <button class="icon-button" id="imageButton" title="Envoyer une photo (Galerie ou Caméra)">🖼️</button>
+   <button class="icon-button" id="locationButton" title="Partager ma position GPS en temps réel">📍</button>
+   <input type="file" id="imageInput" accept="image/*" style="display:none">
+
+   <input id="chatInput" class="chat-input" type="text" maxlength="2000" placeholder="Écrire un message...">
+   <button class="send-button" id="sendMessage">Envoyer</button>
+  </div>
+ </div>
+</div>
+
+<!-- APPEL AUDIO AVEC CONTRÔLES COMPLETS -->
+<div class="call-modal" id="callModal">
+ <div class="call-box">
+  <div class="call-avatar">🛵</div>
+  <h3 id="callName">Appel DAKPRO</h3>
+  <div class="call-status" id="callStatus">Préparation de l'appel...</div>
+  
+  <div class="call-actions" id="activeCallActions">
+   <button class="call-button mute-call" id="muteButton" title="Couper le micro (Sourdine)">🎙️</button>
+   <button class="call-button pause-call" id="pauseButton" title="Mettre en pause l'appel">⏸️</button>
+   <button class="call-button reject-call" id="endCallButton" title="Terminer l'appel">☎</button>
+  </div>
+
+  <div class="call-actions" id="incomingActions" style="display:none">
+   <button class="call-button accept-call" id="acceptCallButton" title="Accepter l'appel">☎</button>
+   <button class="call-button reject-call" id="rejectCallButton" title="Refuser l'appel">✕</button>
+  </div>
+
+  <audio id="remoteAudio" class="call-audio" autoplay playsinline></audio>
+ </div>
 </div>
 
 <footer>
-  &copy; 2026 DAKPRO ÉLITE — Logistique & Distribution Sécurisée Élite.
+ © <span id="year"></span> DAKPRO ÉLITE LIVRE — COMMUNICATION ET LOGISTIQUE INTERNATIONALE.
 </footer>
 
 <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getDatabase, ref, get, child, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { getDatabase, ref, onValue, onChildAdded, push, set, update, remove, onDisconnect } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDR7INHKaazaqZt-xIcjk10JFiy58uXKO8",
-  authDomain: "dakproelite.firebaseapp.com",
-  databaseURL: "https://dakproelite-default-rtdb.firebaseio.com",
-  projectId: "dakproelite",
-  storageBucket: "dakproelite.firebasestorage.app",
-  messagingSenderId: "580591769206",
-  appId: "1:580591769206:web:859724d4b2dbf904087157"
+ apiKey:"AIzaSyDR7INHKaazaqZt-xIcjk10JFiy58uXKO8",
+ authDomain:"dakproelite.firebaseapp.com",
+ databaseURL:"https://dakproelite-default-rtdb.firebaseio.com",
+ projectId:"dakproelite",
+ storageBucket:"dakproelite.firebasestorage.app",
+ messagingSenderId:"580591769206",
+ appId:"1:580591769206:web:859724d4b2dbf904087157"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const auth = getAuth(app);
 
-let catalogueData = {};
-let selectedCommande = null;
+const CLOUDINARY_CLOUD_NAME = "dq7m8s2e7"; 
+const CLOUDINARY_UPLOAD_PRESET = "dakpro_unsigned"; 
 
-async function chargerCatalogueCommandes() {
-  const dbRef = ref(db);
-  let listeCommandes = [];
+let currentUser = null;
+let drivers = [];
+let presence = {};
 
-  try {
-    const snapshot = await get(child(dbRef, `commandes`));
-    if (snapshot.exists()) {
-      const data = snapshot.val();
-      Object.keys(data).forEach(acheteurUid => {
-        const commandesAcheteur = data[acheteurUid];
-        Object.keys(commandesAcheteur).forEach(cmdId => {
-          const cmd = commandesAcheteur[cmdId];
-          
-          // Extraction géographique sécurisée
-          let pays = (cmd.livraison && (cmd.livraison.pays || cmd.livraison.country)) || (cmd.client && (cmd.client.pays || cmd.client.country)) || "Bénin";
-          let dept = (cmd.livraison && (cmd.livraison.departement || cmd.livraison.region)) || (cmd.client && (cmd.client.departement || cmd.client.region)) || "Littoral";
-          let commune = (cmd.livraison && (cmd.livraison.commune || cmd.livraison.ville)) || (cmd.client && (cmd.client.commune || cmd.client.ville)) || "Cotonou";
+let selectedDriver = null;
+let activeConversation = null;
+let messageUnsubscribe = null;
 
-          // Extraction infos client / contact
-          let nomClient = (cmd.client && (cmd.client.nom || cmd.client.prenom)) || cmd.acheteurEmail || "Client DAKPRO";
-          let telClient = (cmd.client && (cmd.client.telephone || cmd.client.phone)) || (cmd.livraison && cmd.livraison.telephone) || "";
-          let emailClient = cmd.acheteurEmail || (cmd.client && cmd.client.email) || "";
-          let adresseComplete = (cmd.client && cmd.client.adresse) || (cmd.livraison && cmd.livraison.adresse) || "Adresse standard";
+let mediaRecorder = null;
+let audioChunks = [];
+let recording = false;
 
-          // Extraction image, nom et prix du produit (depuis la structure articles ou article)
-          let imageProduit = "";
-          let nomProduit = "Article Dakpro Élite";
-          if (cmd.articles && Array.isArray(cmd.articles) && cmd.articles.length > 0) {
-            imageProduit = cmd.articles[0].image || cmd.articles[0].img || cmd.articles[0].photo || "";
-            nomProduit = cmd.articles[0].nom || cmd.articles[0].title || nomProduit;
-          } else if (cmd.article) {
-            imageProduit = cmd.article.image || cmd.article.img || "";
-            nomProduit = cmd.article.nom || nomProduit;
-          }
+let peerConnection = null;
+let localStream = null;
+let activeCall = null;
+let incomingCall = null;
+let incomingUnsubscribe = null;
+let callListeners = [];
 
-          listeCommandes.push({
-            id: cmdId,
-            acheteurUid: acheteurUid,
-            pays: pays.trim(),
-            dept: dept.trim(),
-            commune: commune.trim(),
-            nomClient: nomClient.trim(),
-            telClient: telClient.trim(),
-            emailClient: emailClient.trim(),
-            adresseComplete: adresseComplete.trim(),
-            imageProduit: imageProduit,
-            nomProduit: nomProduit,
-            ...cmd
-          });
-        });
-      });
-    }
-  } catch (err) {
-    console.error("Erreur de chargement des commandes :", err);
-  }
+let muted = false;
+let paused = false;
 
-  // Regroupement hiérarchique : Pays -> Département -> Commune
-  catalogueData = {};
-  listeCommandes.forEach(cmd => {
-    if (!catalogueData[cmd.pays]) catalogueData[cmd.pays] = {};
-    if (!catalogueData[cmd.pays][cmd.dept]) catalogueData[cmd.pays][cmd.dept] = {};
-    if (!catalogueData[cmd.pays][cmd.dept][cmd.commune]) catalogueData[cmd.pays][cmd.dept][cmd.commune] = [];
-    catalogueData[cmd.pays][cmd.dept][cmd.commune].push(cmd);
-  });
+const $ = id => document.getElementById(id);
 
-  remplirSélecteurs();
-  afficherCatalogue();
+function esc(value){
+ return String(value ?? "").replace(/[&<>"']/g, c => ({
+  "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+ }[c]));
 }
 
-function remplirSélecteurs() {
-  const selectPays = document.getElementById("selectPays");
-  selectPays.innerHTML = '<option value="">Tous les Pays</option>';
-
-  Object.keys(catalogueData).forEach(pays => {
-    const opt = document.createElement("option");
-    opt.value = pays;
-    opt.textContent = pays;
-    selectPays.appendChild(opt);
-  });
+function norm(value){
+ return String(value ?? "").toLocaleLowerCase("fr").normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
 }
 
-function afficherCatalogue() {
-  const container = document.getElementById("catalogContainer");
+function cleanPhone(value){
+ return String(value ?? "").replace(/[^\d]/g,"");
+}
 
-  if (Object.keys(catalogueData).length === 0) {
-    container.innerHTML = `<div style="text-align:center; padding:40px; color:#aaa;">Aucun colis disponible actuellement.</div>`;
-    return;
+function makeConversationId(uid1, uid2){
+ return [uid1, uid2].sort().join("_");
+}
+
+function formatTime(timestamp){
+ if(!timestamp) return "";
+ return new Date(timestamp).toLocaleTimeString("fr-FR",{ hour:"2-digit", minute:"2-digit" });
+}
+
+/* NETTOYAGE AUTOMATIQUE DES MESSAGES DE + DE 6 JOURS */
+function cleanOldMessages(conversationId){
+ const messagesRef = ref(db, `message client/${conversationId}/messages`);
+ onValue(messagesRef, snapshot => {
+  if(!snapshot.exists()) return;
+  const now = Date.now();
+  const SIX_DAYS_MS = 6 * 24 * 60 * 60 * 1000;
+  snapshot.forEach(childSnap => {
+   const msg = childSnap.val();
+   if(msg && msg.createdAt && (now - msg.createdAt > SIX_DAYS_MS)){
+    remove(ref(db, `message client/${conversationId}/messages/${childSnap.key}`));
+   }
+  });
+ }, { onlyOnce: true });
+}
+
+onAuthStateChanged(auth, async user => {
+ currentUser = user || null;
+ $("authStatus").textContent = user ? (user.email || "Connecté") : "Non connecté";
+ $("logoutBtn").style.display = user ? "inline-flex" : "none";
+
+ const accountBtn = $("accountBtn");
+ if(user){
+  accountBtn.textContent = "👤 Mon Compte";
+  accountBtn.onclick = () => {
+   alert("Vous êtes connecté en tant que : " + (user.email || "Utilisateur"));
+  };
+ } else {
+  accountBtn.textContent = "📝 S'inscrire / Connexion";
+  accountBtn.onclick = () => {
+   location.href = "inscription.html";
+  };
+ }
+
+ if(incomingUnsubscribe){
+  incomingUnsubscribe();
+  incomingUnsubscribe = null;
+ }
+
+ if(user){
+  startPresence(user);
+  listenIncomingCalls(user);
+ }else{
+  if(activeCall) await endCall(false);
+  $("authStatus").textContent = "Non connecté";
+ }
+ renderDrivers();
+});
+
+$("logoutBtn").onclick = async () => {
+ try{
+  if(activeCall) await endCall(true);
+  await signOut(auth);
+  location.href = "connexion.html";
+ }catch(error){
+  console.error(error);
+  alert("Impossible de se déconnecter.");
+ }
+};
+
+async function startPresence(user){
+ const presenceRef = ref(db, "presence/" + user.uid);
+ try{
+  await onDisconnect(presenceRef).remove();
+  await set(presenceRef, { online: true, lastSeen: Date.now() });
+ }catch(error){
+  console.error("Erreur de connexion :", error);
+ }
+}
+
+onValue(ref(db, "presence"), snapshot => {
+ presence = snapshot.exists() ? snapshot.val() : {};
+ renderDrivers();
+});
+
+function loadOrderCount(){
+ onValue(ref(db, "commandes"), snapshot => {
+  let total = 0;
+  if(snapshot.exists()){
+   const root = snapshot.val();
+   Object.values(root).forEach(group => {
+    if(!group || typeof group !== "object") return;
+    total += Object.keys(group).length;
+   });
   }
+  $("totalOrders").textContent = total;
+ }, () => { $("totalOrders").textContent = "—"; });
+}
 
-  let html = "";
-  Object.keys(catalogueData).forEach(pays => {
-    html += `<div class="pays-section" data-pays="${pays.toLowerCase()}">`;
-    html += `<div class="pays-header">🌍 Pays : ${pays}</div>`;
-
-    Object.keys(catalogueData[pays]).forEach(dept => {
-      html += `<div class="dept-block" data-dept="${dept.toLowerCase()}">`;
-      html += `<div class="dept-header">📂 Département / Région : ${dept}</div>`;
-
-      Object.keys(catalogueData[pays][dept]).forEach(commune => {
-        html += `<div class="commune-block" data-commune="${commune.toLowerCase()}">`;
-        html += `<div class="commune-header">📍 Commune / Ville : ${commune}</div>`;
-        html += `<div class="commandes-grid">`;
-
-        catalogueData[pays][dept][commune].forEach(cmd => {
-          const montant = cmd.montantTotal ? `${cmd.montantTotal} ${cmd.devise || 'XOF'}` : '0 XOF';
-          const estPris = cmd.livreurId || (cmd.contactLivraison && cmd.contactLivraison.nomLivreur);
-          const nomLivreurPris = cmd.contactLivraison ? cmd.contactLivraison.nomLivreur : (cmd.livreurId || 'un livreur');
-
-          html += `
-            <div class="commande-card">
-              <div>
-                <div class="cmd-img-container">
-                  ${cmd.imageProduit ? `<img src="${cmd.imageProduit}" alt="Produit" class="cmd-img">` : `<span class="cmd-img-placeholder">📦 Pas d'image</span>`}
-                </div>
-                <div class="cmd-info-row">
-                  <span class="cmd-id">ID: ${cmd.id}</span>
-                  <span class="cmd-amount">${montant}</span>
-                </div>
-                <div class="cmd-detail" style="color:#111; font-weight:900; margin-bottom:4px;">🛍️ ${cmd.nomProduit}</div>
-                <div class="cmd-detail"><span>👤 Client :</span> <b>${cmd.nomClient}</b></div>
-                <div class="cmd-detail"><span>📞 Tél :</span> <a href="tel:${cmd.telClient}">${cmd.telClient || 'Non renseigné'}</a></div>
-                <div class="cmd-detail"><span>📧 Email :</span> ${cmd.emailClient || 'Non renseigné'}</div>
-                <div class="cmd-detail"><span>🏠 Adresse :</span> ${cmd.adresseComplete}</div>
-              </div>
-              
-              ${estPris ? `
-                <div class="badge-pris">
-                  🔒 Déjà pris en charge par<br><b>${nomLivreurPris}</b>
-                </div>
-              ` : `
-                <button class="btn-take" onclick='ouvrirModal(${JSON.stringify(cmd)})'>
-                  💬 Prendre la livraison (WhatsApp)
-                </button>
-              `}
-            </div>
-          `;
-        });
-
-        html += `</div></div>`;
-      });
-      html += `</div>`;
+function loadDrivers(){
+ onValue(ref(db, "livreurs"), snapshot => {
+  drivers = [];
+  if(snapshot.exists()){
+   const raw = snapshot.val();
+   Object.entries(raw).forEach(([uid, v]) => {
+    if(!v || typeof v !== "object") return;
+    drivers.push({
+     uid,
+     name: v.nomComplet || v.name || [v.nom, v.prenom].filter(Boolean).join(" ") || "Livreur Partenaire",
+     phone: v.telephone || v.phone || v.whatsapp || "",
+     country: v.pays || v.country || "",
+     dept: v.departement || v.region || "",
+     commune: v.commune || v.city || v.ville || "",
+     district: v.quartier || v.district || "",
+     status: v.disponibilite || v.status || "Disponible"
     });
-    html += `</div>`;
-  });
-
-  container.innerHTML = html;
+   });
+  }
+  $("totalDrivers").textContent = drivers.length;
+  $("directoryCount").textContent = drivers.length + " livreur(s)";
+  renderDrivers();
+ }, () => {
+  $("driverDirectory").innerHTML = '<div class="empty">Impossible de charger les livreurs pour le moment.</div>';
+ });
 }
 
-window.ouvrirModal = function(cmd) {
-  selectedCommande = cmd;
-  document.getElementById("livreurNomInput").value = "";
-  document.getElementById("livreurPrenomInput").value = "";
-  document.getElementById("livreurModal").style.display = "flex";
-};
+function renderDrivers(){
+ if(!$("driverDirectory")) return;
+ const query = norm($("driverSearch").value);
+ const filtered = drivers.filter(d => {
+  const text = norm([d.country, d.dept, d.commune, d.district, d.phone].join(" "));
+  return !query || text.includes(query);
+ });
 
-window.fermerModal = function() {
-  document.getElementById("livreurModal").style.display = "none";
-  selectedCommande = null;
-};
+ if(!filtered.length){
+  $("driverDirectory").innerHTML = '<div class="empty">Aucun livreur correspondant à cette recherche.</div>';
+  return;
+ }
 
-window.validerEtOuvrirWhatsApp = async function() {
-  const nom = document.getElementById("livreurNomInput").value.trim();
-  const prenom = document.getElementById("livreurPrenomInput").value.trim();
+ $("driverDirectory").innerHTML = filtered.map(d => {
+  const phone = cleanPhone(d.phone);
+  const isOnline = !!presence[d.uid]?.online;
 
-  if (!nom || !prenom) {
-    alert("Veuillez remplir votre nom et votre prénom.");
-    return;
+  let geoDetails = [];
+  if(d.country) geoDetails.push(`🌍 <b>Pays :</b> ${esc(d.country)}`);
+  if(d.dept) geoDetails.push(`📂 <b>Département :</b> ${esc(d.dept)}`);
+  if(d.commune) geoDetails.push(`🏙️ <b>Commune / Ville :</b> ${esc(d.commune)}`);
+  if(d.district) geoDetails.push(`📍 <b>Quartier :</b> ${esc(d.district)}`);
+  geoDetails.push(`⚙️ <b>Statut :</b> ${esc(d.status)}`);
+
+  const message = encodeURIComponent("Bonjour, je vous contacte depuis DAKPRO ÉLITE LIVRE.");
+
+  return `
+   <article class="driver-card">
+    <div class="driver-head">
+     <div class="avatar">🛵</div>
+     <div>
+      <div class="driver-name">Livreur Partenaire</div>
+      <div class="online">
+       <span class="online-dot ${isOnline ? "active" : ""}"></span>
+       ${isOnline ? "En ligne" : "Hors ligne"}
+      </div>
+     </div>
+    </div>
+    <div class="driver-info">
+     ${geoDetails.join("<br>")}
+    </div>
+    <div class="driver-phone">☎ ${esc(d.phone || "Numéro masqué")}</div>
+    <div class="driver-actions">
+     <button class="driver-action action-call" data-call="${esc(d.uid)}" ${!currentUser || currentUser.uid === d.uid || !isOnline ? "disabled" : ""}>🎧 Appeler</button>
+     <button class="driver-action action-message" data-message="${esc(d.uid)}" ${!currentUser || currentUser.uid === d.uid ? "disabled" : ""}>💬 Message</button>
+     ${phone.length >= 8 ? `<a class="driver-action action-whatsapp full" target="_blank" rel="noopener noreferrer" href="https://wa.me/${phone}?text=${message}">WhatsApp ↗</a>` : `<div class="driver-action full" style="background:#1c3f75;color:#a4b5d6">WhatsApp indisponible</div>`}
+    </div>
+   </article>
+  `;
+ }).join("");
+}
+
+$("driverDirectory").addEventListener("click", async e => {
+ const messageButton = e.target.closest("[data-message]");
+ if(messageButton){
+  if(!currentUser){ alert("Veuillez vous inscrire ou vous connecter."); location.href = "inscription.html"; return; }
+  const driver = drivers.find(d => d.uid === messageButton.dataset.message);
+  if(driver) openChat(driver);
+  return;
+ }
+ const callButton = e.target.closest("[data-call]");
+ if(callButton){
+  if(!currentUser){ alert("Veuillez vous inscrire ou vous connecter."); location.href = "inscription.html"; return; }
+  const driver = drivers.find(d => d.uid === callButton.dataset.call);
+  if(driver) await startAudioCall(driver);
+ }
+});
+
+$("driverSearch").addEventListener("input", renderDrivers);
+
+function openChat(driver){
+ if(!currentUser) return;
+ if(driver.uid === currentUser.uid){ alert("Action impossible avec votre propre profil."); return; }
+
+ selectedDriver = driver;
+ activeConversation = makeConversationId(currentUser.uid, driver.uid);
+
+ cleanOldMessages(activeConversation);
+
+ $("chatDriverName").textContent = "Livreur Partenaire";
+ $("chatAvatar").textContent = "🛵";
+ $("chatDriverStatus").textContent = presence[driver.uid]?.online ? "🟢 En ligne" : "Messagerie DAKPRO";
+ $("chatMessages").innerHTML = '<div class="empty">Chargement des messages...</div>';
+ $("chatModal").style.display = "flex";
+ listenMessages();
+}
+
+function listenMessages(){
+ if(!activeConversation) return;
+ if(messageUnsubscribe){ messageUnsubscribe(); messageUnsubscribe = null; }
+
+ const messagesRef = ref(db, `message client/${activeConversation}/messages`);
+ messageUnsubscribe = onValue(messagesRef, snapshot => {
+  const messages = snapshot.exists() ? Object.entries(snapshot.val()).map(([id, m]) => ({ ...m, id })) : [];
+  messages.sort((a, b) => Number(a.createdAt || 0) - Number(b.createdAt || 0));
+
+  if(!messages.length){
+   $("chatMessages").innerHTML = '<div class="empty">Aucun message. Commencez la conversation.</div>';
+   return;
   }
 
-  if (!selectedCommande) return;
+  $("chatMessages").innerHTML = messages.map(m => {
+   const mine = m.uid === currentUser.uid;
+   let content = "";
+   if(m.type === "audio" && m.audioUrl){
+    content = `<div>🎙️ Message vocal</div><audio controls preload="none" src="${esc(m.audioUrl)}"></audio>`;
+   }else if(m.type === "image" && m.imageUrl){
+    content = `<div>🖼️ Photo partagée</div><a href="${esc(m.imageUrl)}" target="_blank"><img src="${esc(m.imageUrl)}" alt="Photo"></a>`;
+   }else if(m.type === "location" && m.lat && m.lng){
+    content = `<div>📍 Position GPS</div><p style="margin-top:4px;font-size:11px;">Latitude: ${m.lat}<br>Longitude: ${m.lng}</p><a style="display:inline-block;margin-top:6px;color:var(--gold2);font-weight:bold;text-decoration:underline;" target="_blank" href="https://www.google.com/maps?q=${m.lat},${m.lng}">Ouvrir sur Google Maps ↗</a>`;
+   }else{
+    content = esc(m.text || "");
+   }
 
-  const nomCompletLivreur = `${nom} ${prenom}`;
-  const timestamp = Date.now();
+   return `
+    <div class="message ${mine ? "mine" : "theirs"}">
+     ${content}
+     <small>${mine ? "Vous" : "Partenaire"} · ${formatTime(m.createdAt)}</small>
+    </div>
+   `;
+  }).join("");
 
-  try {
-    const contactData = {
-      nomLivreur: nomCompletLivreur,
-      nom: nom,
-      prenom: prenom,
-      dateContact: timestamp,
-      statut: "Pris en charge"
-    };
+  $("chatMessages").scrollTop = $("chatMessages").scrollHeight;
+ });
+}
 
-    await set(ref(db, `commandes/${selectedCommande.acheteurUid}/${selectedCommande.id}/contactLivraison`), contactData);
-    await set(ref(db, `commandes/${selectedCommande.acheteurUid}/${selectedCommande.id}/livreurId`), nomCompletLivreur);
+async function sendTextMessage(){
+ if(!currentUser || !activeConversation || !selectedDriver) return;
+ const input = $("chatInput");
+ const text = input.value.trim();
+ if(!text) return;
 
-    let cleanPhone = selectedCommande.telClient.replace(/[^0-9+]/g, "");
-    const messageWp = encodeURIComponent(`Bonjour, je suis votre livreur ${nomCompletLivreur} de DAKPRO ÉLITE concernant votre commande #${selectedCommande.id} (${selectedCommande.nomProduit}). Je prends en charge votre livraison.`);
-    const whatsappUrl = cleanPhone ? `https://wa.me/${cleanPhone}?text=${messageWp}` : `https://wa.me/?text=${messageWp}`;
-
-    fermerModal();
-    window.open(whatsappUrl, "_blank");
-    chargerCatalogueCommandes();
-  } catch (err) {
-    console.error("Erreur lors de l'enregistrement du contact :", err);
-    alert("Erreur technique lors de la validation.");
-  }
-};
-
-window.filtrerAffichage = function() {
-  const query = document.getElementById("searchInput").value.toLowerCase().trim();
-  const selPays = document.getElementById("selectPays").value.toLowerCase();
-  const selDept = document.getElementById("selectDept").value.toLowerCase();
-  const selCommune = document.getElementById("selectCommune").value.toLowerCase();
-
-  const sections = document.querySelectorAll(".pays-section");
-  sections.forEach(sec => {
-    const pText = sec.getAttribute("data-pays");
-    let pMatch = (selPays === "" || pText === selPays) && (pText.includes(query) || query === "");
-
-    const deptBlocks = sec.querySelectorAll(".dept-block");
-    let deptAnyMatch = false;
-
-    deptBlocks.forEach(dBlock => {
-      const dText = dBlock.getAttribute("data-dept");
-      let dMatch = (selDept === "" || dText === selDept) && (dText.includes(query) || pText.includes(query) || query === "");
-
-      const commBlocks = dBlock.querySelectorAll(".commune-block");
-      let commAnyMatch = false;
-
-      commBlocks.forEach(cBlock => {
-        const cText = cBlock.getAttribute("data-commune");
-        let cMatch = (selCommune === "" || cText === selCommune) && (cText.includes(query) || dText.includes(query) || pText.includes(query) || query === "");
-
-        cBlock.style.display = cMatch ? "block" : "none";
-        if (cMatch) commAnyMatch = true;
-      });
-
-      dBlock.style.display = (dMatch && commAnyMatch) ? "block" : "none";
-      if (dMatch && commAnyMatch) deptAnyMatch = true;
-    });
-
-    sec.style.display = (pMatch && deptAnyMatch) ? "block" : "none";
+ const messageRef = push(ref(db, `message client/${activeConversation}/messages`));
+ try{
+  await set(messageRef, {
+   uid: currentUser.uid,
+   name: currentUser.displayName || "Utilisateur",
+   type: "text",
+   text,
+   createdAt: Date.now()
   });
+  input.value = "";
+ }catch(error){
+  console.error(error);
+  alert("Erreur lors de l'envoi du message.");
+ }
+}
+
+$("sendMessage").onclick = sendTextMessage;
+$("chatInput").addEventListener("keydown", e => { if(e.key === "Enter") sendTextMessage(); });
+
+function closeChat(){
+ $("chatModal").style.display = "none";
+ if(messageUnsubscribe){ messageUnsubscribe(); messageUnsubscribe = null; }
+ selectedDriver = null;
+ activeConversation = null;
+ stopRecording();
+}
+
+$("closeChat").onclick = closeChat;
+$("chatModal").addEventListener("click", e => { if(e.target === $("chatModal")) closeChat(); });
+
+/* GESTION ENREGISTREMENT VOCAL */
+async function startRecording(){
+ if(!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder){
+  alert("L'enregistrement vocal n'est pas pris en charge.");
+  return;
+ }
+ try{
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  audioChunks = [];
+  mediaRecorder = new MediaRecorder(stream);
+  mediaRecorder.ondataavailable = e => { if(e.data.size > 0) audioChunks.push(e.data); };
+  mediaRecorder.onstop = async () => {
+   stream.getTracks().forEach(t => t.stop());
+   const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || "audio/webm" });
+   await uploadMediaToCloudinary(blob, "audio");
+  };
+  mediaRecorder.start();
+  recording = true;
+  $("recordButton").classList.add("recording");
+  $("recordButton").textContent = "⏹️";
+ }catch(error){
+  console.error(error);
+  alert("Veuillez autoriser l'accès au microphone.");
+ }
+}
+
+function stopRecording(){
+ if(mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop();
+ recording = false;
+ $("recordButton").classList.remove("recording");
+ $("recordButton").textContent = "🎙️";
+}
+
+$("recordButton").onclick = async () => {
+ if(!currentUser){ alert("Veuillez vous inscrire ou vous connecter."); location.href = "inscription.html"; return; }
+ if(!selectedDriver || !activeConversation) return;
+ if(!recording) await startRecording(); else stopRecording();
 };
 
-chargerCatalogueCommandes();
+/* GESTION ENVOI PHOTO (GALERIE OU CAMÉRA) */
+$("imageButton").onclick = () => {
+ if(!currentUser){ alert("Veuillez vous inscrire ou vous connecter."); location.href = "inscription.html"; return; }
+ if(!selectedDriver || !activeConversation) return;
+ $("imageInput").click();
+};
+
+$("imageInput").onchange = async e => {
+ const file = e.target.files?.[0];
+ if(!file) return;
+ await uploadMediaToCloudinary(file, "image");
+ $("imageInput").value = "";
+};
+
+async function uploadMediaToCloudinary(fileBlob, type){
+ if(!currentUser || !activeConversation) return;
+ const messageRef = push(ref(db, `message client/${activeConversation}/messages`));
+ 
+ const formData = new FormData();
+ formData.append("file", fileBlob);
+ formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+ try{
+  const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/upload`, {
+   method: "POST",
+   body: formData
+  });
+  const data = await response.json();
+  if(!data.secure_url) throw new Error("Échec Cloudinary");
+
+  const payload = {
+   uid: currentUser.uid,
+   name: currentUser.displayName || "Utilisateur",
+   type: type,
+   createdAt: Date.now()
+  };
+
+  if(type === "audio") payload.audioUrl = data.secure_url;
+  if(type === "image") payload.imageUrl = data.secure_url;
+
+  await set(messageRef, payload);
+ }catch(error){
+  console.error(error);
+  alert("Impossible d'envoyer le fichier multimédia.");
+ }
+}
+
+/* PARTAGE GPS EN TEMPS RÉEL */
+$("locationButton").onclick = () => {
+ if(!currentUser){ alert("Veuillez vous inscrire ou vous connecter."); location.href = "inscription.html"; return; }
+ if(!selectedDriver || !activeConversation) return;
+
+ if(!navigator.geolocation){
+  alert("La géolocalisation n'est pas supportée par votre navigateur.");
+  return;
+ }
+
+ navigator.geolocation.getCurrentPosition(async position => {
+  const lat = position.coords.latitude;
+  const lng = position.coords.longitude;
+  
+  const messageRef = push(ref(db, `message client/${activeConversation}/messages`));
+  try{
+   await set(messageRef, {
+    uid: currentUser.uid,
+    name: currentUser.displayName || "Utilisateur",
+    type: "location",
+    lat,
+    lng,
+    createdAt: Date.now()
+   });
+  }catch(err){
+   console.error(err);
+   alert("Impossible d'envoyer la position GPS.");
+  }
+ }, () => {
+  alert("Impossible de récupérer votre position GPS. Veuillez vérifier vos autorisations.");
+ }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
+};
+
+const rtcConfig = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }, { urls: "stun:stun1.l.google.com:19302" }] };
+
+function listenFor(refPath, event, callback){
+ const listener = event(ref(db, refPath), callback);
+ callListeners.push(listener);
+ return listener;
+}
+
+function clearCallListeners(){
+ callListeners.forEach(unsub => { if(typeof unsub === "function") unsub(); });
+ callListeners = [];
+}
+
+function openCallInterface(name, status){
+ $("callName").textContent = name;
+ $("callStatus").textContent = status;
+ $("callModal").style.display = "flex";
+ $("incomingActions").style.display = "none";
+ $("activeCallActions").style.display = "flex";
+}
+
+async function startAudioCall(driver){
+ if(!currentUser) return;
+ if(!navigator.mediaDevices?.getUserMedia){ alert("Appels audio non supportés."); return; }
+ if(activeCall){ alert("Appel déjà en cours."); return; }
+ if(!presence[driver.uid]?.online){ alert("Ce partenaire est hors ligne."); return; }
+
+ try{
+  openCallInterface("Livreur Partenaire", "Préparation de l'appel...");
+  localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+  peerConnection = new RTCPeerConnection(rtcConfig);
+
+  localStream.getTracks().forEach(t => peerConnection.addTrack(t, localStream));
+  peerConnection.ontrack = e => { $("remoteAudio").srcObject = e.streams[0]; $("callStatus").textContent = "🟢 Appel connecté"; };
+
+  const callRef = push(ref(db, `message client/appels/${driver.uid}`));
+  const callId = callRef.key;
+
+  activeCall = { id: callId, peerUid: driver.uid, role: "caller", path: `message client/appels/${driver.uid}/${callId}` };
+
+  peerConnection.onicecandidate = e => {
+   if(e.candidate) push(ref(db, `${activeCall.path}/callerCandidates`)).then(refC => set(refC, e.candidate.toJSON()));
+  };
+
+  const offer = await peerConnection.createOffer();
+  await peerConnection.setLocalDescription(offer);
+
+  await set(callRef, {
+   callerUid: currentUser.uid,
+   callerName: currentUser.displayName || "Utilisateur DAKPRO",
+   calleeUid: driver.uid,
+   status: "ringing",
+   offer: { type: offer.type, sdp: offer.sdp },
+   createdAt: Date.now()
+  });
+
+  $("callStatus").textContent = "📞 Appel envoyé. En attente...";
+
+  listenFor(`${activeCall.path}/answer`, onValue, async snap => {
+   if(!snap.exists() || !peerConnection) return;
+   try{
+    if(!peerConnection.currentRemoteDescription) await peerConnection.setRemoteDescription(new RTCSessionDescription(snap.val()));
+   }catch(err){ console.error(err); }
+  });
+
+  listenFor(`${activeCall.path}/calleeCandidates`, onChildAdded, snap => {
+   if(snap.exists() && peerConnection) peerConnection.addIceCandidate(new RTCIceCandidate(snap.val())).catch(console.error);
+  });
+
+  listenFor(`${activeCall.path}/status`, onValue, snap => {
+   const st = snap.val();
+   if(st === "rejected"){ $("callStatus").textContent = "Appel refusé."; setTimeout(() => endCall(false), 1200); }
+   if(st === "ended"){ $("callStatus").textContent = "Appel terminé."; setTimeout(() => endCall(false), 1200); }
+  });
+
+ }catch(err){
+  console.error(err);
+  await endCall(false);
+  alert("Impossible de lancer l'appel.");
+ }
+}
+
+function listenIncomingCalls(user){
+ const callsRef = ref(db, `message client/appels/${user.uid}`);
+ incomingUnsubscribe = onValue(callsRef, snapshot => {
+  if(!snapshot.exists()) return;
+  const calls = snapshot.val();
+  for(const [id, call] of Object.entries(calls)){
+   if(!call || call.status !== "ringing" || call.callerUid === user.uid || activeCall || incomingCall?.id === id) continue;
+   incomingCall = { id, data: call, path: `message client/appels/${user.uid}/${id}` };
+   showIncomingCall();
+   break;
+  }
+ });
+}
+
+function showIncomingCall(){
+ if(!incomingCall) return;
+ $("callName").textContent = "Appel DAKPRO";
+ $("callStatus").textContent = "📞 Appel audio DAKPRO entrant...";
+ $("callModal").style.display = "flex";
+ $("incomingActions").style.display = "flex";
+ $("activeCallActions").style.display = "none";
+}
+
+async function acceptIncomingCall(){
+ if(!incomingCall || !currentUser) return;
+ try{
+  const incoming = incomingCall;
+  openCallInterface("Livreur Partenaire", "Connexion audio...");
+  $("incomingActions").style.display = "none";
+  $("activeCallActions").style.display = "flex";
+
+  localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+  peerConnection = new RTCPeerConnection(rtcConfig);
+
+  localStream.getTracks().forEach(t => peerConnection.addTrack(t, localStream));
+  peerConnection.ontrack = e => { $("remoteAudio").srcObject = e.streams[0]; $("callStatus").textContent = "🟢 Appel connecté"; };
+
+  activeCall = { id: incoming.id, peerUid: incoming.data.callerUid, role: "callee", path: incoming.path };
+  incomingCall = null;
+
+  peerConnection.onicecandidate = e => {
+   if(e.candidate) push(ref(db, `${activeCall.path}/calleeCandidates`)).then(refC => set(refC, e.candidate.toJSON()));
+  };
+
+  await peerConnection.setRemoteDescription(new RTCSessionDescription(incoming.data.offer));
+  const answer = await peerConnection.createAnswer();
+  await peerConnection.setLocalDescription(answer);
+
+  await set(ref(db, `${activeCall.path}/answer`), { type: answer.type, sdp: answer.sdp });
+  await update(ref(db, activeCall.path), { status: "active" });
+
+  listenFor(`${activeCall.path}/callerCandidates`, onChildAdded, snap => {
+   if(snap.exists() && peerConnection) peerConnection.addIceCandidate(new RTCIceCandidate(snap.val())).catch(console.error);
+  });
+ }catch(err){
+  console.error(err);
+  await endCall(true);
+  alert("Impossible de répondre.");
+ }
+}
+
+$("acceptCallButton").onclick = acceptIncomingCall;
+$("rejectCallButton").onclick = async () => {
+ if(!incomingCall) return;
+ try{ await update(ref(db, `${incomingCall.path}`), { status: "rejected" }); }catch(e){console.error(e);}
+ incomingCall = null;
+ $("callModal").style.display = "none";
+};
+
+$("muteButton").onclick = () => {
+ if(!localStream) return;
+ muted = !muted;
+ localStream.getAudioTracks().forEach(t => { t.enabled = !muted; });
+ $("muteButton").textContent = muted ? "🔇" : "🎙️";
+ $("muteButton").style.borderColor = muted ? "var(--red)" : "transparent";
+};
+
+$("pauseButton").onclick = () => {
+ if(!localStream && !peerConnection) return;
+ paused = !paused;
+ if(localStream){
+  localStream.getAudioTracks().forEach(t => { t.enabled = !paused; });
+ }
+ $("pauseButton").textContent = paused ? "▶️" : "⏸️";
+ $("callStatus").textContent = paused ? "⏸️ Appel en pause" : "🟢 Appel connecté";
+};
+
+async function endCall(updateRemote = true){
+ const call = activeCall;
+ activeCall = null;
+ clearCallListeners();
+
+ if(peerConnection){
+  peerConnection.ontrack = null;
+  peerConnection.onicecandidate = null;
+  peerConnection.close();
+  peerConnection = null;
+ }
+ if(localStream){
+  localStream.getTracks().forEach(t => t.stop());
+  localStream = null;
+ }
+ $("remoteAudio").srcObject = null;
+ muted = false;
+ paused = false;
+ $("muteButton").textContent = "🎙️";
+ $("pauseButton").textContent = "⏸️";
+ $("callModal").style.display = "none";
+
+ if(call && updateRemote){
+  try{ await update(ref(db, call.path), { status: "ended" }); }catch(e){console.error(e);}
+ }
+}
+
+$("endCallButton").onclick = () => endCall(true);
+
+$("year").textContent = new Date().getFullYear();
+loadOrderCount();
+loadDrivers();
+
+let deferredInstallPrompt = null;
+window.addEventListener("beforeinstallprompt", e => {
+ e.preventDefault();
+ deferredInstallPrompt = e;
+ $("installBtn").style.display = "inline-flex";
+});
+
+$("installBtn").onclick = async () => {
+ if(!deferredInstallPrompt) return;
+ deferredInstallPrompt.prompt();
+ const result = await deferredInstallPrompt.userChoice;
+ if(result.outcome === "accepted") $("installBtn").style.display = "none";
+ deferredInstallPrompt = null;
+};
+
+window.addEventListener("appinstalled", () => { $("installBtn").style.display = "none"; });
+
+if("serviceWorker" in navigator){
+ window.addEventListener("load", () => {
+  navigator.serviceWorker.register("./sw.js").catch(e => console.error(e));
+ });
+}
 </script>
+
 </body>
 </html>

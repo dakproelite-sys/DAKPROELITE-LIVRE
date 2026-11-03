@@ -5,7 +5,7 @@
 import { getDatabase, ref, get, child, set, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// Configuration Cloudinary pour DAKPRO ÉLITE
+// Configuration Cloudinary officielle pour DAKPRO ÉLITE
 const CLOUDINARY_CLOUD_NAME = "iufene3y";
 const CLOUDINARY_UPLOAD_PRESET = "dakproelite_preset";
 
@@ -69,7 +69,7 @@ async function uploadToCloudinaryWithProgress(file, onProgress = () => {}) {
 }
 
 export async function init() {
-    console.log("Initialisation du Profil Livreur & QR Code Sécurisé - DAKPRO ÉLITE");
+    console.log("Initialisation du Profil Livreur & Formulaire Sécurisé - DAKPRO ÉLITE");
     
     const auth = getAuth();
     const currentUser = auth.currentUser;
@@ -87,7 +87,7 @@ export async function init() {
 
     container.innerHTML = `
         <div style="text-align: center; padding: 40px; color: #ffcc00;">
-            <p>Chargement de votre profil livreur et de votre carte sécurisée...</p>
+            <p>Chargement de votre profil livreur et vérification de vos accès...</p>
         </div>
     `;
 
@@ -131,6 +131,9 @@ export async function init() {
     const photoIdentiteSrc = profilData.photoIdentiteSrc || docAdminData.documentUrl || '';
     const photoPieceSrc = profilData.photoPieceSrc || docAdminData.carteIdentiteUrl || '';
 
+    // Détermination de l'état de verrouillage (bloqué si en attente ou validé, déverrouillé si refusé ou vide)
+    const estVerrouille = (statutValidation === 'en_attente' || statutValidation === 'Validé' || statutValidation === 'valide');
+
     let initiales = "VIP";
     if (nomComplet) {
         const parts = nomComplet.trim().split(' ');
@@ -144,10 +147,10 @@ export async function init() {
         statutTexte = "VALIDÉ & CERTIFIÉ OFFICIEL";
     } else if (statutValidation === 'Refusé' || statutValidation === 'rejete') {
         statutBadgeStyle = "background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ef4444;";
-        statutTexte = "REFUSÉ - VEUILLEZ CORRIGER VOS INFORMATIONS";
+        statutTexte = "REFUSÉ - VEUILLEZ CORRIGER VOS INFORMATIONS ET DOCUMENTS";
     }
 
-    // URL officielle spécifique au rôle livreur couplée au nom de domaine dakproelite.com
+    // URL officielle spécifique au rôle livreur couplée au nom de domaine dakproelite.com[span_1](start_span)[span_1](end_span)
     const verificationUrl = `https://dakproelite.com/livreur-verifier.html?uid=${currentUser.uid}`;
 
     let htmlContent = `
@@ -250,8 +253,8 @@ export async function init() {
                 opacity: 0.9;
             }
             .btn-enregistrer:disabled {
-                background: #333;
-                color: #777;
+                background: #2a2a32;
+                color: #71717a;
                 cursor: not-allowed;
             }
             .statut-banner {
@@ -263,21 +266,49 @@ export async function init() {
                 margin-bottom: 25px;
                 ${statutBadgeStyle}
             }
-            .doc-preview {
-                width: 100%;
-                height: 110px;
+
+            /* APERÇUS ADAPTÉS AUX FORMATS OFFICIELS DE DOCUMENTS */
+            .doc-preview-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+                margin-top: 8px;
+            }
+            /* Format portrait 3:4 pour la photo d'identité */
+            .doc-preview-identite {
+                width: 120px;
+                height: 160px;
                 background: #101012;
-                border: 1px dashed #2a2a32;
-                border-radius: 8px;
+                border: 2px dashed #34d399;
+                border-radius: 10px;
+                overflow: hidden;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                margin-top: 8px;
-                overflow: hidden;
                 color: #71717a;
                 font-size: 11px;
+                text-align: center;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.5);
             }
-            .doc-preview img {
+            /* Format paysage 16:9 pour la carte d'identité ou passeport */
+            .doc-preview-piece {
+                width: 100%;
+                max-width: 260px;
+                height: 150px;
+                background: #101012;
+                border: 2px dashed #34d399;
+                border-radius: 10px;
+                overflow: hidden;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #71717a;
+                font-size: 11px;
+                text-align: center;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            }
+            .doc-preview-identite img, .doc-preview-piece img {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
@@ -385,7 +416,8 @@ export async function init() {
 
         <div class="statut-banner">
             Statut du compte : ${statutTexte}
-            ${motifRefus ? `<br><span style="font-weight:400; font-size:12px; color:#fca5a5; margin-top:5px; display:block;">Motif : ${motifRefus}</span>` : ''}
+            ${motifRefus ? `<br><span style="font-weight:400; font-size:12px; color:#fca5a5; margin-top:5px; display:block;">Motif du refus : ${motifRefus}</span>` : ''}
+            ${estVerrouille ? `<br><span style="font-weight:400; font-size:11px; color:#93c5fd; margin-top:4px; display:block;">🔒 Vos modifications sont verrouillées en attente ou suite à la validation administrative.</span>` : ''}
         </div>
 
         <div class="profil-card">
@@ -393,15 +425,17 @@ export async function init() {
                 <div class="avatar-cercle" id="avatar-apercu">
                     ${avatarSrc ? `<img src="${avatarSrc}" alt="Avatar">` : initiales}
                 </div>
-                <input type="file" id="input-avatar" accept="image/*" style="display:none;" onchange="window.gererUploadCloudinary(event, 'avatar')">
-                <button type="button" style="background:#101012; border:1px solid #34d399; color:#34d399; padding:6px 15px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer;" onclick="document.getElementById('input-avatar').click()">📷 Choisir & Publier Photo de Profil</button>
+                ${!estVerrouille ? `
+                    <input type="file" id="input-avatar" accept="image/*" style="display:none;" onchange="window.gererUploadCloudinary(event, 'avatar')">
+                    <button type="button" style="background:#101012; border:1px solid #34d399; color:#34d399; padding:6px 15px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer;" onclick="document.getElementById('input-avatar').click()">📷 Changer Photo de Profil</button>
+                ` : ''}
                 <div id="progress-avatar" class="progress-text"></div>
             </div>
 
             <div class="form-grid">
                 <div class="form-group full">
                     <label class="form-label">Nom et Prénom</label>
-                    <input type="text" id="prof-nom" class="form-input" value="${nomComplet}" placeholder="Votre nom et prénom exacts">
+                    <input type="text" id="prof-nom" class="form-input" value="${nomComplet}" placeholder="Votre nom et prénom exacts" ${estVerrouille ? 'disabled' : ''}>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Adresse E-mail (Non modifiable)</label>
@@ -409,23 +443,23 @@ export async function init() {
                 </div>
                 <div class="form-group">
                     <label class="form-label">Numéro WhatsApp / Appel</label>
-                    <input type="text" id="prof-whatsapp" class="form-input" value="${whatsapp}" placeholder="+22997000000">
+                    <input type="text" id="prof-whatsapp" class="form-input" value="${whatsapp}" placeholder="+22997000000" ${estVerrouille ? 'disabled' : ''}>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Pays</label>
-                    <input type="text" id="prof-pays" class="form-input" value="${pays}" placeholder="Ex: Bénin, Togo, France">
+                    <input type="text" id="prof-pays" class="form-input" value="${pays}" placeholder="Ex: Bénin, Togo, France" ${estVerrouille ? 'disabled' : ''}>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Département / Région</label>
-                    <input type="text" id="prof-departement" class="form-input" value="${departement}" placeholder="Département">
+                    <input type="text" id="prof-departement" class="form-input" value="${departement}" placeholder="Département" ${estVerrouille ? 'disabled' : ''}>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Commune / Ville</label>
-                    <input type="text" id="prof-commune" class="form-input" value="${commune}" placeholder="Commune">
+                    <input type="text" id="prof-commune" class="form-input" value="${commune}" placeholder="Commune" ${estVerrouille ? 'disabled' : ''}>
                 </div>
                 <div class="form-group full">
                     <label class="form-label">Quartier ou Adresse précise</label>
-                    <input type="text" id="prof-quartier" class="form-input" value="${quartierVille}" placeholder="Quartier, Rue...">
+                    <input type="text" id="prof-quartier" class="form-input" value="${quartierVille}" placeholder="Quartier, Rue..." ${estVerrouille ? 'disabled' : ''}>
                 </div>
             </div>
         </div>
@@ -436,31 +470,47 @@ export async function init() {
             <div class="form-grid">
                 <div class="form-group full">
                     <label class="form-label">Numéro de la Pièce d'Identité (CNI / Passeport)</label>
-                    <input type="text" id="prof-numero-piece" class="form-input" value="${numeroPiece}" placeholder="Ex: CNI-123456789">
+                    <input type="text" id="prof-numero-piece" class="form-input" value="${numeroPiece}" placeholder="Ex: CNI-123456789" ${estVerrouille ? 'disabled' : ''}>
                 </div>
 
+                <!-- Format Portrait (3:4) pour la Photo d'Identité -->
                 <div class="form-group" id="group-identite">
-                    <label class="form-label">Photo d'Identité (Visage)</label>
-                    <input type="file" id="input-identite" accept="image/*" style="display:none;" onchange="window.gererUploadCloudinary(event, 'identite')">
-                    <button type="button" id="btn-publier-identite" style="background:#101012; border:1px solid #2a2a32; color:#f5f5f7; padding:10px; border-radius:6px; font-size:12px; cursor:pointer;" onclick="document.getElementById('input-identite').click()">📁 Choisir & Publier Photo Identité</button>
+                    <label class="form-label">Photo d'Identité (Visage - Format Officiel Portrait)</label>
+                    ${!estVerrouille ? `
+                        <input type="file" id="input-identite" accept="image/*" style="display:none;" onchange="window.gererUploadCloudinary(event, 'identite')">
+                        <button type="button" id="btn-publier-identite" style="background:#101012; border:1px solid #34d399; color:#34d399; padding:10px; border-radius:6px; font-size:12px; cursor:pointer;" onclick="document.getElementById('input-identite').click()">📁 Capturer / Choisir Photo Identité</button>
+                    ` : '<span style="font-size:11px; color:#34d399;">🔒 Document verrouillé</span>'}
                     <div id="progress-identite" class="progress-text"></div>
-                    <div class="doc-preview" id="preview-identite">
-                        ${photoIdentiteSrc ? `<img src="${photoIdentiteSrc}">` : 'Aucun document publié'}
+                    <div class="doc-preview-container">
+                        <div class="doc-preview-identite" id="preview-identite">
+                            ${photoIdentiteSrc ? `<img src="${photoIdentiteSrc}">` : 'Aperçu Portrait (3:4)'}
+                        </div>
                     </div>
                 </div>
 
+                <!-- Format Paysage (16:9) pour la CNI / Passeport -->
                 <div class="form-group" id="group-piece">
-                    <label class="form-label">Photo CNI ou Passeport (Recto/Verso)</label>
-                    <input type="file" id="input-piece" accept="image/*" style="display:none;" onchange="window.gererUploadCloudinary(event, 'piece')">
-                    <button type="button" id="btn-publier-piece" style="background:#101012; border:1px solid #2a2a32; color:#f5f5f7; padding:10px; border-radius:6px; font-size:12px; cursor:pointer;" onclick="document.getElementById('input-piece').click()">📁 Choisir & Publier Pièce Officielle</button>
+                    <label class="form-label">Pièce d'Identité / Passeport (Format Paysage Officiel)</label>
+                    ${!estVerrouille ? `
+                        <input type="file" id="input-piece" accept="image/*" style="display:none;" onchange="window.gererUploadCloudinary(event, 'piece')">
+                        <button type="button" id="btn-publier-piece" style="background:#101012; border:1px solid #34d399; color:#34d399; padding:10px; border-radius:6px; font-size:12px; cursor:pointer;" onclick="document.getElementById('input-piece').click()">📁 Capturer / Choisir Pièce Officielle</button>
+                    ` : '<span style="font-size:11px; color:#34d399;">🔒 Document verrouillé</span>'}
                     <div id="progress-piece" class="progress-text"></div>
-                    <div class="doc-preview" id="preview-piece">
-                        ${photoPieceSrc ? `<img src="${photoPieceSrc}">` : 'Aucun document publié'}
+                    <div class="doc-preview-container">
+                        <div class="doc-preview-piece" id="preview-piece">
+                            ${photoPieceSrc ? `<img src="${photoPieceSrc}">` : 'Aperçu Paysage (CNI/Passeport)'}
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <button id="btn-submit-profil" class="btn-enregistrer" onclick="window.sauvegarderProfilLivreurComplet()">Enregistrer et Publier le Profil</button>
+            ${!estVerrouille ? `
+                <button id="btn-submit-profil" class="btn-enregistrer" onclick="window.sauvegarderProfilLivreurComplet()">Enregistrer et Publier le Profil</button>
+            ` : `
+                <div style="margin-top: 20px; text-align: center; color: #a1a1aa; font-size: 12px; background: #101012; padding: 12px; border-radius: 8px;">
+                    🔒 Formulaire verrouillé. En cas de rejet par l'administration, les champs seront de nouveau ouverts pour correction.
+                </div>
+            `}
         </div>
 
         ${(statutValidation === 'Validé' || statutValidation === 'valide') ? `
@@ -473,7 +523,7 @@ export async function init() {
                     <span style="font-size:10px; background:#d4af37; color:#000; padding:3px 8px; border-radius:4px; font-weight:bold;">CARTE SÉCURISÉE</span>
                 </div>
                 <div class="carte-pro-body">
-                    <img src="${avatarSrc || 'https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png'}" class="carte-pro-avatar" alt="Avatar">
+                    <img src="${avatarSrc || photoIdentiteSrc || 'https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png'}" class="carte-pro-avatar" alt="Avatar">
                     <div class="carte-pro-infos">
                         <div><b>Nom :</b> ${nomComplet || 'Non renseigné'}</div>
                         <div><b>Tél :</b> ${whatsapp || 'Non renseigné'}</div>
@@ -482,7 +532,6 @@ export async function init() {
                         <div><b>ID :</b> ${currentUser.uid.substring(0, 10).toUpperCase()}</div>
                     </div>
                     <div class="carte-pro-qrcode-box">
-                        <!-- QR Code pointant vers dakproelite.com/livreur-verifier.html -->
                         <img id="qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=${encodeURIComponent(verificationUrl)}" alt="QR Code Vérification">
                         <span style="font-size:8px; color:#000; margin-top:2px; font-weight:bold;">SCAN & VÉRIF</span>
                     </div>
@@ -497,35 +546,17 @@ export async function init() {
 
     container.innerHTML = htmlContent;
 
-    if (photoIdentiteSrc) {
-        const btnId = document.getElementById('btn-publier-identite');
-        if (btnId) {
-            btnId.disabled = true;
-            btnId.style.background = "#1a1a2e";
-            btnId.style.color = "#34d399";
-            btnId.textContent = "🔒 Document d'Identité Publié (En attente de validation)";
-        }
-    }
-    if (photoPieceSrc) {
-        const btnPc = document.getElementById('btn-publier-piece');
-        if (btnPc) {
-            btnPc.disabled = true;
-            btnPc.style.background = "#1a1a2e";
-            btnPc.style.color = "#34d399";
-            btnPc.textContent = "🔒 Pièce Officielle Publiée (En attente de validation)";
-        }
-    }
-
     let currentAvatarUrl = avatarSrc;
     let currentIdentiteUrl = photoIdentiteSrc;
     let currentPieceUrl = photoPieceSrc;
 
+    // Gestion de l'upload et mise à jour dynamique des aperçus aux bons formats
     window.gererUploadCloudinary = async function(event, type) {
         const file = event.target.files[0];
         if (!file) return;
 
         const progressDiv = document.getElementById(`progress-${type}`);
-        progressDiv.textContent = "Compression Canvas & Envoi Cloudinary...";
+        progressDiv.textContent = "Compression & Envoi Cloudinary...";
 
         try {
             const reader = new FileReader();
@@ -535,7 +566,7 @@ export async function init() {
                     const canvas = document.createElement('canvas');
                     let width = img.width;
                     let height = img.height;
-                    const maxDim = 1000;
+                    const maxDim = 1200;
                     if (width > height && width > maxDim) {
                         height *= maxDim / width;
                         width = maxDim;
@@ -573,7 +604,7 @@ export async function init() {
                             progressDiv.textContent = "❌ Échec de l'envoi.";
                             alert("Erreur lors de l'envoi vers Cloudinary : " + err.message);
                         }
-                    }, 'image/jpeg', 0.8);
+                    }, 'image/jpeg', 0.85);
                 };
                 img.src = e.target.result;
             };
@@ -598,11 +629,16 @@ export async function init() {
             return;
         }
 
+        if (!currentIdentiteUrl || !currentPieceUrl) {
+            alert("Veuillez joindre à la fois votre photo d'identité (visage) et votre pièce officielle (CNI/Passeport).");
+            return;
+        }
+
         try {
             const submitBtn = document.getElementById('btn-submit-profil');
             if (submitBtn) {
                 submitBtn.disabled = true;
-                submitBtn.textContent = "Publication en cours...";
+                submitBtn.textContent = "Publication et verrouillage en cours...";
             }
 
             const userRef = ref(db, `users/${currentUser.uid}`);
@@ -618,10 +654,11 @@ export async function init() {
                 commune: communeVal,
                 quartierVille: quartierVal,
                 numeroPiece: numeroPieceVal,
-                avatarSrc: currentAvatarUrl,
+                avatarSrc: currentAvatarUrl || currentIdentiteUrl,
                 photoIdentiteSrc: currentIdentiteUrl,
                 photoPieceSrc: currentPieceUrl,
                 statutValidation: 'en_attente',
+                motifRefus: "", // Efface l'ancien motif de refus en cas de nouvelle soumission
                 role: 'livreur',
                 updatedAt: new Date().toISOString()
             };
@@ -633,17 +670,17 @@ export async function init() {
                 livreurId: currentUser.uid,
                 nomLivreur: nomCompletVal,
                 telephone: whatsappVal,
-                typeDocument: "Permis de conduire / Carte d'identité",
+                typeDocument: "CNI / Passeport / Photo d'identité",
                 numeroPiece: numeroPieceVal,
                 documentUrl: currentIdentiteUrl,
                 carteIdentiteUrl: currentPieceUrl,
-                avatarUrl: currentAvatarUrl,
+                avatarUrl: currentAvatarUrl || currentIdentiteUrl,
                 statutVerification: "en_attente",
                 createdAt: new Date().toISOString()
             };
             await set(docRef, documentAdminPayload);
 
-            alert("🎉 Votre profil et vos documents administratifs ont été publiés avec succès ! En attente de validation par l'administration.");
+            alert("🎉 Vos documents ont été publiés avec succès ! Le formulaire est désormais verrouillé en attente de l'approbation administrative.");
             init();
         } catch (error) {
             console.error("Erreur lors de l'enregistrement dans Firebase :", error);
