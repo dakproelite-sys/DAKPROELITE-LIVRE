@@ -5,40 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#d4af37">
 <meta name="application-name" content="DAKPRO ÉLITE">
-<title>DAKPRO ÉLITE | Connexion Livreur</title>
+<title>DAKPRO ÉLITE | Connexion</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#050505;color:#fff;font-family:Arial,sans-serif;padding:20px;}
 .box{width:100%;max-width:480px;padding:30px 25px;background:#12161f;border:2px solid #d4af37;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.5);}
-
-/* LOGO GRAVÉ / INAMOVIBLE FAÇON PAPIER (DIMENSIONS FIXES) */
-.logo-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 15px;
-  width: 100%;
-  height: 75px;
-}
-.logo{
-  display:block;
-  width:75px;
-  height:75px;
-  min-width:75px;
-  min-height:75px;
-  border-radius:50%;
-  border:2px solid #d4af37;
-  object-fit:cover;
-  box-shadow: inset 0 3px 6px rgba(0,0,0,0.8), 0 2px 4px rgba(212,175,55,0.2);
-  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.6));
-  user-select: none;
-  pointer-events: none;
-}
-
+.logo{display:block;width:75px;height:75px;margin:0 auto 15px;border-radius:50%;border:2px solid #d4af37;object-fit:cover;}
 h1{text-align:center;font-size:22px;color:#d4af37;margin-bottom:6px;}
 .subtitle{text-align:center;color:#e0e0e0;font-size:13px;line-height:1.5;margin-bottom:20px;}
-.notice{background:#2a2107;border:1px solid #d4af37;color:#f0e68c;padding:12px 14px;border-radius:8px;font-size:12px;margin-bottom:20px;text-align:center;line-height:1.4;}
-
 label{display:block;font-size:12px;color:#ddd;margin-bottom:6px;}
 input{width:100%;padding:13px;border:1px solid #444;border-radius:9px;background:#000;color:#fff;outline:none;font-size:14px;}
 input:focus{border-color:#d4af37;}
@@ -46,53 +20,8 @@ input:focus{border-color:#d4af37;}
 .password-box{position:relative;}
 .password-box input{padding-right:50px;}
 .toggle-password{position:absolute;right:5px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:none;background:transparent;color:#d4af37;font-size:19px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-
-button.submit{width:100%;padding:13px;border:none;border-radius:9px;background:#d4af37;color:#000;font-weight:bold;cursor:pointer;font-size:14px;margin-top:5px;}
+button.submit{width:100%;padding:13px;border:none;border-radius:9px;background:#d4af37;color:#000;font-weight:bold;cursor:pointer;font-size:14px;margin-top:10px;}
 button.submit:disabled{opacity:.6;cursor:not-allowed;}
-
-/* BOUTON GOOGLE SITUÉ TOUT EN BAS */
-.btn-google{
-  width:100%;
-  padding:12px;
-  border:1px solid #444;
-  border-radius:9px;
-  background:#fff;
-  color:#000;
-  font-weight:bold;
-  cursor:pointer;
-  font-size:14px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  margin-top:15px;
-  transition:background 0.2s, border-color 0.2s;
-}
-.btn-google:hover{
-  background:#f1f1f1;
-  border-color:#d4af37;
-}
-.btn-google img{
-  width:18px;
-  height:18px;
-}
-
-.divider{
-  display:flex;
-  align-items:center;
-  text-align:center;
-  color:#777;
-  font-size:11px;
-  margin:18px 0;
-}
-.divider::before, .divider::after{
-  content:'';
-  flex:1;
-  border-bottom:1px solid #333;
-}
-.divider::before{margin-right:.75em;}
-.divider::after{margin-left:.75em;}
-
 .message{margin-top:15px;padding:10px;border-radius:8px;font-size:12px;display:none;text-align:center;line-height:1.5;}
 .error{background:#351313;color:#ff8585;}
 .success{background:#12351d;color:#70e090;}
@@ -103,20 +32,14 @@ button.submit:disabled{opacity:.6;cursor:not-allowed;}
 </head>
 <body>
 <div class="box">
-<div class="logo-container">
-  <img class="logo" src="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png" alt="DAKPRO ÉLITE">
-</div>
+<img class="logo" src="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png" alt="DAKPRO ÉLITE">
 <h1>DAKPRO ÉLITE</h1>
-<p class="subtitle">Portail de Connexion Livreur. Connectez-vous pour accéder à votre espace de livraison.</p>
-
-<div class="notice">
-  🔐 Bon retour ! Saisissez vos identifiants pour accéder à votre tableau de bord livreur.
-</div>
+<p class="subtitle">Espace de Connexion — Identifiez-vous pour accéder à votre espace</p>
 
 <form id="loginForm">
 <div class="field">
 <label for="email">Adresse e-mail</label>
-<input id="email" type="email" autocomplete="email" required maxlength="150" placeholder="Votre adresse e-mail">
+<input id="email" type="email" autocomplete="email" required maxlength="150" placeholder="votre.email@exemple.com">
 </div>
 
 <div class="field">
@@ -130,26 +53,18 @@ button.submit:disabled{opacity:.6;cursor:not-allowed;}
 <button id="loginButton" class="submit" type="submit">Se connecter</button>
 </form>
 
-<div class="divider">OU CONTINUER AVEC</div>
-
-<!-- BOUTON CONTINUER AVEC GOOGLE -->
-<button type="button" id="googleLoginBtn" class="btn-google">
-  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo">
-  Continuer avec Google
-</button>
-
 <div id="message" class="message"></div>
 
 <div class="links">
-<div>Vous n'avez pas de compte ? <a href="inscription.html">S'inscrire comme livreur</a></div>
+<div>Vous n'avez pas encore de compte ? <a href="inscription.html">S'inscrire</a></div>
 <div><a href="index.html">← Retour à l'accueil</a></div>
 </div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDR7INHKaazaqZt-xIcjk10JFiy58uXKO8",
@@ -158,7 +73,7 @@ const firebaseConfig = {
   projectId: "dakproelite",
   storageBucket: "dakproelite.firebasestorage.app",
   messagingSenderId: "580591769206",
-  appId: "1:580591769206:web:859724d4b2dbf904087157"
+  appId: "1:580591769206:web:4f67f8aadbf3d051087157"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -167,10 +82,7 @@ const db = getDatabase(app);
 
 const form = document.getElementById("loginForm");
 const button = document.getElementById("loginButton");
-const googleBtn = document.getElementById("googleLoginBtn");
 const message = document.getElementById("message");
-
-const redirectTarget = "profil-livreur.html";
 
 function showMessage(text, type = "error") {
   message.textContent = text;
@@ -178,6 +90,7 @@ function showMessage(text, type = "error") {
   message.style.display = "block";
 }
 
+// Alterner l'affichage du mot de passe
 document.querySelectorAll(".toggle-password").forEach(buttonToggle => {
   buttonToggle.addEventListener("click", () => {
     const input = document.getElementById(buttonToggle.dataset.target);
@@ -186,60 +99,48 @@ document.querySelectorAll(".toggle-password").forEach(buttonToggle => {
   });
 });
 
-// Redirection automatique si déjà connecté
-let pageAlreadyLoaded = false;
-onAuthStateChanged(auth, user => {
-  if (pageAlreadyLoaded) return;
-  pageAlreadyLoaded = true;
-  if (user) {
-    window.location.replace(redirectTarget);
-  }
-});
-
-// --- CONNEXION AVEC GOOGLE ---
-googleBtn.addEventListener("click", async () => {
-  googleBtn.disabled = true;
-  googleBtn.textContent = "Connexion avec Google...";
-  message.style.display = "none";
-
+// Redirection conditionnelle selon le rôle de l'utilisateur dans Realtime Database
+async function redirectByUserRole(user) {
   try {
-    const provider = new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
+    const userSnapshot = await get(ref(db, "users/" + user.uid));
+    
+    if (userSnapshot.exists()) {
+      const userData = userSnapshot.val();
 
-    const userRef = ref(db, "users/" + user.uid);
-    const snapshot = await get(userRef);
+      // Vérifier si le compte est actif
+      if (userData.actif === false) {
+        showMessage("Votre compte a été désactivé par un administrateur.");
+        await signOut(auth);
+        return;
+      }
 
-    if (!snapshot.exists()) {
-      const now = Date.now();
-      const userData = {
-        uid: user.uid,
-        nom: user.displayName || "Livreur Google",
-        email: user.email,
-        telephone: "",
-        indicatif: "+229",
-        role: "livreur",
-        actif: true,
-        createdAt: now,
-        updatedAt: now
-      };
-      await set(userRef, userData);
+      // Redirection selon le rôle
+      if (userData.role === "admin") {
+        window.location.replace("administration.html");
+      } else {
+        window.location.replace("index.html");
+      }
+    } else {
+      // Redirection par défaut si l'entrée n'existe pas en base
+      window.location.replace("index.html");
     }
+  } catch (err) {
+    console.error("Erreur lors de la vérification du rôle :", err);
+    window.location.replace("index.html");
+  }
+}
 
-    showMessage("Connexion réussie avec Google !", "success");
-    setTimeout(() => {
-      window.location.replace(redirectTarget);
-    }, 700);
-
-  } catch (error) {
-    console.error("Erreur Google Auth :", error);
-    showMessage("Impossible de se connecter avec Google.");
-    googleBtn.disabled = false;
-    googleBtn.innerHTML = `<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo"> Continuer avec Google`;
+// Redirection automatique pour un utilisateur déjà connecté
+let sessionCheckDone = false;
+onAuthStateChanged(auth, user => {
+  if (sessionCheckDone) return;
+  sessionCheckDone = true;
+  if (user) {
+    redirectByUserRole(user);
   }
 });
 
-// --- CONNEXION CLASSIQUE (EMAIL / MOT DE PASSE) ---
+// Soumission du formulaire
 form.addEventListener("submit", async event => {
   event.preventDefault();
 
@@ -252,27 +153,26 @@ form.addEventListener("submit", async event => {
   }
 
   button.disabled = true;
-  button.textContent = "Connexion en cours...";
+  button.textContent = "Vérification...";
   message.style.display = "none";
 
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    showMessage("Connexion réussie ! Redirection...", "success");
 
-    showMessage("Connexion réussie !", "success");
-
-    setTimeout(() => {
-      window.location.replace(redirectTarget);
-    }, 700);
+    await redirectByUserRole(userCredential.user);
 
   } catch (error) {
-    console.error("Erreur Firebase :", error);
-    let text = "Identifiants incorrects ou utilisateur introuvable.";
-    if (error.code === "auth/invalid-email") text = "Format d'adresse e-mail invalide.";
-    if (error.code === "auth/user-not-found") text = "Aucun compte ne correspond à cet e-mail.";
-    if (error.code === "auth/wrong-password") text = "Mot de passe incorrect.";
-    if (error.code === "auth/invalid-credential") text = "Email ou mot de passe incorrect.";
+    console.error("Erreur de connexion :", error);
+    let errorText = "Identifiants incorrects. Veuillez réessayer.";
+    
+    if (error.code === "auth/invalid-credential" || error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
+      errorText = "Adresse e-mail ou mot de passe incorrect.";
+    } else if (error.code === "auth/too-many-requests") {
+      errorText = "Trop de tentatives. Veuillez patienter un moment.";
+    }
 
-    showMessage(text);
+    showMessage(errorText);
     button.disabled = false;
     button.textContent = "Se connecter";
   }

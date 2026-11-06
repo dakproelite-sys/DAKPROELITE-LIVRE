@@ -1,1720 +1,4488 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<meta name="theme-color" content="#06142d">
-<meta name="application-name" content="DAKPRO ÉLITE LIVRE">
-<meta name="description" content="DAKPRO ÉLITE LIVRE : réseau international de livraison et communication entre livreurs.">
+<meta name="theme-color" content="#d4af37">
+<meta name="application-name" content="DAKPRO ÉLITE">
+<meta name="apple-mobile-web-app-title" content="DAKPRO ÉLITE">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png">
+<title>DAKPRO ÉLITE | La Référence</title>
 
-<title>DAKPRO ÉLITE LIVRE | Réseau international</title>
+<link rel="manifest" href="manifest.json">
+
+<link
+rel="icon"
+type="image/png"
+href="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png">
+
+<link
+rel="apple-touch-icon"
+href="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png">
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet">
 
 <style>
+
 :root{
- --navy:#041128;
- --navy2:#071c3d;
- --navy3:#0c2b58;
- --navy4:#17477f;
-
- --gold:#e4b638;
- --gold2:#ffdf78;
- --gold3:#fff0b8;
-
- --red:#e52e50;
- --red-dark:#a31530;
- --red-light:#ffe7ed;
-
- --black:#020610;
- --black2:#091224;
-
- --white:#fff;
- --surface:linear-gradient(145deg,#071c3d,#041128);
- --surface2:linear-gradient(145deg,#0c2b58,#071c3d);
- --text:#f3f6ff;
- --muted:#a4b5d6;
- --border:#1c3f75;
-
- --shadow:0 14px 40px rgba(0,0,0,0.5);
+--gold:#d4af37;
+--gold-light:#f3e5ab;
+--black:#050505;
+--dark:#0b0e13;
+--soft-dark:#12161f;
+--card:#1a2230;
+--blue:#007bff;
+--blue-dark:#0056b3;
+--green:#22c55e;
+--red:#ef4444;
+--white:#fff;
+--gray:#aaa;
+--border:rgba(212,175,55,.30);
 }
 
 *{
- box-sizing:border-box;
- margin:0;
- padding:0;
+box-sizing:border-box;
+margin:0;
+padding:0;
 }
 
 html{
- scroll-behavior:smooth;
+scroll-behavior:smooth;
+-webkit-text-size-adjust:100%;
 }
 
 body{
- min-height:100vh;
- background:
- radial-gradient(circle at 10% 10%,rgba(229,46,80,0.2),transparent 45%),
- radial-gradient(circle at 90% 85%,rgba(228,182,56,0.18),transparent 45%),
- linear-gradient(135deg,#020610,#071c3d 50%,#041128);
- color:var(--text);
- font-family:Arial,Helvetica,sans-serif;
- overflow-x:hidden;
+min-height:100vh;
+background:var(--black);
+color:var(--white);
+font-family:Poppins,sans-serif;
+display:flex;
+flex-direction:column;
+overflow-x:hidden;
+top:0!important;
 }
 
-button,input,textarea{
- font:inherit;
+button,input,select,textarea{
+font-family:inherit;
 }
 
-button{
- cursor:pointer;
+button,a{
+-webkit-tap-highlight-color:transparent;
 }
 
-header{
- position:sticky;
- top:0;
- z-index:100;
- background:linear-gradient(110deg,#020610,#0e2954 55%,#020610);
- border-bottom:4px solid var(--gold);
- box-shadow:0 8px 30px rgba(0,0,0,0.7);
+a{
+color:inherit;
 }
 
-.header-inner{
- max-width:1500px;
- margin:auto;
- padding:14px 20px;
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:15px;
+#google_translate_element{
+display:none!important;
 }
 
-.brand{
- display:flex;
- align-items:center;
- gap:15px;
- min-width:0;
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+.goog-te-gadget-icon,
+.goog-tooltip,
+.goog-tooltip:hover{
+display:none!important;
 }
 
-.logo-frame{
- width:88px;
- height:88px;
- min-width:88px;
- padding:6px;
- border-radius:50%;
- background:linear-gradient(145deg,#17477f,#041128);
- border:2px solid var(--gold);
- box-shadow:
-  0 8px 20px rgba(0,0,0,0.7),
-  inset 0 4px 10px rgba(229,46,80,0.4),
-  inset 0 -3px 6px rgba(228,182,56,0.8);
- display:flex;
- align-items:center;
- justify-content:center;
+.goog-te-gadget{
+font-size:0!important;
+}
+
+.goog-text-highlight{
+background:none!important;
+box-shadow:none!important;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+position:sticky;
+top:0;
+z-index:5000;
+width:100%;
+min-height:62px;
+display:flex;
+align-items:center;
+gap:10px;
+padding:
+9px
+max(10px,env(safe-area-inset-right))
+9px
+max(10px,env(safe-area-inset-left));
+background:linear-gradient(to bottom,#131921,#050505);
+border-bottom:2px solid var(--gold);
+}
+
+.logo-container{
+width:42px;
+height:42px;
+flex:0 0 42px;
+border-radius:50%;
+border:2px solid var(--gold);
+overflow:hidden;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#000;
+cursor:pointer;
+transition:.25s ease;
+}
+
+.logo-container:hover{
+transform:scale(1.08);
+}
+
+.logo-container:active{
+transform:scale(.94);
 }
 
 .logo{
- width:100%;
- height:100%;
- display:block;
- object-fit:contain;
- border-radius:50%;
- background:#020610;
- filter:contrast(1.1) brightness(0.95);
- box-shadow:inset 0 2px 6px rgba(0,0,0,0.9);
- pointer-events:none;
- user-select:none;
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
-.brand-title{
- color:white;
- font-size:22px;
- font-weight:1000;
- letter-spacing:1px;
- text-shadow:0 2px 10px rgba(0,0,0,0.9);
+.fallback-logo{
+color:var(--gold);
+font-size:12px;
+font-weight:800;
 }
 
-.brand-sub{
- color:var(--gold2);
- font-size:10px;
- font-weight:900;
- letter-spacing:2px;
- margin-top:6px;
- text-shadow:0 1px 4px rgba(0,0,0,0.8);
+.search-container{
+flex:1;
+min-width:0;
 }
 
-.header-actions{
- display:flex;
- flex-wrap:wrap;
- align-items:center;
- justify-content:flex-end;
- gap:8px;
+#searchBar{
+width:100%;
+height:40px;
+border:2px solid var(--gold);
+border-radius:24px;
+background:#000;
+color:#fff;
+padding:0 15px;
+outline:none;
+font-size:13px;
+box-shadow:0 0 10px rgba(212,175,55,.12);
+}
+
+#searchBar::placeholder{
+color:#888;
+}
+
+.nav-icons{
+display:flex;
+align-items:center;
+gap:10px;
+flex-shrink:0;
+}
+
+.nav-item{
+position:relative;
+min-width:38px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+color:#fff;
+text-decoration:none;
+font-size:9px;
+cursor:pointer;
+}
+
+.nav-item>span:first-child{
+font-size:17px;
+line-height:18px;
+}
+
+.nav-item:hover{
+color:var(--gold);
+}
+
+.cart-badge{
+position:absolute;
+top:-3px;
+right:1px;
+min-width:15px;
+height:15px;
+display:none;
+align-items:center;
+justify-content:center;
+padding:0 3px;
+background:var(--red);
+border-radius:50%;
+color:#fff;
+font-size:8px;
+font-weight:700;
+}
+
+/* =====================================================
+   INSTALLATION
+===================================================== */
+
+#btnInstall{
+display:none;
+width:calc(100% - 30px);
+max-width:600px;
+margin:12px auto;
+padding:11px;
+background:#333;
+border:1px solid var(--gold);
+border-radius:10px;
+text-align:center;
+color:#fff;
+cursor:pointer;
+font-size:13px;
+font-weight:600;
+}
+
+/* =====================================================
+   ADMIN
+===================================================== */
+
+.admin-protected-section{
+display:none;
+width:94%;
+max-width:900px;
+margin:15px auto;
+padding:16px;
+background:var(--soft-dark);
+border:2px dashed var(--gold);
+border-radius:14px;
+box-shadow:0 5px 20px rgba(212,175,55,.12);
+}
+
+.admin-protected-section h3{
+color:var(--gold);
+text-align:center;
+font-size:15px;
+margin-bottom:15px;
+}
+
+.admin-grid{
+display:grid;
+grid-template-columns:1fr;
+gap:12px;
+}
+
+.admin-box{
+padding:12px;
+background:#080a0d;
+border:1px solid #333;
+border-radius:10px;
+}
+
+.admin-box h4{
+color:var(--gold);
+font-size:13px;
+margin-bottom:10px;
+}
+
+.admin-row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+}
+
+@media(max-width:600px){
+.admin-row{
+grid-template-columns:1fr;
+}
+}
+
+.admin-protected-section input,
+.admin-protected-section textarea,
+.admin-protected-section select{
+width:100%;
+padding:10px;
+margin-bottom:8px;
+background:#000;
+color:#fff;
+border:1px solid #444;
+border-radius:7px;
+outline:none;
+}
+
+.admin-protected-section textarea{
+min-height:90px;
+resize:vertical;
+}
+
+.admin-btn{
+width:100%;
+padding:10px;
+border:none;
+border-radius:8px;
+background:var(--gold);
+color:#000;
+font-weight:700;
+cursor:pointer;
+}
+
+.admin-btn-danger{
+background:var(--red);
+color:#fff;
+}
+
+.admin-btn:hover{
+filter:brightness(1.1);
+}
+
+/* =====================================================
+   PREVISUALISATION
+===================================================== */
+
+.preview-container{
+margin-top:15px;
+padding:12px;
+background:#000;
+border:1px solid var(--gold);
+border-radius:10px;
+}
+
+.preview-container h5{
+color:var(--gold);
+font-size:12px;
+margin-bottom:8px;
+text-transform:uppercase;
+}
+
+.preview-card-wrapper{
+max-width:240px;
+margin:0 auto;
+}
+
+/* =====================================================
+   BANNIÈRE
+===================================================== */
+
+.banner-container{
+display:none;
+position:relative;
+width:94%;
+max-width:1400px;
+margin:15px auto;
+overflow:hidden;
+border:1px solid var(--gold);
+border-radius:15px;
+background:var(--soft-dark);
+box-shadow:0 5px 20px rgba(212,175,55,.15);
+}
+
+.banner-track{
+display:flex;
+width:100%;
+transition:transform .5s ease;
+}
+
+.banner-slide{
+position:relative;
+min-width:100%;
+}
+
+.banner-slide a{
+display:block;
+text-decoration:none;
+}
+
+.banner-slide img{
+width:100%;
+height:180px;
+display:block;
+object-fit:cover;
+}
+
+.banner-content{
+position:absolute;
+left:0;
+right:0;
+bottom:0;
+padding:15px;
+background:linear-gradient(to top,rgba(0,0,0,.92),transparent);
+}
+
+.banner-content h3{
+color:var(--gold);
+font-size:15px;
+margin-bottom:3px;
+}
+
+.banner-content p{
+color:#ddd;
+font-size:11px;
+}
+
+.banner-dots{
+position:absolute;
+bottom:9px;
+right:12px;
+display:flex;
+gap:5px;
+}
+
+.dot{
+width:8px;
+height:8px;
+border-radius:50%;
+background:rgba(255,255,255,.4);
+cursor:pointer;
+}
+
+.dot.active{
+background:var(--gold);
+}
+
+/* =====================================================
+   CATEGORIES
+===================================================== */
+
+.cat-scroll{
+width:100%;
+display:flex;
+gap:9px;
+overflow-x:auto;
+padding:10px 15px 15px;
+scrollbar-width:none;
+}
+
+.cat-scroll::-webkit-scrollbar{
+display:none;
+}
+
+.cat-btn{
+flex:0 0 auto;
+padding:9px 17px;
+border:1px solid var(--gold);
+border-radius:22px;
+background:transparent;
+color:#fff;
+cursor:pointer;
+white-space:nowrap;
+font-size:12px;
+}
+
+.cat-btn.active{
+background:var(--gold);
+color:#000;
+font-weight:700;
+}
+
+/* =====================================================
+   PRODUITS
+===================================================== */
+
+.products{
+width:100%;
+max-width:1800px;
+margin:0 auto;
+padding:5px 12px 20px;
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:12px;
+align-content:start;
+flex:1;
+}
+
+.card{
+position:relative;
+min-width:0;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+padding:10px;
+background:var(--card);
+border:1px solid var(--border);
+border-radius:14px;
+box-shadow:0 4px 12px rgba(0,0,0,.4);
+cursor:pointer;
+transition:transform .2s ease,border-color .2s ease;
+}
+
+.card:hover{
+transform:translateY(-3px);
+border-color:var(--gold);
+}
+
+/* IMAGE PRODUIT COMPLETE */
+
+.card img,
+.card video,
+.doc-box{
+display:block;
+width:100%;
+height:160px;
+object-fit:contain;
+border-radius:10px;
+background:#080b10;
+}
+
+.card img{
+object-fit:contain;
+}
+
+/* IMAGE MANQUANTE */
+
+.product-no-image{
+width:100%;
+height:160px;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+border-radius:10px;
+background:#080b10;
+border:1px solid #252a33;
+color:#777;
+font-size:11px;
+text-align:center;
+}
+
+.product-no-image strong{
+font-size:30px;
+margin-bottom:5px;
+color:var(--gold);
+}
+
+.doc-box{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+background:#111;
+border:1px solid #333;
+color:var(--gold);
+text-decoration:none;
+padding:10px;
+text-align:center;
+}
+
+.doc-box span{
+font-size:32px;
+margin-bottom:5px;
+}
+
+.doc-box p{
+font-size:10px;
+color:#fff;
+word-break:break-all;
+}
+
+.card h3{
+margin:9px 0 4px;
+font-size:13px;
+line-height:1.3;
+word-break:break-word;
+}
+
+.price{
+color:var(--gold);
+font-size:15px;
+font-weight:800;
+margin:5px 0;
+}
+
+.price-old{
+text-decoration:line-through;
+color:#888;
+font-size:11px;
+margin-left:5px;
+font-weight:400;
 }
 
 .btn{
- border:1px solid transparent;
- border-radius:10px;
- padding:10px 15px;
- font-size:11px;
- font-weight:1000;
- display:inline-flex;
- align-items:center;
- justify-content:center;
- gap:7px;
- text-decoration:none;
- transition:.2s ease;
+width:100%;
+padding:9px;
+border:none;
+border-radius:8px;
+background:var(--gold);
+color:#000;
+font-size:12px;
+font-weight:700;
+cursor:pointer;
 }
 
 .btn:hover{
- filter:brightness(1.15);
- transform:translateY(-2px);
+background:var(--gold-light);
 }
 
-.btn-gold{
- color:#020610;
- background:linear-gradient(135deg,#fff0b5,#e4b638,#c18c19);
- border-color:#ffe28a;
- box-shadow:0 4px 15px rgba(228,182,56,0.4);
+.affiliate-box{
+margin-top:7px;
 }
 
-.btn-blue{
- color:white;
- background:linear-gradient(135deg,#347ac5,#0b2854);
- border-color:#6797cf;
-}
-
-.btn-red{
- color:white;
- background:linear-gradient(135deg,#f45c77,#a31530);
- border-color:#ff8094;
- box-shadow:0 4px 15px rgba(229,46,80,0.4);
+.affiliate-input{
+display:none;
+width:100%;
+margin-bottom:4px;
+padding:6px;
+background:#000;
+color:#fff;
+border:1px solid #444;
+border-radius:6px;
+font-size:9px;
 }
 
-.auth-status{
- color:var(--gold2);
- font-size:10px;
- font-weight:900;
- padding:8px;
- text-shadow:0 1px 3px rgba(0,0,0,0.8);
+.btn-copy{
+width:100%;
+padding:8px;
+border:none;
+border-radius:7px;
+background:var(--blue);
+color:#fff;
+font-size:10px;
+font-weight:600;
+cursor:pointer;
 }
 
-main{
- max-width:1500px;
- margin:auto;
- padding:20px;
+.badge-boost{
+position:absolute;
+top:15px;
+left:15px;
+z-index:5;
+padding:3px 6px;
+background:#e00000;
+color:#fff;
+border-radius:4px;
+font-size:8px;
+font-weight:700;
 }
 
-.hero{
- position:relative;
- overflow:hidden;
- background:linear-gradient(135deg,#071c3d,#041128 60%,#17477f);
- border:2px solid var(--gold);
- border-radius:20px;
- padding:38px;
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:20px;
- box-shadow:var(--shadow);
- margin-bottom:20px;
+/* =====================================================
+   DAKBOT FLOTTANT
+===================================================== */
+
+.btn-ia{
+position:fixed;
+right:20px;
+bottom:calc(25px + env(safe-area-inset-bottom));
+left:auto;
+top:auto;
+
+z-index:9000;
+
+padding:9px 14px;
+border-radius:22px;
+
+background:linear-gradient(
+135deg,
+var(--blue),
+var(--blue-dark)
+);
+
+color:#fff;
+font-size:12px;
+font-weight:700;
+
+cursor:grab;
+user-select:none;
+-webkit-user-select:none;
+
+touch-action:none;
+
+box-shadow:0 5px 18px rgba(0,123,255,.35);
+
+border:1px solid rgba(255,255,255,.2);
+
+white-space:nowrap;
+
+transition:box-shadow .2s ease;
+}
+
+.btn-ia.dragging{
+cursor:grabbing;
+box-shadow:0 8px 25px rgba(0,123,255,.55);
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.app-footer{
+margin-top:25px;
+background:#131921;
+border-top:2px solid var(--gold);
+color:#ddd;
+font-size:12px;
+}
+
+.footer-announcement{
+padding:16px 20px;
+text-align:center;
+background:var(--soft-dark);
+border-bottom:1px solid #333;
+}
+
+.footer-announcement h4{
+color:var(--gold);
+margin-bottom:5px;
+font-size:14px;
+}
+
+.footer-announcement p{
+color:#ccc;
+line-height:1.5;
+font-size:11px;
+}
+
+.footer-links-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:20px;
+width:100%;
+max-width:1000px;
+margin:auto;
+padding:25px 20px;
+}
+
+.footer-column h5{
+color:var(--gold);
+font-size:12px;
+margin-bottom:10px;
+text-transform:uppercase;
+}
+
+.footer-column ul{
+list-style:none;
+}
+
+.footer-column li{
+margin-bottom:8px;
+}
+
+.footer-column a{
+color:#aaa;
+text-decoration:none;
+}
+
+.footer-column a:hover{
+color:var(--gold);
+}
+
+.footer-lang-selector-section{
+padding:20px;
+background:#06090c;
+border-top:1px solid #222;
+text-align:center;
 }
 
-.hero h1{
- color:white;
- font-size:clamp(24px,4vw,40px);
- margin:12px 0;
- text-shadow:0 3px 12px rgba(0,0,0,0.7);
-}
-
-.hero p{
- color:#d5e3f8;
- max-width:750px;
- font-size:13px;
- line-height:1.8;
-}
-
-.eyebrow{
- display:inline-block;
- background:linear-gradient(135deg,#f45c77,#a31530);
- color:white;
- border:1px solid #ff8094;
- padding:7px 14px;
- border-radius:30px;
- font-size:10px;
- font-weight:1000;
- letter-spacing:1.5px;
- box-shadow:0 4px 12px rgba(229,46,80,0.4);
+.footer-lang-selector-section label{
+display:block;
+margin-bottom:8px;
+color:var(--gold);
+font-size:13px;
+font-weight:600;
 }
 
-.hero-icon{
- font-size:80px;
- filter:drop-shadow(0 8px 20px rgba(228,182,56,0.5));
-}
-
-.notice{
- background:linear-gradient(110deg,#0a1931,#173a6b);
- border:1px solid var(--gold);
- border-left:6px solid var(--red);
- border-radius:14px;
- padding:16px;
- color:white;
- font-size:11px;
- line-height:1.8;
- margin-bottom:20px;
- box-shadow:var(--shadow);
-}
-
-.notice b{
- color:var(--gold2);
-}
+.footer-lang-selector-section select{
+width:100%;
+max-width:320px;
+padding:10px 15px;
+background:#000;
+color:#fff;
+border:2px solid var(--gold);
+border-radius:10px;
+outline:none;
+}
 
-.stats{
- display:grid;
- grid-template-columns:repeat(2,minmax(0,1fr));
- gap:18px;
- margin-bottom:22px;
+.footer-bottom-bar{
+padding:15px;
+background:#000;
+border-top:1px solid #222;
+text-align:center;
+color:#777;
+font-size:10px;
 }
+
+/* =====================================================
+   MESSAGES
+===================================================== */
 
-.stat{
- padding:22px;
- background:linear-gradient(145deg,#071c3d,#041128);
- border:1px solid var(--border);
- border-radius:16px;
- box-shadow:var(--shadow);
- transition:.2s;
+.loading-message,
+.empty-message{
+grid-column:1/-1;
+padding:40px 20px;
+text-align:center;
+color:#999;
+font-size:13px;
 }
-
-.stat:hover{
- border-color:var(--gold);
- transform:translateY(-2px);
+
+.error-message{
+color:#ff8080;
 }
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(min-width:700px){
 
-.stat:nth-child(1){ border-top:5px solid var(--gold); }
-.stat:nth-child(2){ border-top:5px solid var(--red); }
-
-.stat span{
- display:block;
- color:var(--muted);
- font-size:11px;
- font-weight:900;
+.products{
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:15px;
+padding-left:20px;
+padding-right:20px;
 }
 
-.stat strong{
- display:block;
- color:white;
- font-size:34px;
- font-weight:1000;
- margin-top:8px;
- text-shadow:0 2px 10px rgba(0,0,0,0.6);
+.card img,
+.card video,
+.doc-box,
+.product-no-image{
+height:210px;
 }
-
-.panel{
- background:linear-gradient(145deg,#071c3d,#041128);
- border:1px solid var(--border);
- border-radius:18px;
- padding:20px;
- margin-bottom:20px;
- box-shadow:var(--shadow);
- overflow:hidden;
-}
-
-.panel-head{
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:10px;
- margin:-20px -20px 18px;
- padding:18px 20px;
- background:linear-gradient(110deg,#020610,#0e2954);
- border-bottom:3px solid var(--gold);
-}
-
-.panel-head h2{
- color:white;
- font-size:14px;
- text-shadow:0 2px 6px rgba(0,0,0,0.6);
-}
-
-.panel-head p{
- color:#c8d8ef;
- font-size:10px;
- margin-top:4px;
-}
-
-.count{
- color:#020610;
- background:linear-gradient(135deg,#fff0b4,#e4b638);
- border:1px solid #c69624;
- border-radius:30px;
- padding:7px 14px;
- font-size:10px;
- font-weight:1000;
- white-space:nowrap;
- box-shadow:0 3px 12px rgba(228,182,56,0.35);
-}
-
-.search{
- width:100%;
- padding:14px 16px;
- border-radius:12px;
- border:1px solid var(--border);
- background:#020610;
- color:white;
- outline:none;
- margin-bottom:18px;
- font-size:12px;
- transition:all .2s;
-}
-
-.search:focus,
-.chat-input:focus{
- border-color:var(--gold);
- box-shadow:0 0 0 3px rgba(228,182,56,0.3);
+
+.footer-links-grid{
+grid-template-columns:repeat(4,1fr);
 }
-
-.directory-grid{
- display:grid;
- grid-template-columns:repeat(3,minmax(0,1fr));
- gap:16px;
+
 }
 
-.driver-card{
- background:linear-gradient(145deg,#0c2b58,#071c3d);
- border:1px solid var(--border);
- border-radius:15px;
- overflow:hidden;
- box-shadow:0 8px 22px rgba(0,0,0,0.45);
- transition:.25s ease;
-}
+@media(min-width:1000px){
 
-.driver-card:hover{
- transform:translateY(-4px);
- box-shadow:0 12px 30px rgba(229,46,80,0.3);
- border-color:var(--red);
+.products{
+grid-template-columns:repeat(4,minmax(0,1fr));
 }
 
-.driver-head{
- background:linear-gradient(110deg,#041128,#17477f);
- border-bottom:3px solid var(--gold);
- padding:14px;
- display:flex;
- align-items:center;
- gap:12px;
 }
+
+@media(min-width:1350px){
 
-.avatar{
- width:44px;
- height:44px;
- min-width:44px;
- border-radius:50%;
- display:flex;
- align-items:center;
- justify-content:center;
- color:#020610;
- background:linear-gradient(135deg,#fff0b5,#e4b638);
- font-size:18px;
- font-weight:1000;
- border:2px solid white;
- box-shadow:0 3px 10px rgba(0,0,0,0.5);
+.products{
+grid-template-columns:repeat(5,minmax(0,1fr));
 }
 
-.driver-name{
- color:white;
- font-size:12px;
- font-weight:1000;
- overflow-wrap:anywhere;
 }
 
-.online{
- display:flex;
- align-items:center;
- gap:6px;
- color:#c8d8ef;
- font-size:9px;
- margin-top:4px;
+@media(min-width:1650px){
+
+.products{
+grid-template-columns:repeat(6,minmax(0,1fr));
 }
 
-.online-dot{
- width:8px;
- height:8px;
- border-radius:50%;
- background:#8792a5;
- display:inline-block;
 }
 
-.online-dot.active{
- background:#00ff85;
- box-shadow:0 0 10px #00ff85;
-}
+@media(max-width:500px){
 
-.driver-info{
- padding:14px;
- font-size:10px;
- line-height:1.9;
- color:#c8d8ef;
-}
+.header{
+gap:7px;
+}
 
-.driver-info b{
- color:var(--gold2);
+.logo-container{
+width:38px;
+height:38px;
+flex-basis:38px;
 }
 
-.driver-phone{
- display:block;
- color:var(--gold2);
- font-size:13px;
- font-weight:1000;
- padding:0 14px 10px;
- overflow-wrap:anywhere;
+.nav-icons{
+gap:6px;
 }
 
-.driver-actions{
- display:grid;
- grid-template-columns:repeat(2,minmax(0,1fr));
- gap:8px;
- padding:0 12px 14px;
+.nav-item{
+min-width:32px;
+font-size:8px;
 }
 
-.driver-action{
- padding:10px 6px;
- border-radius:9px;
- border:1px solid transparent;
- color:white;
- text-decoration:none;
- text-align:center;
- font-size:10px;
- font-weight:1000;
- transition:.2s;
+.nav-item>span:first-child{
+font-size:15px;
 }
 
-.driver-action:hover{
- filter:brightness(1.1);
+#searchBar{
+height:38px;
+padding:0 11px;
+font-size:11px;
 }
 
-.action-call{
- background:linear-gradient(135deg,#347ac5,#0b2854);
- border-color:#6797cf;
+.card{
+padding:8px;
 }
 
-.action-message{
- background:linear-gradient(135deg,#e9c45d,#bd8619);
- color:#020610;
- border-color:#ffe28a;
-}
-
-.action-whatsapp{
- background:linear-gradient(135deg,#00a968,#007747);
- border-color:#4ce9a9;
+.card img,
+.card video,
+.doc-box,
+.product-no-image{
+height:140px;
 }
 
-.driver-actions .full{
- grid-column:1/-1;
-}
-
-/* MESSAGERIE */
-.chat-modal{
- position:fixed;
- inset:0;
- z-index:1000;
- background:rgba(2,6,16,0.88);
- backdrop-filter:blur(8px);
- display:none;
- align-items:center;
- justify-content:center;
- padding:12px;
+.card h3{
+font-size:11px;
 }
 
-.chat-window{
- width:100%;
- max-width:580px;
- height:min(780px,94vh);
- display:flex;
- flex-direction:column;
- overflow:hidden;
- background:#071c3d;
- border:2px solid var(--gold);
- border-radius:18px;
- box-shadow:0 20px 60px rgba(0,0,0,0.9);
+.price{
+font-size:13px;
 }
 
-.chat-header{
- background:linear-gradient(110deg,#041128,#17477f);
- color:white;
- border-bottom:3px solid var(--gold);
- padding:15px;
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:10px;
+.btn{
+padding:8px 5px;
+font-size:10px;
 }
 
-.chat-user{
- display:flex;
- align-items:center;
- gap:12px;
- min-width:0;
+.btn-copy{
+font-size:9px;
 }
 
-.chat-user strong{
- display:block;
- font-size:13px;
- overflow-wrap:anywhere;
-}
-
-.chat-user small{
- display:block;
- color:var(--gold2);
- margin-top:4px;
- font-size:10px;
-}
-
-.chat-close{
- background:var(--red);
- color:white;
- border:0;
- border-radius:9px;
- padding:8px 12px;
- font-weight:1000;
- transition:.2s;
-}
-
-.chat-close:hover{
- filter:brightness(1.15);
-}
-
-.chat-messages{
- flex:1;
- overflow-y:auto;
- padding:15px;
- display:flex;
- flex-direction:column;
- gap:12px;
- background:
-  linear-gradient(rgba(7,28,61,0.96),rgba(7,28,61,0.96)),
-  repeating-linear-gradient(45deg,#0c2b58 0 2px,transparent 2px 8px);
-}
-
-.message{
- max-width:85%;
- padding:11px 14px;
- border-radius:14px;
- font-size:12px;
- line-height:1.6;
- overflow-wrap:anywhere;
- box-shadow:0 3px 8px rgba(0,0,0,0.35);
-}
-
-.message.mine{
- align-self:flex-end;
- background:linear-gradient(135deg,#17477f,#0c2b58);
- border:1px solid #347ac5;
- color:white;
- border-bottom-right-radius:4px;
-}
-
-.message.theirs{
- align-self:flex-start;
- background:#020610;
- border:1px solid var(--border);
- color:white;
- border-bottom-left-radius:4px;
-}
-
-.message small{
- display:block;
- color:var(--muted);
- font-size:9px;
- margin-top:6px;
- text-align:right;
-}
-
-.message audio{
- width:100%;
- max-width:250px;
- margin-top:6px;
-}
-
-.message img{
- width:100%;
- max-width:220px;
- border-radius:10px;
- margin-top:6px;
- display:block;
- border:1px solid var(--border);
-}
-
-.chat-compose{
- background:#041128;
- border-top:1px solid var(--border);
- padding:12px;
- display:flex;
- align-items:center;
- gap:8px;
-}
-
-.chat-input{
- min-width:0;
- flex:1;
- padding:12px 16px;
- border:1px solid var(--border);
- border-radius:28px;
- background:#020610;
- color:white;
- outline:none;
- font-size:12px;
-}
-
-.icon-button{
- width:42px;
- height:42px;
- min-width:42px;
- border:0;
- border-radius:50%;
- color:white;
- background:linear-gradient(135deg,#347ac5,#0b2854);
- font-size:16px;
- display:flex;
- align-items:center;
- justify-content:center;
- box-shadow:0 3px 12px rgba(0,0,0,0.4);
- transition:.2s;
-}
-
-.icon-button:hover{
- transform:scale(1.05);
-}
-
-.icon-button.recording{
- background:var(--red);
- box-shadow:0 0 0 6px rgba(229,46,80,0.35);
- animation:pulseRec 1.2s infinite;
-}
-
-@keyframes pulseRec{
- 0%{transform:scale(1);}
- 50%{transform:scale(1.1); filter:brightness(1.2);}
- 100%{transform:scale(1);}
-}
-
-.send-button{
- background:linear-gradient(135deg,#00a968,#007747);
- color:white;
- border:0;
- border-radius:28px;
- padding:12px 18px;
- font-weight:1000;
- font-size:11px;
- box-shadow:0 3px 12px rgba(0,169,104,0.35);
- transition:.2s;
-}
-
-.send-button:hover{
- filter:brightness(1.15);
-}
-
-/* APPEL AUDIO AVEC CONTRÔLES COMPLETS */
-.call-modal{
- position:fixed;
- inset:0;
- z-index:1200;
- background:rgba(2,6,16,0.94);
- backdrop-filter:blur(9px);
- display:none;
- align-items:center;
- justify-content:center;
- padding:15px;
-}
-
-.call-box{
- width:100%;
- max-width:410px;
- padding:32px;
- text-align:center;
- background:linear-gradient(145deg,#071c3d,#020610);
- border:2px solid var(--gold);
- border-radius:24px;
- box-shadow:0 20px 60px rgba(0,0,0,0.95);
- color:white;
-}
-
-.call-avatar{
- width:100px;
- height:100px;
- margin:0 auto 20px;
- display:flex;
- align-items:center;
- justify-content:center;
- border-radius:50%;
- color:#020610;
- background:linear-gradient(135deg,#fff0b5,#e4b638);
- border:4px solid white;
- box-shadow:0 0 0 10px rgba(228,182,56,0.25),0 0 35px rgba(228,182,56,0.5);
- font-size:40px;
-}
-
-.call-box h3{
- font-size:19px;
- margin-bottom:8px;
- text-shadow:0 2px 5px rgba(0,0,0,0.6);
-}
-
-.call-status{
- color:var(--gold2);
- font-size:12px;
- line-height:1.7;
- min-height:45px;
- font-weight:bold;
- text-shadow:0 1px 3px rgba(0,0,0,0.8);
-}
-
-.call-actions{
- display:flex;
- justify-content:center;
- gap:16px;
- margin-top:28px;
- flex-wrap:wrap;
-}
-
-.call-button{
- width:60px;
- height:60px;
- border:0;
- border-radius:50%;
- color:white;
- font-size:22px;
- box-shadow:0 6px 18px rgba(0,0,0,0.5);
- display:flex;
- align-items:center;
- justify-content:center;
- transition:.2s ease;
-}
-
-.call-button:hover{
- transform:scale(1.1);
- filter:brightness(1.15);
-}
-
-.accept-call{ background:linear-gradient(135deg,#00a968,#00834f); }
-.reject-call{ background:linear-gradient(135deg,#f45c77,#a31530); }
-.mute-call{ background:linear-gradient(135deg,#347ac5,#0b2854); }
-.pause-call{ background:linear-gradient(135deg,#e9c45d,#bd8619); color:#020610; }
-
-.call-audio{
- display:none;
-}
-
-.empty{
- padding:28px;
- text-align:center;
- border:1px dashed var(--border);
- background:#020610;
- border-radius:12px;
- color:var(--muted);
- font-size:12px;
- line-height:1.8;
-}
-
-footer{
- text-align:center;
- padding:24px;
- color:white;
- background:linear-gradient(110deg,#020610,#0c2b58,#020610);
- border-top:4px solid var(--gold);
- font-size:10px;
- font-weight:1000;
- letter-spacing:.5px;
-}
-
-footer span{
- color:var(--gold2);
-}
-
-@media(max-width:900px){
- .directory-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
-}
-
-@media(max-width:650px){
- .header-inner{ padding:10px; gap:8px; }
- .logo-frame{ width:64px; height:64px; min-width:64px; padding:4px; }
- .brand{ gap:10px; }
- .brand-title{ font-size:12px; }
- .brand-sub{ display:none; }
- .header-actions{ gap:4px; }
- .header-actions .btn{ padding:8px; font-size:9px; }
- .auth-status{ display:none; }
- main{ padding:12px 10px; }
- .hero{ padding:20px; }
- .hero h1{ font-size:22px; }
- .hero p{ font-size:11px; }
- .hero-icon{ font-size:40px; }
- .stats{ gap:10px; }
- .stat{ padding:14px; }
- .stat strong{ font-size:26px; }
- .directory-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
- .panel{ padding:14px; }
- .panel-head{ margin:-14px -14px 14px; padding:14px; }
- .panel-head h2{ font-size:12px; }
- .driver-head{ padding:10px; gap:8px; }
- .avatar{ width:36px; height:36px; min-width:36px; font-size:16px; }
- .driver-name{ font-size:10px; }
- .driver-phone{ font-size:11px; padding:0 10px 10px; }
- .driver-info{ padding:10px; font-size:9px; }
- .driver-actions{ padding:0 8px 10px; gap:6px; }
- .driver-action{ font-size:9px; padding:9px 4px; }
-}
-
-@media(max-width:380px){
- .directory-grid{ grid-template-columns:1fr; }
- .brand-title{ font-size:10px; }
- .logo-frame{ width:52px; height:52px; min-width:52px; }
- .hero-icon{ display:none; }
-}
-
-button:disabled{
- opacity:.5;
- cursor:not-allowed;
-}
-
-@media(prefers-reduced-motion:reduce){
- *{
-  scroll-behavior:auto!important;
-  transition:none!important;
-  animation:none!important;
- }
 }
+
 </style>
 </head>
 
 <body>
 
-<header>
- <div class="header-inner">
+<header class="header">
 
-  <div class="brand">
-   <div class="logo-frame">
-    <img class="logo"
-     src="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png"
-     alt="DAKPRO ÉLITE">
-   </div>
-   <div>
-    <div class="brand-title">DAKPRO ÉLITE LIVRE</div>
-    <div class="brand-sub">RÉSEAU INTERNATIONAL DE LIVRAISON</div>
-   </div>
-  </div>
+<div class="logo-container notranslate" id="logoButton">
 
-  <div class="header-actions">
-   <span class="auth-status" id="authStatus">Vérification...</span>
+<img
+class="logo"
+id="appLogo"
+src="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png"
+alt="Logo DAKPRO ÉLITE">
 
-   <button class="btn btn-gold" id="accountBtn">
-    👤 Mon Compte
-   </button>
+<span
+class="fallback-logo"
+id="fallbackLogo"
+style="display:none">
+DP
+</span>
 
-   <button class="btn btn-gold" id="installBtn" style="display:none">📲 Installer</button>
-   <button class="btn btn-red" id="logoutBtn" style="display:none">Déconnexion</button>
-  </div>
+</div>
 
- </div>
+<div class="search-container">
+
+<input
+type="search"
+id="searchBar"
+autocomplete="off"
+placeholder="Rechercher un produit...">
+
+</div>
+
+<div class="nav-icons">
+
+<a href="panier.html" class="nav-item">
+
+<span>🛒</span>
+
+<span id="cartCountBadge" class="cart-badge">0</span>
+
+<span>Panier</span>
+
+</a>
+
+<a href="redirect.html" class="nav-item">
+
+<span>👤</span>
+
+<span>Compte</span>
+
+</a>
+
+</div>
+
 </header>
 
-<main>
+<div id="btnInstall">
+Installer l'application sur l'appareil
+</div>
 
- <section class="hero">
-  <div>
-   <div class="eyebrow">RÉSEAU NATIONAL ET INTERNATIONAL</div>
-   <h1>DAKPRO ÉLITE LIVRE</h1>
-   <p>
-    Plateforme de communication et de coordination logistique avancée.
-    Retrouvez les livreurs, discutez en messagerie, partagez des messages vocaux, envoyez des photos et communiquez par appel audio sécurisé.
-   </p>
-  </div>
-  <div class="hero-icon">🚚</div>
- </section>
+<div id="google_translate_element"></div>
 
- <div class="notice">
-  🔐 <b>ESPACE DE COMMUNICATION DAKPRO :</b>
-  Les échanges, messages vocaux, photos, localisations GPS et appels sont gérés de manière sécurisée et confidentielle. Les données de plus de <b>6 jours</b> sont automatiquement nettoyées.
- </div>
+<!-- =====================================================
+     ADMINISTRATION
+===================================================== -->
 
- <section class="stats">
-  <div class="stat">
-   <span>📦 Nombre total de commandes</span>
-   <strong id="totalOrders">—</strong>
-  </div>
-  <div class="stat">
-   <span>🛵 Livreurs enregistrés</span>
-   <strong id="totalDrivers">—</strong>
-  </div>
- </section>
+<section
+id="adminProtectedSection"
+class="admin-protected-section">
 
- <section class="panel">
-  <div class="panel-head">
-   <div>
-    <h2>🌍 ANNUAIRE INTERNATIONAL DES LIVREURS</h2>
-    <p>Retrouvez les livreurs et contactez-les directement.</p>
-   </div>
-   <span class="count" id="directoryCount">Chargement...</span>
-  </div>
+<h3>🔒 Administration DAKPRO ÉLITE</h3>
 
-  <input
-   id="driverSearch"
-   class="search"
-   type="search"
-   placeholder="🔎 Rechercher par pays, commune, ville, département ou numéro..."
-  >
+<div class="admin-grid">
 
-  <div id="driverDirectory" class="directory-grid">
-   <div class="empty">Chargement des livreurs...</div>
-  </div>
- </section>
+<div class="admin-box">
+
+<h4>📦 Publier un produit</h4>
+
+<input
+id="adminProductName"
+type="text"
+placeholder="Nom du produit (ex: Sardines)">
+
+<textarea
+id="adminProductDescription"
+placeholder="Description détaillée du produit"></textarea>
+
+<input
+id="adminProductCategory"
+type="text"
+placeholder="Catégorie">
+
+<div class="admin-row">
+
+<input
+id="adminProductPrice"
+type="number"
+placeholder="Prix normal"
+min="0"
+step="any">
+
+<input
+id="adminProductPromoPrice"
+type="number"
+placeholder="Prix promo"
+min="0"
+step="any">
+
+</div>
+
+<select id="adminProductCurrency">
+
+<option value="FCFA">
+Franc CFA (FCFA)
+</option>
+
+<option value="EUR">
+Euro (€)
+</option>
+
+<option value="USD">
+Dollar ($)
+</option>
+
+<option value="DZD">
+Dinar Algérien (DZD)
+</option>
+
+<option value="TND">
+Dinar Tunisien (TND)
+</option>
+
+<option value="KWD">
+Dinar Koweïtien (KWD)
+</option>
+
+</select>
+
+<label
+style="
+font-size:11px;
+color:var(--gold);
+display:block;
+margin-bottom:4px;
+">
+Date & Heure de publication :
+</label>
+
+<input
+id="adminProductPublishTime"
+type="datetime-local">
+
+<input
+id="adminProductImage"
+type="url"
+placeholder="URL de l'image">
+
+<input
+id="adminProductVideo"
+type="url"
+placeholder="URL de la vidéo">
+
+<input
+id="adminProductDocument"
+type="url"
+placeholder="URL du document (PDF, Doc...)">
+
+<div class="preview-container">
+
+<h5>
+👁️ Aperçu avant publication
+</h5>
+
+<div
+class="preview-card-wrapper"
+id="adminPreviewBox">
+
+<div
+style="
+font-size:11px;
+color:#666;
+text-align:center;
+">
+Remplissez les champs pour voir l'aperçu.
+</div>
+
+</div>
+
+</div>
+
+<button
+class="admin-btn"
+id="adminAddProduct"
+style="margin-top:10px;">
+
+Publier le produit
+
+</button>
+
+</div>
+
+<div class="admin-box">
+
+<h4>
+📢 Faya Buzz / Annonce officielle
+</h4>
+
+<input
+id="adminAnnouncementTitle"
+type="text"
+placeholder="Titre de l'annonce">
+
+<textarea
+id="adminAnnouncementText"
+placeholder="Texte de l'annonce">
+</textarea>
+
+<button
+class="admin-btn"
+id="adminSaveAnnouncement">
+
+Publier / modifier l'annonce
+
+</button>
+
+<button
+class="admin-btn admin-btn-danger"
+id="adminDeleteAnnouncement"
+style="margin-top:6px">
+
+Supprimer l'annonce
+
+</button>
+
+</div>
+
+<div class="admin-box">
+
+<h4>
+🖼️ Publier une bannière
+</h4>
+
+<input
+id="adminBannerTitle"
+type="text"
+placeholder="Titre">
+
+<input
+id="adminBannerDescription"
+type="text"
+placeholder="Description">
+
+<input
+id="adminBannerImage"
+type="url"
+placeholder="URL de l'image">
+
+<input
+id="adminBannerLink"
+type="url"
+placeholder="Lien de destination">
+
+<button
+class="admin-btn"
+id="adminAddBanner">
+
+Publier la bannière
+
+</button>
+
+</div>
+
+<div class="admin-box">
+
+<h4>
+📜 Règlement intérieur
+</h4>
+
+<textarea
+id="adminRules"
+placeholder="Contenu du règlement intérieur">
+</textarea>
+
+<button
+class="admin-btn"
+id="adminSaveRules">
+
+Publier le règlement
+
+</button>
+
+</div>
+
+<div class="admin-box">
+
+<h4>
+🔐 Politique de confidentialité
+</h4>
+
+<textarea
+id="adminPrivacy"
+placeholder="Contenu de la politique de confidentialité">
+</textarea>
+
+<button
+class="admin-btn"
+id="adminSavePrivacy">
+
+Publier la politique
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     BANNIÈRES
+===================================================== -->
+
+<section
+class="banner-container"
+id="bannerContainer">
+
+<div
+class="banner-track"
+id="bannerTrack">
+</div>
+
+<div
+class="banner-dots"
+id="bannerDots">
+</div>
+
+</section>
+
+<!-- =====================================================
+     CATÉGORIES
+===================================================== -->
+
+<nav
+class="cat-scroll"
+id="catMenu">
+</nav>
+
+<!-- =====================================================
+     PRODUITS
+===================================================== -->
+
+<main
+class="products"
+id="products">
+
+<div class="loading-message">
+Chargement des produits...
+</div>
 
 </main>
 
-<!-- MESSAGERIE INTERNE -->
-<div class="chat-modal" id="chatModal">
- <div class="chat-window">
-  <div class="chat-header">
-   <div class="chat-user">
-    <div class="avatar" id="chatAvatar">🛵</div>
-    <div>
-     <strong id="chatDriverName">Livreur</strong>
-     <small id="chatDriverStatus">Messagerie privée DAKPRO</small>
-    </div>
-   </div>
-   <button class="chat-close" id="closeChat">✕</button>
-  </div>
+<!-- =====================================================
+     DAKBOT
+===================================================== -->
 
-  <div class="chat-messages" id="chatMessages">
-   <div class="empty">Chargement des messages...</div>
-  </div>
+<div
+class="btn-ia"
+id="draggableBtn">
 
-  <div class="chat-compose">
-   <button class="icon-button" id="recordButton" title="Enregistrer un message vocal">🎙️</button>
-   <button class="icon-button" id="imageButton" title="Envoyer une photo (Galerie ou Caméra)">🖼️</button>
-   <button class="icon-button" id="locationButton" title="Partager ma position GPS en temps réel">📍</button>
-   <input type="file" id="imageInput" accept="image/*" style="display:none">
+🤖 DAKBOT
 
-   <input id="chatInput" class="chat-input" type="text" maxlength="2000" placeholder="Écrire un message...">
-   <button class="send-button" id="sendMessage">Envoyer</button>
-  </div>
- </div>
 </div>
 
-<!-- APPEL AUDIO AVEC CONTRÔLES COMPLETS -->
-<div class="call-modal" id="callModal">
- <div class="call-box">
-  <div class="call-avatar">🛵</div>
-  <h3 id="callName">Appel DAKPRO</h3>
-  <div class="call-status" id="callStatus">Préparation de l'appel...</div>
-  
-  <div class="call-actions" id="activeCallActions">
-   <button class="call-button mute-call" id="muteButton" title="Couper le micro (Sourdine)">🎙️</button>
-   <button class="call-button pause-call" id="pauseButton" title="Mettre en pause l'appel">⏸️</button>
-   <button class="call-button reject-call" id="endCallButton" title="Terminer l'appel">☎</button>
-  </div>
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
-  <div class="call-actions" id="incomingActions" style="display:none">
-   <button class="call-button accept-call" id="acceptCallButton" title="Accepter l'appel">☎</button>
-   <button class="call-button reject-call" id="rejectCallButton" title="Refuser l'appel">✕</button>
-  </div>
+<footer class="app-footer">
 
-  <audio id="remoteAudio" class="call-audio" autoplay playsinline></audio>
- </div>
+<section class="footer-announcement">
+
+<h4 id="fayaBuzzTitle">
+⚡ Annonce Officielle
+</h4>
+
+<p id="fayaBuzzText">
+Bienvenue sur DAKPRO ÉLITE, votre plateforme de référence !
+</p>
+
+</section>
+
+<div class="footer-links-grid">
+
+<div class="footer-column">
+
+<h5>
+Navigation & Aide
+</h5>
+
+<ul>
+
+<li>
+<a href="support-rapide.html">
+Support Rapide
+</a>
+</li>
+
+<li>
+<a href="aide.html">
+Centre d'aide général
+</a>
+</li>
+
+<li>
+<a href="redirect.html">
+Mon Compte
+</a>
+</li>
+
+</ul>
+
 </div>
 
-<footer>
- © <span id="year"></span> DAKPRO ÉLITE LIVRE — COMMUNICATION ET LOGISTIQUE INTERNATIONALE.
+<div class="footer-column">
+
+<h5>
+Règles & Légal
+</h5>
+
+<ul>
+
+<li>
+<a href="reglement-interieur.html">
+Règlement Intérieur
+</a>
+</li>
+
+<li>
+<a href="politique-confidentialite.html">
+Politique de Confidentialité
+</a>
+</li>
+
+</ul>
+
+</div>
+
+<div class="footer-column">
+
+<h5>
+Gagner de l'argent
+</h5>
+
+<ul>
+
+<li>
+<a href="programme-ambassadeur.html">
+Programme Ambassadeur
+</a>
+</li>
+
+<li>
+<a href="redirect.html">
+Devenir Vendeur
+</a>
+</li>
+
+</ul>
+
+</div>
+
+<div class="footer-column">
+
+<h5>
+Sécurité & Service
+</h5>
+
+<ul>
+
+<li>
+<a href="paiement-securise.html">
+Paiement Sécurisé
+</a>
+</li>
+
+<li>
+<a href="support-rapide.html">
+Contacter l'assistance
+</a>
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+<div class="footer-lang-selector-section">
+
+<label for="worldLangSelector">
+🌐 Choisir votre langue
+</label>
+
+<select id="worldLangSelector">
+
+<option value="fr">🇫🇷 Français</option>
+<option value="en">🇬🇧 English</option>
+<option value="es">🇪🇸 Español</option>
+<option value="de">🇩🇪 Deutsch</option>
+<option value="it">🇮🇹 Italiano</option>
+<option value="pt">🇵🇹 Português</option>
+<option value="zh-CN">🇨🇳 中文</option>
+<option value="hi">🇮🇳 हिन्दी</option>
+<option value="ar">🇸🇦 العربية</option>
+<option value="ja">🇯🇵 日本語</option>
+<option value="ko">🇰🇷 한국어</option>
+<option value="ru">🇷🇺 Русский</option>
+<option value="nl">🇳🇱 Nederlands</option>
+<option value="tr">🇹🇷 Türkçe</option>
+<option value="vi">🇻🇳 Tiếng Việt</option>
+<option value="pl">🇵🇱 Polski</option>
+<option value="uk">🇺🇦 Українська</option>
+<option value="id">🇮🇩 Bahasa Indonesia</option>
+<option value="sw">🇹🇿 Kiswahili</option>
+<option value="yo">🇳🇬 Yorùbá</option>
+
+</select>
+
+</div>
+
+<div class="footer-bottom-bar">
+
+© 2026 DAKPRO ÉLITE / DAKPRO NEXUS.
+Tous droits réservés.
+
+</div>
+
 </footer>
+
+<!-- =====================================================
+     GOOGLE TRANSLATE
+===================================================== -->
+
+<script>
+
+function googleTranslateElementInit(){
+
+new google.translate.TranslateElement({
+
+pageLanguage:"fr",
+autoDisplay:false
+
+},"google_translate_element");
+
+}
+
+function triggerGoogleTranslate(langCode){
+
+var select=
+document.querySelector(".goog-te-combo");
+
+if(select){
+
+select.value=langCode;
+
+select.dispatchEvent(
+new Event("change")
+);
+
+}
+
+}
+
+document.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+const selector=
+document.getElementById(
+"worldLangSelector"
+);
+
+if(selector){
+
+selector.addEventListener(
+"change",
+e=>{
+
+const selectedLang=
+e.target.value;
+
+localStorage.setItem(
+"dakpro_lang",
+selectedLang
+);
+
+triggerGoogleTranslate(
+selectedLang
+);
+
+}
+);
+
+const savedLang=
+localStorage.getItem(
+"dakpro_lang"
+);
+
+if(savedLang){
+
+selector.value=savedLang;
+
+setTimeout(
+()=>{
+triggerGoogleTranslate(
+savedLang
+);
+},
+1000
+);
+
+}
+
+}
+
+}
+);
+
+</script>
+
+<script
+type="text/javascript"
+src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+</script>
+
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
 
 <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getDatabase, ref, onValue, onChildAdded, push, set, update, remove, onDisconnect } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import {
+initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 
-const firebaseConfig = {
- apiKey:"AIzaSyDR7INHKaazaqZt-xIcjk10JFiy58uXKO8",
- authDomain:"dakproelite.firebaseapp.com",
- databaseURL:"https://dakproelite-default-rtdb.firebaseio.com",
- projectId:"dakproelite",
- storageBucket:"dakproelite.firebasestorage.app",
- messagingSenderId:"580591769206",
- appId:"1:580591769206:web:859724d4b2dbf904087157"
+import {
+getDatabase,
+ref,
+onValue,
+push,
+set,
+remove
+}
+from
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+import {
+getAuth,
+onAuthStateChanged
+}
+from
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+
+/* =====================================================
+   CONFIGURATION FIREBASE
+===================================================== */
+
+const firebaseConfig={
+
+apiKey:
+"AIzaSyDR7INHKaazaqZt-xIcjk10JFiy58uXKO8",
+
+authDomain:
+"dakproelite.firebaseapp.com",
+
+databaseURL:
+"https://dakproelite-default-rtdb.firebaseio.com",
+
+projectId:
+"dakproelite",
+
+storageBucket:
+"dakproelite.firebasestorage.app",
+
+messagingSenderId:
+"580591769206",
+
+appId:
+"1:580591769206:web:4f67f8aadbf3d051087157"
+
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const auth = getAuth(app);
 
-const CLOUDINARY_CLOUD_NAME = "dq7m8s2e7"; 
-const CLOUDINARY_UPLOAD_PRESET = "dakpro_unsigned"; 
+/* =====================================================
+   INITIALISATION
+===================================================== */
 
-let currentUser = null;
-let drivers = [];
-let presence = {};
+const app=
+initializeApp(firebaseConfig);
 
-let selectedDriver = null;
-let activeConversation = null;
-let messageUnsubscribe = null;
+const db=
+getDatabase(app);
 
-let mediaRecorder = null;
-let audioChunks = [];
-let recording = false;
+const auth=
+getAuth(app);
 
-let peerConnection = null;
-let localStream = null;
-let activeCall = null;
-let incomingCall = null;
-let incomingUnsubscribe = null;
-let callListeners = [];
+window.dakproFirebase={
+app,
+db,
+auth
+};
 
-let muted = false;
-let paused = false;
 
-const $ = id => document.getElementById(id);
+/* =====================================================
+   VARIABLES
+===================================================== */
 
-function esc(value){
- return String(value ?? "").replace(/[&<>"']/g, c => ({
-  "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
- }[c]));
+window.allProductsData=[];
+
+let currentCat="Tous";
+
+let currentIndex=0;
+
+let totalSlides=0;
+
+let autoPlay=null;
+
+let currentUser=null;
+
+let currentUserIsAdmin=false;
+
+
+/* =====================================================
+   UTILITAIRES
+===================================================== */
+
+function escapeHTML(value){
+
+return String(value??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
 }
 
-function norm(value){
- return String(value ?? "").toLocaleLowerCase("fr").normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
+function escapeAttribute(value){
+
+return escapeHTML(value);
+
 }
 
-function cleanPhone(value){
- return String(value ?? "").replace(/[^\d]/g,"");
+
+/* =====================================================
+   AUTHENTIFICATION
+===================================================== */
+
+onAuthStateChanged(
+auth,
+user=>{
+
+currentUser=user||null;
+
+updateCartCounter();
+
+if(user){
+
+checkAdmin(user);
+
+}else{
+
+currentUserIsAdmin=false;
+
+document
+.getElementById(
+"adminProtectedSection"
+)
+.style.display="none";
+
 }
 
-function makeConversationId(uid1, uid2){
- return [uid1, uid2].sort().join("_");
 }
+);
 
-function formatTime(timestamp){
- if(!timestamp) return "";
- return new Date(timestamp).toLocaleTimeString("fr-FR",{ hour:"2-digit", minute:"2-digit" });
+
+/* =====================================================
+   ADMIN
+===================================================== */
+
+async function checkAdmin(user){
+
+try{
+
+let admin=false;
+
+const adminSnap=
+await new Promise(resolve=>{
+
+onValue(
+ref(
+db,
+"admins/"+user.uid
+),
+snapshot=>resolve(snapshot),
+{
+onlyOnce:true
 }
+);
 
-/* NETTOYAGE AUTOMATIQUE DES MESSAGES DE + DE 6 JOURS */
-function cleanOldMessages(conversationId){
- const messagesRef = ref(db, `message client/${conversationId}/messages`);
- onValue(messagesRef, snapshot => {
-  if(!snapshot.exists()) return;
-  const now = Date.now();
-  const SIX_DAYS_MS = 6 * 24 * 60 * 60 * 1000;
-  snapshot.forEach(childSnap => {
-   const msg = childSnap.val();
-   if(msg && msg.createdAt && (now - msg.createdAt > SIX_DAYS_MS)){
-    remove(ref(db, `message client/${conversationId}/messages/${childSnap.key}`));
-   }
-  });
- }, { onlyOnce: true });
-}
-
-onAuthStateChanged(auth, async user => {
- currentUser = user || null;
- $("authStatus").textContent = user ? (user.email || "Connecté") : "Non connecté";
- $("logoutBtn").style.display = user ? "inline-flex" : "none";
-
- const accountBtn = $("accountBtn");
- if(user){
-  accountBtn.textContent = "👤 Mon Compte";
-  accountBtn.onclick = () => {
-   alert("Vous êtes connecté en tant que : " + (user.email || "Utilisateur"));
-  };
- } else {
-  accountBtn.textContent = "📝 S'inscrire / Connexion";
-  accountBtn.onclick = () => {
-   location.href = "inscription.html";
-  };
- }
-
- if(incomingUnsubscribe){
-  incomingUnsubscribe();
-  incomingUnsubscribe = null;
- }
-
- if(user){
-  startPresence(user);
-  listenIncomingCalls(user);
- }else{
-  if(activeCall) await endCall(false);
-  $("authStatus").textContent = "Non connecté";
- }
- renderDrivers();
 });
 
-$("logoutBtn").onclick = async () => {
- try{
-  if(activeCall) await endCall(true);
-  await signOut(auth);
-  location.href = "connexion.html";
- }catch(error){
-  console.error(error);
-  alert("Impossible de se déconnecter.");
- }
-};
+if(adminSnap.exists()===true){
 
-async function startPresence(user){
- const presenceRef = ref(db, "presence/" + user.uid);
- try{
-  await onDisconnect(presenceRef).remove();
-  await set(presenceRef, { online: true, lastSeen: Date.now() });
- }catch(error){
-  console.error("Erreur de connexion :", error);
- }
+const value=
+adminSnap.val();
+
+if(
+value===true||
+value==="true"||
+value==="admin"
+){
+
+admin=true;
+
 }
 
-onValue(ref(db, "presence"), snapshot => {
- presence = snapshot.exists() ? snapshot.val() : {};
- renderDrivers();
+}
+
+const paths=[
+"utilisateurs/"+user.uid+"/role",
+"users/"+user.uid+"/role"
+];
+
+for(
+const path of paths
+){
+
+const snap=
+await new Promise(resolve=>{
+
+onValue(
+ref(db,path),
+snapshot=>resolve(snapshot),
+{
+onlyOnce:true
+}
+);
+
 });
 
-function loadOrderCount(){
- onValue(ref(db, "commandes"), snapshot => {
-  let total = 0;
-  if(snapshot.exists()){
-   const root = snapshot.val();
-   Object.values(root).forEach(group => {
-    if(!group || typeof group !== "object") return;
-    total += Object.keys(group).length;
-   });
-  }
-  $("totalOrders").textContent = total;
- }, () => { $("totalOrders").textContent = "—"; });
+if(
+snap.val()==="admin"||
+snap.val()==="ADMIN"||
+snap.val()===true
+){
+
+admin=true;
+
 }
 
-function loadDrivers(){
- onValue(ref(db, "livreurs"), snapshot => {
-  drivers = [];
-  if(snapshot.exists()){
-   const raw = snapshot.val();
-   Object.entries(raw).forEach(([uid, v]) => {
-    if(!v || typeof v !== "object") return;
-    drivers.push({
-     uid,
-     name: v.nomComplet || v.name || [v.nom, v.prenom].filter(Boolean).join(" ") || "Livreur Partenaire",
-     phone: v.telephone || v.phone || v.whatsapp || "",
-     country: v.pays || v.country || "",
-     dept: v.departement || v.region || "",
-     commune: v.commune || v.city || v.ville || "",
-     district: v.quartier || v.district || "",
-     status: v.disponibilite || v.status || "Disponible"
-    });
-   });
-  }
-  $("totalDrivers").textContent = drivers.length;
-  $("directoryCount").textContent = drivers.length + " livreur(s)";
-  renderDrivers();
- }, () => {
-  $("driverDirectory").innerHTML = '<div class="empty">Impossible de charger les livreurs pour le moment.</div>';
- });
 }
 
-function renderDrivers(){
- if(!$("driverDirectory")) return;
- const query = norm($("driverSearch").value);
- const filtered = drivers.filter(d => {
-  const text = norm([d.country, d.dept, d.commune, d.district, d.phone].join(" "));
-  return !query || text.includes(query);
- });
+currentUserIsAdmin=admin;
 
- if(!filtered.length){
-  $("driverDirectory").innerHTML = '<div class="empty">Aucun livreur correspondant à cette recherche.</div>';
-  return;
- }
+document
+.getElementById(
+"adminProtectedSection"
+)
+.style.display=
+admin?"block":"none";
 
- $("driverDirectory").innerHTML = filtered.map(d => {
-  const phone = cleanPhone(d.phone);
-  const isOnline = !!presence[d.uid]?.online;
+}catch(error){
 
-  let geoDetails = [];
-  if(d.country) geoDetails.push(`🌍 <b>Pays :</b> ${esc(d.country)}`);
-  if(d.dept) geoDetails.push(`📂 <b>Département :</b> ${esc(d.dept)}`);
-  if(d.commune) geoDetails.push(`🏙️ <b>Commune / Ville :</b> ${esc(d.commune)}`);
-  if(d.district) geoDetails.push(`📍 <b>Quartier :</b> ${esc(d.district)}`);
-  geoDetails.push(`⚙️ <b>Statut :</b> ${esc(d.status)}`);
+console.error(
+"Erreur vérification administrateur:",
+error
+);
 
-  const message = encodeURIComponent("Bonjour, je vous contacte depuis DAKPRO ÉLITE LIVRE.");
-
-  return `
-   <article class="driver-card">
-    <div class="driver-head">
-     <div class="avatar">🛵</div>
-     <div>
-      <div class="driver-name">Livreur Partenaire</div>
-      <div class="online">
-       <span class="online-dot ${isOnline ? "active" : ""}"></span>
-       ${isOnline ? "En ligne" : "Hors ligne"}
-      </div>
-     </div>
-    </div>
-    <div class="driver-info">
-     ${geoDetails.join("<br>")}
-    </div>
-    <div class="driver-phone">☎ ${esc(d.phone || "Numéro masqué")}</div>
-    <div class="driver-actions">
-     <button class="driver-action action-call" data-call="${esc(d.uid)}" ${!currentUser || currentUser.uid === d.uid || !isOnline ? "disabled" : ""}>🎧 Appeler</button>
-     <button class="driver-action action-message" data-message="${esc(d.uid)}" ${!currentUser || currentUser.uid === d.uid ? "disabled" : ""}>💬 Message</button>
-     ${phone.length >= 8 ? `<a class="driver-action action-whatsapp full" target="_blank" rel="noopener noreferrer" href="https://wa.me/${phone}?text=${message}">WhatsApp ↗</a>` : `<div class="driver-action full" style="background:#1c3f75;color:#a4b5d6">WhatsApp indisponible</div>`}
-    </div>
-   </article>
-  `;
- }).join("");
 }
 
-$("driverDirectory").addEventListener("click", async e => {
- const messageButton = e.target.closest("[data-message]");
- if(messageButton){
-  if(!currentUser){ alert("Veuillez vous inscrire ou vous connecter."); location.href = "inscription.html"; return; }
-  const driver = drivers.find(d => d.uid === messageButton.dataset.message);
-  if(driver) openChat(driver);
-  return;
- }
- const callButton = e.target.closest("[data-call]");
- if(callButton){
-  if(!currentUser){ alert("Veuillez vous inscrire ou vous connecter."); location.href = "inscription.html"; return; }
-  const driver = drivers.find(d => d.uid === callButton.dataset.call);
-  if(driver) await startAudioCall(driver);
- }
+}
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+document
+.getElementById("logoButton")
+?.addEventListener(
+"click",
+()=>{
+
+window.location.href=
+"index.html";
+
+}
+);
+
+
+const appLogo=
+document.getElementById(
+"appLogo"
+);
+
+const fallbackLogo=
+document.getElementById(
+"fallbackLogo"
+);
+
+appLogo?.addEventListener(
+"error",
+()=>{
+
+appLogo.style.display="none";
+
+if(fallbackLogo){
+
+fallbackLogo.style.display="block";
+
+}
+
+}
+);
+
+
+/* =====================================================
+   PANIER
+===================================================== */
+
+function updateCartCounter(){
+
+const badge=
+document.getElementById(
+"cartCountBadge"
+);
+
+if(!badge)return;
+
+try{
+
+const cart=
+JSON.parse(
+localStorage.getItem(
+"dakpro_panier"
+)
+)||[];
+
+const total=
+cart.reduce(
+(sum,item)=>
+sum+
+(Number(item.quantite)||1),
+0
+);
+
+if(total>0){
+
+badge.textContent=
+total>99?"99+":total;
+
+badge.style.display="flex";
+
+}else{
+
+badge.style.display="none";
+
+}
+
+}catch{
+
+badge.style.display="none";
+
+}
+
+}
+
+updateCartCounter();
+
+window.addEventListener(
+"storage",
+updateCartCounter
+);
+
+
+/* =====================================================
+   PRODUITS FIREBASE
+   SOURCE UNIQUE : publications
+===================================================== */
+
+function loadProducts(){
+
+onValue(
+
+ref(
+db,
+"publications"
+),
+
+snapshot=>{
+
+const data=
+snapshot.val();
+
+
+/*
+   IMPORTANT :
+
+   On efface toujours les anciens produits
+   avant de traiter les nouvelles données.
+
+   Ainsi, si Firebase ne contient aucun produit,
+   aucun produit local ou ancien ne reste affiché.
+*/
+
+window.allProductsData=[];
+
+
+/* =====================================================
+   AUCUN PRODUIT
+===================================================== */
+
+if(
+!data ||
+typeof data!=="object"
+){
+
+buildCategories();
+
+renderProducts([]);
+
+return;
+
+}
+
+
+/* =====================================================
+   LECTURE DES PRODUITS
+===================================================== */
+
+window.allProductsData=
+Object
+.entries(data)
+.map(
+([id,product])=>{
+
+if(
+!product ||
+typeof product!=="object"
+){
+
+return null;
+
+}
+
+return{
+id,
+...product
+};
+
+}
+)
+.filter(product=>{
+
+if(!product)return false;
+
+
+/*
+   Un produit doit obligatoirement
+   avoir un nom.
+*/
+
+const name=
+String(
+product.nom||
+product.title||
+product.name||
+""
+).trim();
+
+if(!name)return false;
+
+
+/*
+   Si actif est explicitement false,
+   le produit ne s'affiche pas.
+*/
+
+if(product.actif===false){
+
+return false;
+
+}
+
+return true;
+
 });
 
-$("driverSearch").addEventListener("input", renderDrivers);
 
-function openChat(driver){
- if(!currentUser) return;
- if(driver.uid === currentUser.uid){ alert("Action impossible avec votre propre profil."); return; }
+/* =====================================================
+   CATÉGORIES + AFFICHAGE
+===================================================== */
 
- selectedDriver = driver;
- activeConversation = makeConversationId(currentUser.uid, driver.uid);
+buildCategories();
 
- cleanOldMessages(activeConversation);
+filterProducts();
 
- $("chatDriverName").textContent = "Livreur Partenaire";
- $("chatAvatar").textContent = "🛵";
- $("chatDriverStatus").textContent = presence[driver.uid]?.online ? "🟢 En ligne" : "Messagerie DAKPRO";
- $("chatMessages").innerHTML = '<div class="empty">Chargement des messages...</div>';
- $("chatModal").style.display = "flex";
- listenMessages();
+},
+
+error=>{
+
+console.error(
+"Erreur Firebase publications:",
+error
+);
+
+window.allProductsData=[];
+
+buildCategories();
+
+document
+.getElementById("products")
+.innerHTML=`
+
+<div class="empty-message error-message">
+
+Impossible de charger les produits depuis Firebase.
+
+</div>
+
+`;
+
 }
 
-function listenMessages(){
- if(!activeConversation) return;
- if(messageUnsubscribe){ messageUnsubscribe(); messageUnsubscribe = null; }
+);
 
- const messagesRef = ref(db, `message client/${activeConversation}/messages`);
- messageUnsubscribe = onValue(messagesRef, snapshot => {
-  const messages = snapshot.exists() ? Object.entries(snapshot.val()).map(([id, m]) => ({ ...m, id })) : [];
-  messages.sort((a, b) => Number(a.createdAt || 0) - Number(b.createdAt || 0));
-
-  if(!messages.length){
-   $("chatMessages").innerHTML = '<div class="empty">Aucun message. Commencez la conversation.</div>';
-   return;
-  }
-
-  $("chatMessages").innerHTML = messages.map(m => {
-   const mine = m.uid === currentUser.uid;
-   let content = "";
-   if(m.type === "audio" && m.audioUrl){
-    content = `<div>🎙️ Message vocal</div><audio controls preload="none" src="${esc(m.audioUrl)}"></audio>`;
-   }else if(m.type === "image" && m.imageUrl){
-    content = `<div>🖼️ Photo partagée</div><a href="${esc(m.imageUrl)}" target="_blank"><img src="${esc(m.imageUrl)}" alt="Photo"></a>`;
-   }else if(m.type === "location" && m.lat && m.lng){
-    content = `<div>📍 Position GPS</div><p style="margin-top:4px;font-size:11px;">Latitude: ${m.lat}<br>Longitude: ${m.lng}</p><a style="display:inline-block;margin-top:6px;color:var(--gold2);font-weight:bold;text-decoration:underline;" target="_blank" href="https://www.google.com/maps?q=${m.lat},${m.lng}">Ouvrir sur Google Maps ↗</a>`;
-   }else{
-    content = esc(m.text || "");
-   }
-
-   return `
-    <div class="message ${mine ? "mine" : "theirs"}">
-     ${content}
-     <small>${mine ? "Vous" : "Partenaire"} · ${formatTime(m.createdAt)}</small>
-    </div>
-   `;
-  }).join("");
-
-  $("chatMessages").scrollTop = $("chatMessages").scrollHeight;
- });
 }
 
-async function sendTextMessage(){
- if(!currentUser || !activeConversation || !selectedDriver) return;
- const input = $("chatInput");
- const text = input.value.trim();
- if(!text) return;
 
- const messageRef = push(ref(db, `message client/${activeConversation}/messages`));
- try{
-  await set(messageRef, {
-   uid: currentUser.uid,
-   name: currentUser.displayName || "Utilisateur",
-   type: "text",
-   text,
-   createdAt: Date.now()
-  });
-  input.value = "";
- }catch(error){
-  console.error(error);
-  alert("Erreur lors de l'envoi du message.");
- }
+/* =====================================================
+   CATÉGORIES
+===================================================== */
+
+function buildCategories(){
+
+const categories=[
+
+"Tous",
+
+...new Set(
+
+window.allProductsData
+
+.map(
+p=>
+p.categorie||
+p.category
+)
+
+.filter(Boolean)
+
+)
+
+];
+
+const menu=
+document.getElementById(
+"catMenu"
+);
+
+if(!menu)return;
+
+menu.innerHTML=
+categories
+.map(category=>{
+
+const safe=
+escapeHTML(category);
+
+return`
+
+<button
+type="button"
+class="cat-btn ${
+category===currentCat
+?"active"
+:""
+}"
+data-category="${safe}">
+
+${safe}
+
+</button>
+
+`;
+
+})
+.join("");
+
+
+menu
+.querySelectorAll(".cat-btn")
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+()=>{
+
+currentCat=
+button.dataset.category;
+
+menu
+.querySelectorAll(
+".cat-btn"
+)
+.forEach(item=>
+item.classList.remove(
+"active"
+)
+);
+
+button.classList.add(
+"active"
+);
+
+filterProducts();
+
 }
+);
 
-$("sendMessage").onclick = sendTextMessage;
-$("chatInput").addEventListener("keydown", e => { if(e.key === "Enter") sendTextMessage(); });
-
-function closeChat(){
- $("chatModal").style.display = "none";
- if(messageUnsubscribe){ messageUnsubscribe(); messageUnsubscribe = null; }
- selectedDriver = null;
- activeConversation = null;
- stopRecording();
-}
-
-$("closeChat").onclick = closeChat;
-$("chatModal").addEventListener("click", e => { if(e.target === $("chatModal")) closeChat(); });
-
-/* GESTION ENREGISTREMENT VOCAL */
-async function startRecording(){
- if(!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder){
-  alert("L'enregistrement vocal n'est pas pris en charge.");
-  return;
- }
- try{
-  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  audioChunks = [];
-  mediaRecorder = new MediaRecorder(stream);
-  mediaRecorder.ondataavailable = e => { if(e.data.size > 0) audioChunks.push(e.data); };
-  mediaRecorder.onstop = async () => {
-   stream.getTracks().forEach(t => t.stop());
-   const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || "audio/webm" });
-   await uploadMediaToCloudinary(blob, "audio");
-  };
-  mediaRecorder.start();
-  recording = true;
-  $("recordButton").classList.add("recording");
-  $("recordButton").textContent = "⏹️";
- }catch(error){
-  console.error(error);
-  alert("Veuillez autoriser l'accès au microphone.");
- }
-}
-
-function stopRecording(){
- if(mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop();
- recording = false;
- $("recordButton").classList.remove("recording");
- $("recordButton").textContent = "🎙️";
-}
-
-$("recordButton").onclick = async () => {
- if(!currentUser){ alert("Veuillez vous inscrire ou vous connecter."); location.href = "inscription.html"; return; }
- if(!selectedDriver || !activeConversation) return;
- if(!recording) await startRecording(); else stopRecording();
-};
-
-/* GESTION ENVOI PHOTO (GALERIE OU CAMÉRA) */
-$("imageButton").onclick = () => {
- if(!currentUser){ alert("Veuillez vous inscrire ou vous connecter."); location.href = "inscription.html"; return; }
- if(!selectedDriver || !activeConversation) return;
- $("imageInput").click();
-};
-
-$("imageInput").onchange = async e => {
- const file = e.target.files?.[0];
- if(!file) return;
- await uploadMediaToCloudinary(file, "image");
- $("imageInput").value = "";
-};
-
-async function uploadMediaToCloudinary(fileBlob, type){
- if(!currentUser || !activeConversation) return;
- const messageRef = push(ref(db, `message client/${activeConversation}/messages`));
- 
- const formData = new FormData();
- formData.append("file", fileBlob);
- formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
-
- try{
-  const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/upload`, {
-   method: "POST",
-   body: formData
-  });
-  const data = await response.json();
-  if(!data.secure_url) throw new Error("Échec Cloudinary");
-
-  const payload = {
-   uid: currentUser.uid,
-   name: currentUser.displayName || "Utilisateur",
-   type: type,
-   createdAt: Date.now()
-  };
-
-  if(type === "audio") payload.audioUrl = data.secure_url;
-  if(type === "image") payload.imageUrl = data.secure_url;
-
-  await set(messageRef, payload);
- }catch(error){
-  console.error(error);
-  alert("Impossible d'envoyer le fichier multimédia.");
- }
-}
-
-/* PARTAGE GPS EN TEMPS RÉEL */
-$("locationButton").onclick = () => {
- if(!currentUser){ alert("Veuillez vous inscrire ou vous connecter."); location.href = "inscription.html"; return; }
- if(!selectedDriver || !activeConversation) return;
-
- if(!navigator.geolocation){
-  alert("La géolocalisation n'est pas supportée par votre navigateur.");
-  return;
- }
-
- navigator.geolocation.getCurrentPosition(async position => {
-  const lat = position.coords.latitude;
-  const lng = position.coords.longitude;
-  
-  const messageRef = push(ref(db, `message client/${activeConversation}/messages`));
-  try{
-   await set(messageRef, {
-    uid: currentUser.uid,
-    name: currentUser.displayName || "Utilisateur",
-    type: "location",
-    lat,
-    lng,
-    createdAt: Date.now()
-   });
-  }catch(err){
-   console.error(err);
-   alert("Impossible d'envoyer la position GPS.");
-  }
- }, () => {
-  alert("Impossible de récupérer votre position GPS. Veuillez vérifier vos autorisations.");
- }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
-};
-
-const rtcConfig = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }, { urls: "stun:stun1.l.google.com:19302" }] };
-
-function listenFor(refPath, event, callback){
- const listener = event(ref(db, refPath), callback);
- callListeners.push(listener);
- return listener;
-}
-
-function clearCallListeners(){
- callListeners.forEach(unsub => { if(typeof unsub === "function") unsub(); });
- callListeners = [];
-}
-
-function openCallInterface(name, status){
- $("callName").textContent = name;
- $("callStatus").textContent = status;
- $("callModal").style.display = "flex";
- $("incomingActions").style.display = "none";
- $("activeCallActions").style.display = "flex";
-}
-
-async function startAudioCall(driver){
- if(!currentUser) return;
- if(!navigator.mediaDevices?.getUserMedia){ alert("Appels audio non supportés."); return; }
- if(activeCall){ alert("Appel déjà en cours."); return; }
- if(!presence[driver.uid]?.online){ alert("Ce partenaire est hors ligne."); return; }
-
- try{
-  openCallInterface("Livreur Partenaire", "Préparation de l'appel...");
-  localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-  peerConnection = new RTCPeerConnection(rtcConfig);
-
-  localStream.getTracks().forEach(t => peerConnection.addTrack(t, localStream));
-  peerConnection.ontrack = e => { $("remoteAudio").srcObject = e.streams[0]; $("callStatus").textContent = "🟢 Appel connecté"; };
-
-  const callRef = push(ref(db, `message client/appels/${driver.uid}`));
-  const callId = callRef.key;
-
-  activeCall = { id: callId, peerUid: driver.uid, role: "caller", path: `message client/appels/${driver.uid}/${callId}` };
-
-  peerConnection.onicecandidate = e => {
-   if(e.candidate) push(ref(db, `${activeCall.path}/callerCandidates`)).then(refC => set(refC, e.candidate.toJSON()));
-  };
-
-  const offer = await peerConnection.createOffer();
-  await peerConnection.setLocalDescription(offer);
-
-  await set(callRef, {
-   callerUid: currentUser.uid,
-   callerName: currentUser.displayName || "Utilisateur DAKPRO",
-   calleeUid: driver.uid,
-   status: "ringing",
-   offer: { type: offer.type, sdp: offer.sdp },
-   createdAt: Date.now()
-  });
-
-  $("callStatus").textContent = "📞 Appel envoyé. En attente...";
-
-  listenFor(`${activeCall.path}/answer`, onValue, async snap => {
-   if(!snap.exists() || !peerConnection) return;
-   try{
-    if(!peerConnection.currentRemoteDescription) await peerConnection.setRemoteDescription(new RTCSessionDescription(snap.val()));
-   }catch(err){ console.error(err); }
-  });
-
-  listenFor(`${activeCall.path}/calleeCandidates`, onChildAdded, snap => {
-   if(snap.exists() && peerConnection) peerConnection.addIceCandidate(new RTCIceCandidate(snap.val())).catch(console.error);
-  });
-
-  listenFor(`${activeCall.path}/status`, onValue, snap => {
-   const st = snap.val();
-   if(st === "rejected"){ $("callStatus").textContent = "Appel refusé."; setTimeout(() => endCall(false), 1200); }
-   if(st === "ended"){ $("callStatus").textContent = "Appel terminé."; setTimeout(() => endCall(false), 1200); }
-  });
-
- }catch(err){
-  console.error(err);
-  await endCall(false);
-  alert("Impossible de lancer l'appel.");
- }
-}
-
-function listenIncomingCalls(user){
- const callsRef = ref(db, `message client/appels/${user.uid}`);
- incomingUnsubscribe = onValue(callsRef, snapshot => {
-  if(!snapshot.exists()) return;
-  const calls = snapshot.val();
-  for(const [id, call] of Object.entries(calls)){
-   if(!call || call.status !== "ringing" || call.callerUid === user.uid || activeCall || incomingCall?.id === id) continue;
-   incomingCall = { id, data: call, path: `message client/appels/${user.uid}/${id}` };
-   showIncomingCall();
-   break;
-  }
- });
-}
-
-function showIncomingCall(){
- if(!incomingCall) return;
- $("callName").textContent = "Appel DAKPRO";
- $("callStatus").textContent = "📞 Appel audio DAKPRO entrant...";
- $("callModal").style.display = "flex";
- $("incomingActions").style.display = "flex";
- $("activeCallActions").style.display = "none";
-}
-
-async function acceptIncomingCall(){
- if(!incomingCall || !currentUser) return;
- try{
-  const incoming = incomingCall;
-  openCallInterface("Livreur Partenaire", "Connexion audio...");
-  $("incomingActions").style.display = "none";
-  $("activeCallActions").style.display = "flex";
-
-  localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-  peerConnection = new RTCPeerConnection(rtcConfig);
-
-  localStream.getTracks().forEach(t => peerConnection.addTrack(t, localStream));
-  peerConnection.ontrack = e => { $("remoteAudio").srcObject = e.streams[0]; $("callStatus").textContent = "🟢 Appel connecté"; };
-
-  activeCall = { id: incoming.id, peerUid: incoming.data.callerUid, role: "callee", path: incoming.path };
-  incomingCall = null;
-
-  peerConnection.onicecandidate = e => {
-   if(e.candidate) push(ref(db, `${activeCall.path}/calleeCandidates`)).then(refC => set(refC, e.candidate.toJSON()));
-  };
-
-  await peerConnection.setRemoteDescription(new RTCSessionDescription(incoming.data.offer));
-  const answer = await peerConnection.createAnswer();
-  await peerConnection.setLocalDescription(answer);
-
-  await set(ref(db, `${activeCall.path}/answer`), { type: answer.type, sdp: answer.sdp });
-  await update(ref(db, activeCall.path), { status: "active" });
-
-  listenFor(`${activeCall.path}/callerCandidates`, onChildAdded, snap => {
-   if(snap.exists() && peerConnection) peerConnection.addIceCandidate(new RTCIceCandidate(snap.val())).catch(console.error);
-  });
- }catch(err){
-  console.error(err);
-  await endCall(true);
-  alert("Impossible de répondre.");
- }
-}
-
-$("acceptCallButton").onclick = acceptIncomingCall;
-$("rejectCallButton").onclick = async () => {
- if(!incomingCall) return;
- try{ await update(ref(db, `${incomingCall.path}`), { status: "rejected" }); }catch(e){console.error(e);}
- incomingCall = null;
- $("callModal").style.display = "none";
-};
-
-$("muteButton").onclick = () => {
- if(!localStream) return;
- muted = !muted;
- localStream.getAudioTracks().forEach(t => { t.enabled = !muted; });
- $("muteButton").textContent = muted ? "🔇" : "🎙️";
- $("muteButton").style.borderColor = muted ? "var(--red)" : "transparent";
-};
-
-$("pauseButton").onclick = () => {
- if(!localStream && !peerConnection) return;
- paused = !paused;
- if(localStream){
-  localStream.getAudioTracks().forEach(t => { t.enabled = !paused; });
- }
- $("pauseButton").textContent = paused ? "▶️" : "⏸️";
- $("callStatus").textContent = paused ? "⏸️ Appel en pause" : "🟢 Appel connecté";
-};
-
-async function endCall(updateRemote = true){
- const call = activeCall;
- activeCall = null;
- clearCallListeners();
-
- if(peerConnection){
-  peerConnection.ontrack = null;
-  peerConnection.onicecandidate = null;
-  peerConnection.close();
-  peerConnection = null;
- }
- if(localStream){
-  localStream.getTracks().forEach(t => t.stop());
-  localStream = null;
- }
- $("remoteAudio").srcObject = null;
- muted = false;
- paused = false;
- $("muteButton").textContent = "🎙️";
- $("pauseButton").textContent = "⏸️";
- $("callModal").style.display = "none";
-
- if(call && updateRemote){
-  try{ await update(ref(db, call.path), { status: "ended" }); }catch(e){console.error(e);}
- }
-}
-
-$("endCallButton").onclick = () => endCall(true);
-
-$("year").textContent = new Date().getFullYear();
-loadOrderCount();
-loadDrivers();
-
-let deferredInstallPrompt = null;
-window.addEventListener("beforeinstallprompt", e => {
- e.preventDefault();
- deferredInstallPrompt = e;
- $("installBtn").style.display = "inline-flex";
 });
 
-$("installBtn").onclick = async () => {
- if(!deferredInstallPrompt) return;
- deferredInstallPrompt.prompt();
- const result = await deferredInstallPrompt.userChoice;
- if(result.outcome === "accepted") $("installBtn").style.display = "none";
- deferredInstallPrompt = null;
+}
+
+
+/* =====================================================
+   RECHERCHE
+===================================================== */
+
+document
+.getElementById(
+"searchBar"
+)
+?.addEventListener(
+"input",
+filterProducts
+);
+
+
+function getFilteredProducts(){
+
+const search=
+(
+document
+.getElementById(
+"searchBar"
+)
+?.value||""
+)
+.toLowerCase()
+.trim();
+
+return window.allProductsData
+.filter(product=>{
+
+const name=
+String(
+product.nom||
+product.title||
+product.name||
+""
+)
+.toLowerCase();
+
+const description=
+String(
+product.description||""
+)
+.toLowerCase();
+
+const category=
+String(
+product.categorie||
+product.category||
+""
+)
+.toLowerCase();
+
+const productCategory=
+product.categorie||
+product.category||
+"";
+
+const categoryOK=
+currentCat==="Tous"||
+productCategory===currentCat;
+
+return(
+categoryOK&&
+(
+name.includes(search)||
+description.includes(search)||
+category.includes(search)
+)
+);
+
+});
+
+}
+
+
+function filterProducts(){
+
+renderProducts(
+getFilteredProducts()
+);
+
+}
+
+
+/* =====================================================
+   CARTE PRODUIT
+===================================================== */
+
+function generateCardHTML(
+product,
+uid
+){
+
+const id=
+encodeURIComponent(
+product.id||""
+);
+
+
+/*
+   Lien vers la fiche produit
+*/
+
+const productURL=
+`produit.html?pid=${id}`;
+
+
+/*
+   Lien affiliation absolu.
+*/
+
+const affiliateURL=
+new URL(
+`produit.html?pid=${id}`,
+window.location.href
+).href+
+`&ref=${encodeURIComponent(uid||"")}`;
+
+
+/* =====================================================
+   DONNÉES
+===================================================== */
+
+const image=
+product.image||
+product.imageUrl||
+product.photo||
+"";
+
+const video=
+product.video||
+product.videoUrl||
+"";
+
+const documentUrl=
+product.document||
+product.documentUrl||
+"";
+
+
+const safeName=
+escapeHTML(
+product.nom||
+product.title||
+product.name||
+"Produit"
+);
+
+
+/* =====================================================
+   PRIX NORMAL
+===================================================== */
+
+const priceVal=
+product.prix!==undefined
+?
+product.prix
+:
+(
+product.price!==undefined
+?
+product.price
+:
+0
+);
+
+
+/* =====================================================
+   PRIX PROMOTIONNEL
+===================================================== */
+
+const promoVal=
+product.prixPromo!==undefined
+?
+product.prixPromo
+:
+product.promoPrice;
+
+
+/*
+   La promotion existe seulement
+   si une valeur réelle est enregistrée.
+*/
+
+const hasPromo=
+promoVal!==undefined&&
+promoVal!==null&&
+String(promoVal).trim()!=="";
+
+
+const displayPrice=
+hasPromo
+?
+escapeHTML(promoVal)
+:
+escapeHTML(priceVal);
+
+
+const oldPriceHTML=
+hasPromo
+?
+`
+<span class="price-old">
+${escapeHTML(priceVal)}
+${escapeHTML(
+product.devise||
+product.currency||
+"FCFA"
+)}
+</span>
+`
+:
+"";
+
+
+const currencySymbol=
+escapeHTML(
+product.devise||
+product.currency||
+"FCFA"
+);
+
+
+/* =====================================================
+   MÉDIA
+===================================================== */
+
+const isVideo=
+Boolean(video)||
+/\.(mp4|webm|ogg)(\?|$)/i.test(
+image
+);
+
+const mediaSrc=
+video||image;
+
+let mediaHTML="";
+
+
+/* VIDÉO */
+
+if(isVideo && mediaSrc){
+
+mediaHTML=`
+
+<video
+src="${escapeAttribute(mediaSrc)}"
+controls
+preload="metadata"
+onclick="event.stopPropagation()">
+
+Votre navigateur ne prend pas en charge
+la vidéo.
+
+</video>
+
+`;
+
+}
+
+
+/* DOCUMENT */
+
+else if(documentUrl){
+
+mediaHTML=`
+
+<a
+href="${escapeAttribute(documentUrl)}"
+target="_blank"
+rel="noopener noreferrer"
+class="doc-box"
+onclick="event.stopPropagation()">
+
+<span>📄</span>
+
+<p>
+Consulter le document
+</p>
+
+</a>
+
+`;
+
+}
+
+
+/* IMAGE */
+
+else if(image){
+
+mediaHTML=`
+
+<img
+src="${escapeAttribute(image)}"
+alt="${safeName}"
+loading="lazy"
+onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+
+<div
+class="product-no-image"
+style="display:none">
+
+<strong>📦</strong>
+
+<span>
+Image indisponible
+</span>
+
+</div>
+
+`;
+
+}
+
+
+/* AUCUN MÉDIA */
+
+else{
+
+mediaHTML=`
+
+<div class="product-no-image">
+
+<strong>📦</strong>
+
+<span>
+Aucune image disponible
+</span>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+   CARTE
+===================================================== */
+
+return`
+
+<article
+class="card"
+data-product-id="${escapeAttribute(product.id||"")}">
+
+${
+product.boost
+?
+`
+<span class="badge-boost">
+BOOST
+</span>
+`
+:
+""
+}
+
+<div>
+
+${mediaHTML}
+
+<h3>
+${safeName}
+</h3>
+
+<p class="price">
+
+${displayPrice}
+
+${currencySymbol}
+
+${oldPriceHTML}
+
+</p>
+
+</div>
+
+<div>
+
+<button
+type="button"
+class="btn product-view-btn"
+data-url="${escapeAttribute(productURL)}">
+
+Voir
+
+</button>
+
+
+<div class="affiliate-box">
+
+<input
+type="text"
+class="affiliate-input"
+value="${escapeAttribute(affiliateURL)}"
+readonly>
+
+<button
+type="button"
+class="btn-copy"
+data-affiliate="${escapeAttribute(affiliateURL)}">
+
+🔗 Copier le lien d'affiliation
+
+</button>
+
+</div>
+
+</div>
+
+</article>
+
+`;
+
+}
+
+
+/* =====================================================
+   AFFICHAGE PRODUITS
+===================================================== */
+
+function renderProducts(list){
+
+const container=
+document.getElementById(
+"products"
+);
+
+if(!container)return;
+
+
+/*
+   IMPORTANT :
+
+   Si Firebase ne renvoie aucun produit,
+   on affiche seulement "Aucun produit trouvé".
+*/
+
+if(
+!Array.isArray(list)||
+list.length===0
+){
+
+container.innerHTML=`
+
+<div class="empty-message">
+
+Aucun produit disponible pour le moment.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+const uid=
+currentUser?.uid||"";
+
+
+container.innerHTML=
+list
+.map(
+product=>
+generateCardHTML(
+product,
+uid
+)
+)
+.join("");
+
+
+/* =====================================================
+   BOUTON VOIR
+===================================================== */
+
+container
+.querySelectorAll(
+".product-view-btn"
+)
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+event=>{
+
+event.stopPropagation();
+
+window.location.href=
+button.dataset.url;
+
+}
+);
+
+});
+
+
+/* =====================================================
+   CLIC SUR LA CARTE
+===================================================== */
+
+container
+.querySelectorAll(
+".card"
+)
+.forEach(card=>{
+
+card.addEventListener(
+"click",
+event=>{
+
+if(
+event.target.closest(
+".affiliate-box"
+)||
+event.target.closest(
+".product-view-btn"
+)||
+event.target.closest(
+"video"
+)||
+event.target.closest(
+".doc-box"
+)
+){
+
+return;
+
+}
+
+const id=
+encodeURIComponent(
+card.dataset.productId
+);
+
+window.location.href=
+`produit.html?pid=${id}`;
+
+}
+);
+
+});
+
+
+/* =====================================================
+   COPIE AFFILIATION
+===================================================== */
+
+container
+.querySelectorAll(
+".btn-copy"
+)
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+async event=>{
+
+event.stopPropagation();
+
+const link=
+button.dataset.affiliate;
+
+try{
+
+if(
+navigator.clipboard &&
+window.isSecureContext
+){
+
+await navigator.clipboard.writeText(
+link
+);
+
+}else{
+
+throw new Error(
+"Clipboard indisponible"
+);
+
+}
+
+const oldText=
+button.textContent;
+
+button.textContent=
+"✅ Lien copié !";
+
+setTimeout(
+()=>{
+button.textContent=
+oldText;
+},
+1800
+);
+
+}catch(error){
+
+const input=
+button
+.parentElement
+.querySelector(
+".affiliate-input"
+);
+
+if(input){
+
+input.style.display=
+"block";
+
+input.focus();
+
+input.select();
+
+document.execCommand(
+"copy"
+);
+
+input.style.display=
+"none";
+
+}
+
+const oldText=
+button.textContent;
+
+button.textContent=
+"✅ Lien copié !";
+
+setTimeout(
+()=>{
+button.textContent=
+oldText;
+},
+1800
+);
+
+}
+
+}
+);
+
+});
+
+}
+
+window.renderProducts=
+renderProducts;
+
+window.filtrer=
+filterProducts;
+
+
+/* =====================================================
+   BANNIÈRES
+===================================================== */
+
+function loadBanners(){
+
+onValue(
+
+ref(
+db,
+"bannieres"
+),
+
+snapshot=>{
+
+const data=
+snapshot.val();
+
+const container=
+document.getElementById(
+"bannerContainer"
+);
+
+const track=
+document.getElementById(
+"bannerTrack"
+);
+
+const dots=
+document.getElementById(
+"bannerDots"
+);
+
+if(
+!container||
+!track||
+!dots
+)return;
+
+
+if(
+!data||
+typeof data!=="object"
+){
+
+container.style.display=
+"none";
+
+track.innerHTML="";
+
+dots.innerHTML="";
+
+return;
+
+}
+
+
+const banners=
+Object
+.entries(data)
+.map(
+([id,banner])=>({
+
+id,
+...banner
+
+})
+)
+.filter(
+banner=>
+banner &&
+banner.actif!==false
+);
+
+
+if(
+!banners.length
+){
+
+container.style.display=
+"none";
+
+track.innerHTML="";
+
+dots.innerHTML="";
+
+return;
+
+}
+
+
+totalSlides=
+banners.length;
+
+
+track.innerHTML=
+banners
+.map(
+banner=>{
+
+const image=
+escapeAttribute(
+banner.image||""
+);
+
+const title=
+escapeHTML(
+banner.titre||""
+);
+
+const description=
+escapeHTML(
+banner.description||""
+);
+
+const link=
+escapeAttribute(
+banner.lien||"#"
+);
+
+return`
+
+<div class="banner-slide">
+
+<a
+href="${link}"
+${
+banner.lien
+?
+'target="_blank" rel="noopener noreferrer"'
+:
+""
+}>
+
+<img
+src="${image}"
+alt="${
+title||
+"Publicité"
+}"
+loading="lazy">
+
+<div class="banner-content">
+
+${
+title
+?
+`<h3>${title}</h3>`
+:
+""
+}
+
+${
+description
+?
+`<p>${description}</p>`
+:
+""
+}
+
+</div>
+
+</a>
+
+</div>
+
+`;
+
+}
+)
+.join("");
+
+
+dots.innerHTML=
+banners
+.map(
+(_,index)=>`
+
+<span
+class="dot ${
+index===0
+?
+"active"
+:
+""
+}"
+data-slide="${index}">
+</span>
+
+`
+)
+.join("");
+
+
+dots
+.querySelectorAll(".dot")
+.forEach(dot=>{
+
+dot.addEventListener(
+"click",
+event=>{
+
+event.stopPropagation();
+
+currentIndex=
+Number(
+dot.dataset.slide
+);
+
+updateSlide();
+
+}
+);
+
+});
+
+
+currentIndex=0;
+
+updateSlide();
+
+container.style.display=
+"block";
+
+
+if(autoPlay){
+
+clearInterval(
+autoPlay
+);
+
+}
+
+autoPlay=
+setInterval(
+moveSlide,
+4000
+);
+
+}
+
+);
+
+}
+
+
+function updateSlide(){
+
+const track=
+document.getElementById(
+"bannerTrack"
+);
+
+const dots=
+document.querySelectorAll(
+".dot"
+);
+
+if(!track)return;
+
+track.style.transform=
+`translateX(-${currentIndex*100}%)`;
+
+dots.forEach(
+(dot,index)=>{
+
+dot.classList.toggle(
+"active",
+index===currentIndex
+);
+
+}
+);
+
+}
+
+
+function moveSlide(){
+
+if(totalSlides<=0)return;
+
+currentIndex=
+(
+currentIndex+1
+)
+%
+totalSlides;
+
+updateSlide();
+
+}
+
+
+/* =====================================================
+   FAYA BUZZ
+===================================================== */
+
+function loadAnnouncement(){
+
+onValue(
+
+ref(
+db,
+"annonces/faya_buzz"
+),
+
+snapshot=>{
+
+const data=
+snapshot.val();
+
+const title=
+document.getElementById(
+"fayaBuzzTitle"
+);
+
+const text=
+document.getElementById(
+"fayaBuzzText"
+);
+
+if(!title||!text)return;
+
+
+if(!data){
+
+title.textContent=
+"⚡ Annonce Officielle";
+
+text.textContent=
+"Bienvenue sur DAKPRO ÉLITE, votre plateforme de référence !";
+
+return;
+
+}
+
+
+if(data.actif===false){
+
+title.textContent=
+"⚡ Annonce Officielle";
+
+text.textContent="";
+
+return;
+
+}
+
+
+title.textContent=
+data.titre||
+"⚡ Annonce Officielle";
+
+text.textContent=
+data.texte||
+data.text||
+"Bienvenue sur DAKPRO ÉLITE, votre plateforme de référence !";
+
+}
+
+);
+
+}
+
+
+/* =====================================================
+   ADMIN PREVIEW
+===================================================== */
+
+function updateAdminPreview(){
+
+const box=
+document.getElementById(
+"adminPreviewBox"
+);
+
+if(!box)return;
+
+const nom=
+document.getElementById(
+"adminProductName"
+)?.value.trim();
+
+const prix=
+document.getElementById(
+"adminProductPrice"
+)?.value;
+
+const prixPromo=
+document.getElementById(
+"adminProductPromoPrice"
+)?.value;
+
+const devise=
+document.getElementById(
+"adminProductCurrency"
+)?.value;
+
+const image=
+document.getElementById(
+"adminProductImage"
+)?.value.trim();
+
+const video=
+document.getElementById(
+"adminProductVideo"
+)?.value.trim();
+
+const doc=
+document.getElementById(
+"adminProductDocument"
+)?.value.trim();
+
+
+if(
+!nom&&
+!prix&&
+!image&&
+!video&&
+!doc
+){
+
+box.innerHTML=`
+
+<div
+style="
+font-size:11px;
+color:#666;
+text-align:center;
+">
+
+Remplissez les champs pour voir l'aperçu.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+const mockProduct={
+
+id:"preview",
+
+nom:
+nom||
+"Nom du produit",
+
+prix:
+prix||
+"0",
+
+prixPromo:
+prixPromo,
+
+devise:
+devise||
+"FCFA",
+
+image:
+image,
+
+video:
+video,
+
+document:
+doc,
+
+boost:false
+
 };
 
-window.addEventListener("appinstalled", () => { $("installBtn").style.display = "none"; });
 
-if("serviceWorker" in navigator){
- window.addEventListener("load", () => {
-  navigator.serviceWorker.register("./sw.js").catch(e => console.error(e));
- });
+box.innerHTML=
+generateCardHTML(
+mockProduct,
+currentUser?.uid||""
+);
+
 }
+
+
+[
+"adminProductName",
+"adminProductPrice",
+"adminProductPromoPrice",
+"adminProductCurrency",
+"adminProductImage",
+"adminProductVideo",
+"adminProductDocument"
+]
+.forEach(id=>{
+
+document
+.getElementById(id)
+?.addEventListener(
+"input",
+updateAdminPreview
+);
+
+document
+.getElementById(id)
+?.addEventListener(
+"change",
+updateAdminPreview
+);
+
+});
+
+
+/* =====================================================
+   ADMIN — AJOUT PRODUIT
+===================================================== */
+
+document
+.getElementById(
+"adminAddProduct"
+)
+?.addEventListener(
+"click",
+async()=>{
+
+if(!currentUserIsAdmin){
+
+alert(
+"Accès administrateur requis."
+);
+
+return;
+
+}
+
+
+const nom=
+document
+.getElementById(
+"adminProductName"
+)
+.value.trim();
+
+const description=
+document
+.getElementById(
+"adminProductDescription"
+)
+.value.trim();
+
+const categorie=
+document
+.getElementById(
+"adminProductCategory"
+)
+.value.trim();
+
+const prix=
+document
+.getElementById(
+"adminProductPrice"
+)
+.value;
+
+const prixPromo=
+document
+.getElementById(
+"adminProductPromoPrice"
+)
+.value;
+
+const devise=
+document
+.getElementById(
+"adminProductCurrency"
+)
+.value;
+
+const publishTime=
+document
+.getElementById(
+"adminProductPublishTime"
+)
+.value;
+
+const image=
+document
+.getElementById(
+"adminProductImage"
+)
+.value.trim();
+
+const video=
+document
+.getElementById(
+"adminProductVideo"
+)
+.value.trim();
+
+const documentUrl=
+document
+.getElementById(
+"adminProductDocument"
+)
+.value.trim();
+
+
+if(!nom||!prix){
+
+alert(
+"Veuillez renseigner au moins le nom et le prix."
+);
+
+return;
+
+}
+
+
+try{
+
+const newRef=
+push(
+ref(
+db,
+"publications"
+)
+);
+
+const publishTimestamp=
+publishTime
+?
+new Date(
+publishTime
+).getTime()
+:
+Date.now();
+
+
+await set(
+newRef,
+{
+
+nom,
+
+description,
+
+categorie,
+
+prix:
+Number(prix),
+
+prixPromo:
+prixPromo
+?
+Number(prixPromo)
+:
+null,
+
+devise,
+
+image,
+
+video,
+
+document:
+documentUrl,
+
+actif:
+true,
+
+boost:
+false,
+
+createdAt:
+publishTimestamp,
+
+createdBy:
+currentUser.uid
+
+}
+);
+
+
+alert(
+"Produit publié avec succès dans la base."
+);
+
+
+document
+.getElementById(
+"adminProductName"
+)
+.value="";
+
+document
+.getElementById(
+"adminProductDescription"
+)
+.value="";
+
+document
+.getElementById(
+"adminProductCategory"
+)
+.value="";
+
+document
+.getElementById(
+"adminProductPrice"
+)
+.value="";
+
+document
+.getElementById(
+"adminProductPromoPrice"
+)
+.value="";
+
+document
+.getElementById(
+"adminProductPublishTime"
+)
+.value="";
+
+document
+.getElementById(
+"adminProductImage"
+)
+.value="";
+
+document
+.getElementById(
+"adminProductVideo"
+)
+.value="";
+
+document
+.getElementById(
+"adminProductDocument"
+)
+.value="";
+
+updateAdminPreview();
+
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Impossible de publier le produit."
+);
+
+}
+
+}
+);
+
+
+/* =====================================================
+   ADMIN — FAYA BUZZ
+===================================================== */
+
+document
+.getElementById(
+"adminSaveAnnouncement"
+)
+?.addEventListener(
+"click",
+async()=>{
+
+if(!currentUserIsAdmin){
+
+alert(
+"Accès administrateur requis."
+);
+
+return;
+
+}
+
+
+const titre=
+document
+.getElementById(
+"adminAnnouncementTitle"
+)
+.value.trim();
+
+const texte=
+document
+.getElementById(
+"adminAnnouncementText"
+)
+.value.trim();
+
+
+try{
+
+await set(
+ref(
+db,
+"annonces/faya_buzz"
+),
+{
+
+titre,
+
+texte,
+
+actif:
+true,
+
+updatedAt:
+Date.now(),
+
+updatedBy:
+currentUser.uid
+
+}
+);
+
+
+alert(
+"Faya Buzz a été mis à jour."
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Impossible de publier Faya Buzz."
+);
+
+}
+
+}
+);
+
+
+/* =====================================================
+   ADMIN — SUPPRESSION FAYA BUZZ
+===================================================== */
+
+document
+.getElementById(
+"adminDeleteAnnouncement"
+)
+?.addEventListener(
+"click",
+async()=>{
+
+if(!currentUserIsAdmin){
+
+alert(
+"Accès administrateur requis."
+);
+
+return;
+
+}
+
+
+if(
+!confirm(
+"Voulez-vous supprimer Faya Buzz ?"
+)
+){
+
+return;
+
+}
+
+
+try{
+
+await remove(
+ref(
+db,
+"annonces/faya_buzz"
+)
+);
+
+alert(
+"Annonce supprimée."
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Impossible de supprimer l'annonce."
+);
+
+}
+
+}
+);
+
+
+/* =====================================================
+   ADMIN — BANNIÈRE
+===================================================== */
+
+document
+.getElementById(
+"adminAddBanner"
+)
+?.addEventListener(
+"click",
+async()=>{
+
+if(!currentUserIsAdmin){
+
+alert(
+"Accès administrateur requis."
+);
+
+return;
+
+}
+
+
+const titre=
+document
+.getElementById(
+"adminBannerTitle"
+)
+.value.trim();
+
+const description=
+document
+.getElementById(
+"adminBannerDescription"
+)
+.value.trim();
+
+const image=
+document
+.getElementById(
+"adminBannerImage"
+)
+.value.trim();
+
+const lien=
+document
+.getElementById(
+"adminBannerLink"
+)
+.value.trim();
+
+
+if(!image){
+
+alert(
+"Veuillez renseigner l'URL de l'image."
+);
+
+return;
+
+}
+
+
+try{
+
+const newRef=
+push(
+ref(
+db,
+"bannieres"
+)
+);
+
+
+await set(
+newRef,
+{
+
+titre,
+
+description,
+
+image,
+
+lien,
+
+actif:
+true,
+
+createdAt:
+Date.now(),
+
+createdBy:
+currentUser.uid
+
+}
+);
+
+
+alert(
+"Bannière publiée avec succès."
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Impossible de publier la bannière."
+);
+
+}
+
+}
+);
+
+
+/* =====================================================
+   ADMIN — RÈGLEMENT
+===================================================== */
+
+document
+.getElementById(
+"adminSaveRules"
+)
+?.addEventListener(
+"click",
+async()=>{
+
+if(!currentUserIsAdmin){
+
+alert(
+"Accès administrateur requis."
+);
+
+return;
+
+}
+
+
+const contenu=
+document
+.getElementById(
+"adminRules"
+)
+.value;
+
+
+try{
+
+await set(
+ref(
+db,
+"contenu/reglement"
+),
+{
+
+texte:
+contenu,
+
+updatedAt:
+Date.now(),
+
+updatedBy:
+currentUser.uid
+
+}
+);
+
+
+alert(
+"Règlement publié."
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Erreur lors de la publication."
+);
+
+}
+
+}
+);
+
+
+/* =====================================================
+   ADMIN — CONFIDENTIALITÉ
+===================================================== */
+
+document
+.getElementById(
+"adminSavePrivacy"
+)
+?.addEventListener(
+"click",
+async()=>{
+
+if(!currentUserIsAdmin){
+
+alert(
+"Accès administrateur requis."
+);
+
+return;
+
+}
+
+
+const contenu=
+document
+.getElementById(
+"adminPrivacy"
+)
+.value;
+
+
+try{
+
+await set(
+ref(
+db,
+"contenu/confidentialite"
+),
+{
+
+texte:
+contenu,
+
+updatedAt:
+Date.now(),
+
+updatedBy:
+currentUser.uid
+
+}
+);
+
+
+alert(
+"Politique publiée."
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Erreur lors de la publication."
+);
+
+}
+
+}
+);
+
+
+/* =====================================================
+   INSTALLATION PWA
+===================================================== */
+
+let deferredPrompt=null;
+
+
+window.addEventListener(
+"beforeinstallprompt",
+event=>{
+
+event.preventDefault();
+
+deferredPrompt=
+event;
+
+const button=
+document.getElementById(
+"btnInstall"
+);
+
+if(button){
+
+button.style.display=
+"block";
+
+}
+
+}
+);
+
+
+document
+.getElementById(
+"btnInstall"
+)
+?.addEventListener(
+"click",
+async()=>{
+
+if(!deferredPrompt)return;
+
+deferredPrompt.prompt();
+
+await deferredPrompt.userChoice;
+
+deferredPrompt=null;
+
+document
+.getElementById(
+"btnInstall"
+)
+.style.display="none";
+
+}
+);
+
+
+/* =====================================================
+   DAKBOT — OUVERTURE
+===================================================== */
+
+const dakbotButton=
+document.getElementById(
+"draggableBtn"
+);
+
+
+/* =====================================================
+   DAKBOT — POSITION SAUVEGARDÉE
+===================================================== */
+
+function restoreDakbotPosition(){
+
+if(!dakbotButton)return;
+
+try{
+
+const saved=
+JSON.parse(
+localStorage.getItem(
+"dakpro_dakbot_position"
+)
+);
+
+if(
+!saved||
+typeof saved.left!=="number"||
+typeof saved.top!=="number"
+){
+
+return;
+
+}
+
+
+/*
+   On remet le bouton en position absolue
+   dans la fenêtre.
+*/
+
+const maxLeft=
+window.innerWidth-
+dakbotButton.offsetWidth;
+
+const maxTop=
+window.innerHeight-
+dakbotButton.offsetHeight;
+
+const left=
+Math.max(
+0,
+Math.min(
+saved.left,
+maxLeft
+)
+);
+
+const top=
+Math.max(
+0,
+Math.min(
+saved.top,
+maxTop
+)
+);
+
+dakbotButton.style.left=
+left+"px";
+
+dakbotButton.style.top=
+top+"px";
+
+dakbotButton.style.right=
+"auto";
+
+dakbotButton.style.bottom=
+"auto";
+
+}catch(error){
+
+console.error(
+"Position DAKBOT:",
+error
+);
+
+}
+
+}
+
+
+/* =====================================================
+   DAKBOT — DRAG SUR MOBILE + PC
+===================================================== */
+
+let dakbotDragging=false;
+
+let dakbotMoved=false;
+
+let dakbotPointerId=null;
+
+let dakbotStartX=0;
+
+let dakbotStartY=0;
+
+let dakbotStartLeft=0;
+
+let dakbotStartTop=0;
+
+
+dakbotButton?.addEventListener(
+"pointerdown",
+event=>{
+
+dakbotPointerId=
+event.pointerId;
+
+dakbotDragging=true;
+
+dakbotMoved=false;
+
+dakbotButton.classList.add(
+"dragging"
+);
+
+const rect=
+dakbotButton.getBoundingClientRect();
+
+dakbotStartLeft=
+rect.left;
+
+dakbotStartTop=
+rect.top;
+
+dakbotStartX=
+event.clientX;
+
+dakbotStartY=
+event.clientY;
+
+try{
+
+dakbotButton.setPointerCapture(
+event.pointerId
+);
+
+}catch{}
+
+event.preventDefault();
+
+},
+{
+passive:false
+}
+);
+
+
+dakbotButton?.addEventListener(
+"pointermove",
+event=>{
+
+if(
+!dakbotDragging||
+event.pointerId!==dakbotPointerId
+){
+
+return;
+
+}
+
+
+const deltaX=
+event.clientX-
+dakbotStartX;
+
+const deltaY=
+event.clientY-
+dakbotStartY;
+
+
+if(
+Math.abs(deltaX)>5||
+Math.abs(deltaY)>5
+){
+
+dakbotMoved=true;
+
+}
+
+
+if(!dakbotMoved){
+
+return;
+
+}
+
+
+const maxLeft=
+window.innerWidth-
+dakbotButton.offsetWidth;
+
+const maxTop=
+window.innerHeight-
+dakbotButton.offsetHeight;
+
+
+const newLeft=
+Math.max(
+0,
+Math.min(
+dakbotStartLeft+deltaX,
+maxLeft
+)
+);
+
+const newTop=
+Math.max(
+0,
+Math.min(
+dakbotStartTop+deltaY,
+maxTop
+)
+);
+
+
+dakbotButton.style.left=
+newLeft+"px";
+
+dakbotButton.style.top=
+newTop+"px";
+
+dakbotButton.style.right=
+"auto";
+
+dakbotButton.style.bottom=
+"auto";
+
+
+event.preventDefault();
+
+},
+{
+passive:false
+}
+);
+
+
+function finishDakbotDrag(event){
+
+if(
+event.pointerId!==dakbotPointerId
+){
+
+return;
+
+}
+
+
+dakbotDragging=false;
+
+dakbotButton.classList.remove(
+"dragging"
+);
+
+
+if(dakbotMoved){
+
+const rect=
+dakbotButton.getBoundingClientRect();
+
+localStorage.setItem(
+"dakpro_dakbot_position",
+JSON.stringify({
+
+left:rect.left,
+
+top:rect.top
+
+})
+);
+
+}
+
+
+try{
+
+dakbotButton.releasePointerCapture(
+event.pointerId
+);
+
+}catch{}
+
+}
+
+
+dakbotButton?.addEventListener(
+"pointerup",
+finishDakbotDrag
+);
+
+
+dakbotButton?.addEventListener(
+"pointercancel",
+finishDakbotDrag
+);
+
+
+/* =====================================================
+   DAKBOT — CLIC
+===================================================== */
+
+dakbotButton?.addEventListener(
+"click",
+event=>{
+
+/*
+   Si le doigt a déplacé le bouton,
+   on ne doit PAS ouvrir dakbot.html.
+*/
+
+if(dakbotMoved){
+
+event.preventDefault();
+
+event.stopPropagation();
+
+dakbotMoved=false;
+
+return;
+
+}
+
+
+window.location.href=
+"dakbot.html";
+
+}
+);
+
+
+/* =====================================================
+   RECALCUL POSITION DAKBOT
+===================================================== */
+
+window.addEventListener(
+"resize",
+()=>{
+
+if(!dakbotButton)return;
+
+
+/*
+   Si une position personnalisée existe,
+   on la maintient dans l'écran.
+*/
+
+if(
+dakbotButton.style.left
+){
+
+const rect=
+dakbotButton.getBoundingClientRect();
+
+const maxLeft=
+window.innerWidth-
+dakbotButton.offsetWidth;
+
+const maxTop=
+window.innerHeight-
+dakbotButton.offsetHeight;
+
+const left=
+Math.max(
+0,
+Math.min(
+rect.left,
+maxLeft
+)
+);
+
+const top=
+Math.max(
+0,
+Math.min(
+rect.top,
+maxTop
+)
+);
+
+dakbotButton.style.left=
+left+"px";
+
+dakbotButton.style.top=
+top+"px";
+
+localStorage.setItem(
+"dakpro_dakbot_position",
+JSON.stringify({
+left,
+top
+})
+);
+
+}
+
+}
+);
+
+
+/* =====================================================
+   DÉMARRAGE
+===================================================== */
+
+/*
+   Les trois données viennent directement
+   de Firebase Realtime Database.
+*/
+
+loadProducts();
+
+loadBanners();
+
+loadAnnouncement();
+
+
+/*
+   Restaurer la position du DAKBOT
+   après chargement de la page.
+*/
+
+setTimeout(
+restoreDakbotPosition,
+150
+);
+
 </script>
 
 </body>
