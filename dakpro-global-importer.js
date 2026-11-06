@@ -1,6 +1,9 @@
 // ======================================================
 // DAKPRO ÉLITE GLOBAL IMPORTER PRO
-// Version : Dynamic Images + CJdropshipping + Firebase
+// Version : CJdropshipping + Firebase Realtime Database
+// Images : URL fournisseur uniquement
+// Vidéos : URL fournisseur uniquement
+// Publication : publications/{pushId}
 // Fichier : dakpro-global-importer.js
 // Architecture originale conservée
 // ======================================================
@@ -20,11 +23,11 @@ class DakproCJImporter {
 
         this.currentCurrency = 'FCFA';
 
-        this.currencyRates = {
-            USD: 1,
-            EUR: 0.92,
-            FCFA: 655
-        };
+        this.exchangeRate = 655;
+
+        this.adminId = 'admin_dakpro_id';
+
+        this.database = null;
 
         this.initUI();
     }
@@ -40,9 +43,31 @@ class DakproCJImporter {
             return;
         }
 
+        if (
+            typeof firebase === 'undefined' ||
+            !firebase.database
+        ) {
+
+            console.error(
+                'DAKPRO : Firebase Realtime Database non initialisé.'
+            );
+
+            this.container.innerHTML = `
+                <div style="padding:30px;color:#ef4444">
+                    Firebase Realtime Database non disponible.
+                    Vérifiez le chargement de firebase-config.js.
+                </div>
+            `;
+
+            return;
+        }
+
+        this.database = firebase.database();
+
         this.renderLayout();
 
         this.attachEvents();
+
     }
 
     // ==================================================
@@ -61,10 +86,11 @@ class DakproCJImporter {
                 "'": '&#39;'
             })[character]
         );
+
     }
 
     // ==================================================
-    // EXTRACTION DES IMAGES CJ
+    // EXTRACTION DES URL IMAGES
     // ==================================================
 
     extractImages(item) {
@@ -88,7 +114,10 @@ class DakproCJImporter {
 
         possibleImages.forEach(value => {
 
-            if (typeof value === 'string' && value.trim()) {
+            if (
+                typeof value === 'string' &&
+                /^https?:\/\//i.test(value.trim())
+            ) {
 
                 images.push(value.trim());
 
@@ -116,7 +145,10 @@ class DakproCJImporter {
 
                         images.push(image);
 
-                    } else if (image && typeof image === 'object') {
+                    } else if (
+                        image &&
+                        typeof image === 'object'
+                    ) {
 
                         const url =
                             image.imageUrl ||
@@ -137,10 +169,8 @@ class DakproCJImporter {
         return [...new Set(
 
             images.filter(url =>
-
                 typeof url === 'string' &&
                 /^https?:\/\//i.test(url)
-
             )
 
         )];
@@ -148,7 +178,98 @@ class DakproCJImporter {
     }
 
     // ==================================================
-    // CONSTRUCTION INTERFACE
+    // EXTRACTION VIDÉO FOURNISSEUR
+    // ==================================================
+
+    extractVideo(item) {
+
+        const possibleVideos = [
+
+            item.video,
+            item.videoUrl,
+            item.productVideo,
+            item.productVideoUrl,
+            item.videoURL,
+            item.mainVideo,
+            item.videoLink
+
+        ];
+
+        for (const video of possibleVideos) {
+
+            if (
+                typeof video === 'string' &&
+                /^https?:\/\//i.test(video.trim())
+            ) {
+
+                return video.trim();
+
+            }
+
+        }
+
+        return '';
+
+    }
+
+    // ==================================================
+    // EXTRACTION DES VARIANTES
+    // ==================================================
+
+    extractVariants(item) {
+
+        const variants =
+
+            item.variants ||
+            item.productVariants ||
+            item.variantList ||
+            item.skuList ||
+            [];
+
+        if (!Array.isArray(variants)) {
+            return [];
+        }
+
+        return variants.map(variant => ({
+
+            id: String(
+                variant.vid ||
+                variant.variantId ||
+                variant.id ||
+                ''
+            ),
+
+            sku: String(
+                variant.variantSku ||
+                variant.sku ||
+                ''
+            ),
+
+            nom: String(
+                variant.variantName ||
+                variant.name ||
+                ''
+            ),
+
+            prix: Number(
+                variant.variantSellPrice ||
+                variant.sellPrice ||
+                variant.price ||
+                0
+            ),
+
+            stock: Number(
+                variant.stock ||
+                variant.inventory ||
+                0
+            )
+
+        }));
+
+    }
+
+    // ==================================================
+    // INTERFACE PRINCIPALE
     // ==================================================
 
     renderLayout() {
@@ -163,7 +284,7 @@ class DakproCJImporter {
             color:#F8FAFC;
         ">
 
-        <div style="max-width:1400px;margin:auto;">
+        <div style="max-width:1400px;margin:auto">
 
             <header style="
                 display:flex;
@@ -180,7 +301,7 @@ class DakproCJImporter {
 
                     <h2 style="
                         color:#FBBF24;
-                        font-size:26px;
+                        font-size:25px;
                         font-weight:800;
                         margin:0;
                     ">
@@ -189,7 +310,7 @@ class DakproCJImporter {
 
                         <span style="
                             color:#38BDF8;
-                            font-size:18px;
+                            font-size:17px;
                         ">
                             Global Importer Pro
                         </span>
@@ -200,48 +321,20 @@ class DakproCJImporter {
                         color:#94A3B8;
                         font-size:13px;
                     ">
-                        Importation internationale CJdropshipping
-                        · Images dynamiques · Firebase
+                        CJdropshipping · Importation internationale
+                        · Synchronisation Firebase
                     </p>
 
                 </div>
 
-                <div style="
-                    display:flex;
-                    align-items:center;
-                    gap:12px;
-                    flex-wrap:wrap;
+                <span style="
+                    background:#059669;
+                    padding:10px 15px;
+                    border-radius:8px;
+                    font-weight:bold;
                 ">
-
-                    <label style="color:#38BDF8;">
-                        Devise :
-                    </label>
-
-                    <select id="cj-currency-selector"
-                        style="
-                            background:#111827;
-                            color:white;
-                            padding:10px;
-                            border-radius:8px;
-                        ">
-
-                        <option value="FCFA">FCFA (XOF)</option>
-                        <option value="USD">USD ($)</option>
-                        <option value="EUR">EUR (€)</option>
-
-                    </select>
-
-                    <span style="
-                        background:#059669;
-                        padding:9px 14px;
-                        border-radius:8px;
-                        font-size:12px;
-                        font-weight:bold;
-                    ">
-                        ⚡ IMPORTATEUR ACTIF
-                    </span>
-
-                </div>
+                    ⚡ IMPORTATEUR ACTIF
+                </span>
 
             </header>
 
@@ -250,17 +343,17 @@ class DakproCJImporter {
             <div style="
                 display:flex;
                 gap:12px;
-                margin-bottom:25px;
+                flex-wrap:wrap;
                 background:#111827;
                 padding:16px;
                 border-radius:12px;
-                flex-wrap:wrap;
+                margin-bottom:25px;
             ">
 
                 <input
-                    type="text"
                     id="cj-search-input"
-                    placeholder="Rechercher : watch, phone, shoes, bags..."
+                    type="text"
+                    placeholder="Rechercher un produit : watch, phone, shoes..."
                     style="
                         flex:1;
                         min-width:180px;
@@ -276,7 +369,7 @@ class DakproCJImporter {
                     id="cj-search-btn"
                     style="
                         background:linear-gradient(135deg,#F59E0B,#D97706);
-                        color:#000;
+                        color:black;
                         border:none;
                         padding:14px 25px;
                         border-radius:8px;
@@ -289,16 +382,11 @@ class DakproCJImporter {
 
             </div>
 
-            <!-- COMPTEUR -->
-
             <div id="cj-results-count"
-                style="
-                    margin-bottom:16px;
-                    color:#94A3B8;
-                ">
+                style="margin-bottom:16px;color:#94A3B8">
             </div>
 
-            <!-- PRODUITS -->
+            <!-- GRILLE PRODUITS -->
 
             <div id="cj-products-grid"
                 style="
@@ -310,25 +398,24 @@ class DakproCJImporter {
                 <div style="
                     grid-column:1/-1;
                     text-align:center;
-                    padding:60px;
+                    padding:50px;
                     background:#111827;
                     border-radius:12px;
                     color:#94A3B8;
                 ">
-                    Recherchez un produit pour afficher
-                    le catalogue réel CJdropshipping.
+                    Recherchez un produit pour afficher le catalogue CJdropshipping.
                 </div>
 
             </div>
 
-            <!-- FENÊTRE DÉTAILS -->
+            <!-- MODAL -->
 
             <div id="cj-detail-modal"
                 style="
                     display:none;
                     position:fixed;
                     inset:0;
-                    background:rgba(0,0,0,.88);
+                    background:rgba(0,0,0,.90);
                     z-index:10000;
                     align-items:center;
                     justify-content:center;
@@ -347,7 +434,8 @@ class DakproCJImporter {
                     border:1px solid #374151;
                 ">
 
-                    <button id="cj-close-modal"
+                    <button
+                        id="cj-close-modal"
                         style="
                             position:absolute;
                             right:15px;
@@ -359,7 +447,8 @@ class DakproCJImporter {
                             height:35px;
                             border-radius:50%;
                             cursor:pointer;
-                        ">
+                        "
+                    >
                         ✕
                     </button>
 
@@ -372,7 +461,9 @@ class DakproCJImporter {
         </div>
 
         </div>
+
         `;
+
     }
 
     // ==================================================
@@ -387,23 +478,17 @@ class DakproCJImporter {
         const searchInput =
             document.getElementById('cj-search-input');
 
-        const closeModal =
-            document.getElementById('cj-close-modal');
-
-        const currencySelector =
-            document.getElementById('cj-currency-selector');
-
         searchBtn.addEventListener('click', () => {
 
-            this.currentKeyword = searchInput.value.trim();
+            const keyword = searchInput.value.trim();
 
-            if (this.currentKeyword) {
+            if (!keyword) return;
 
-                this.currentPage = 1;
+            this.currentKeyword = keyword;
 
-                this.searchProducts(this.currentKeyword);
+            this.currentPage = 1;
 
-            }
+            this.searchProducts(keyword);
 
         });
 
@@ -417,25 +502,14 @@ class DakproCJImporter {
 
         });
 
-        closeModal.addEventListener('click', () => {
+        document.getElementById('cj-close-modal')
+            .addEventListener('click', () => {
 
-            document.getElementById(
-                'cj-detail-modal'
-            ).style.display = 'none';
+                document.getElementById(
+                    'cj-detail-modal'
+                ).style.display = 'none';
 
-        });
-
-        currencySelector.addEventListener('change', event => {
-
-            this.currentCurrency = event.target.value;
-
-            if (this.currentKeyword) {
-
-                this.searchProducts(this.currentKeyword);
-
-            }
-
-        });
+            });
 
         document.getElementById('cj-products-grid')
             .addEventListener('click', event => {
@@ -457,30 +531,15 @@ class DakproCJImporter {
     }
 
     // ==================================================
-    // FORMATER LES PRIX
+    // FORMATAGE PRIX FCFA
     // ==================================================
 
     formatPrice(amount) {
 
-        const rate =
-            this.currencyRates[this.currentCurrency] || 1;
+        return Math.round(
+            Number(amount || 0) * this.exchangeRate
+        ).toLocaleString('fr-FR') + ' FCFA';
 
-        const converted = amount * rate;
-
-        if (this.currentCurrency === 'FCFA') {
-
-            return Math.round(converted)
-                .toLocaleString('fr-FR') + ' FCFA';
-
-        }
-
-        if (this.currentCurrency === 'EUR') {
-
-            return '€' + converted.toFixed(2);
-
-        }
-
-        return '$' + converted.toFixed(2);
     }
 
     // ==================================================
@@ -492,7 +551,7 @@ class DakproCJImporter {
         const grid =
             document.getElementById('cj-products-grid');
 
-        const countDiv =
+        const count =
             document.getElementById('cj-results-count');
 
         grid.innerHTML = `
@@ -503,18 +562,12 @@ class DakproCJImporter {
                 padding:60px;
                 color:#FBBF24;
             ">
-
-                <h3>⏳ Recherche CJdropshipping...</h3>
-
-                <p>
-                    Récupération des produits et de leurs images.
-                </p>
-
+                ⏳ Recherche réelle dans CJdropshipping...
             </div>
 
         `;
 
-        countDiv.innerHTML = '';
+        count.innerHTML = '';
 
         try {
 
@@ -529,16 +582,20 @@ class DakproCJImporter {
             if (!response.ok) {
 
                 throw new Error(
-                    'Erreur API : ' + response.status
+                    'Erreur serveur : ' + response.status
                 );
 
             }
 
             const result = await response.json();
 
-            if (!result.success || !result.data) {
+            if (
+                result.success === false ||
+                !result.data
+            ) {
 
                 throw new Error(
+                    result.message ||
                     'Réponse CJdropshipping invalide.'
                 );
 
@@ -546,16 +603,14 @@ class DakproCJImporter {
 
             const data = result.data;
 
-            const list =
+            const list = Array.isArray(data)
+                ? data
+                : data.list ||
+                  data.products ||
+                  data.productList ||
+                  [];
 
-                Array.isArray(data)
-                    ? data
-                    : data.list ||
-                      data.products ||
-                      data.productList ||
-                      [];
-
-            if (!Array.isArray(list) || !list.length) {
+            if (!list.length) {
 
                 throw new Error(
                     'Aucun produit trouvé.'
@@ -565,33 +620,16 @@ class DakproCJImporter {
 
             this.productsCache = {};
 
-            const formattedProducts = list.map(item => {
+            const products = list.map(item => {
 
                 const images = this.extractImages(item);
-
-                const price = parseFloat(
-
-                    item.sellPrice ||
-                    item.productPrice ||
-                    item.price ||
-                    0
-
-                );
-
-                const compare = parseFloat(
-
-                    item.comparePrice ||
-                    item.originalPrice ||
-                    (price * 1.35)
-
-                );
 
                 const pid = String(
 
                     item.pid ||
                     item.productId ||
                     item.product_id ||
-                    ('cj_' + Math.random().toString(36).slice(2))
+                    ''
 
                 );
 
@@ -614,60 +652,78 @@ class DakproCJImporter {
 
                     images,
 
-                    sellPrice: price,
+                    video:
+                        this.extractVideo(item),
 
-                    comparePrice: compare,
+                    sellPrice: Number(
+                        item.sellPrice ||
+                        item.productPrice ||
+                        item.price ||
+                        0
+                    ),
+
+                    comparePrice: Number(
+                        item.comparePrice ||
+                        item.originalPrice ||
+                        0
+                    ),
 
                     productSku:
                         item.productSku ||
                         item.sku ||
-                        'CJ-SKU-REF',
+                        'CJ-SKU',
 
                     description:
                         item.description ||
                         item.remark ||
-                        'Description fournisseur non disponible.',
+                        'Produit importé depuis CJdropshipping.',
 
                     descriptionEn:
                         item.descriptionEn ||
                         item.description ||
-                        'Supplier description unavailable.'
+                        '',
+
+                    variants:
+                        this.extractVariants(item)
 
                 };
 
-                this.productsCache[pid] = product;
+                if (
+                    product.pid &&
+                    product.productImage &&
+                    product.sellPrice > 0
+                ) {
 
-                return product;
+                    this.productsCache[pid] = product;
 
-            }).filter(product => {
+                    return product;
 
-                return product.productImage !== '';
+                }
 
-            });
+                return null;
 
-            if (!formattedProducts.length) {
+            }).filter(Boolean);
+
+            if (!products.length) {
 
                 throw new Error(
-                    'Aucune image valide reçue de CJdropshipping.'
+                    'Aucun produit exploitable reçu de CJdropshipping.'
                 );
 
             }
 
-            countDiv.innerHTML = `
+            count.innerHTML = `
 
-                ✨ <b>${formattedProducts.length}</b>
-                produits trouvés avec images disponibles.
+                ✨ <b>${products.length}</b>
+                produits trouvés avec leurs images disponibles.
 
             `;
 
-            this.renderProducts(formattedProducts);
+            this.renderProducts(products);
 
         } catch (error) {
 
-            console.error(
-                'DAKPRO CJ IMPORTER :',
-                error
-            );
+            console.error('DAKPRO CJ:', error);
 
             grid.innerHTML = `
 
@@ -682,13 +738,12 @@ class DakproCJImporter {
 
                     <h3>⚠️ Recherche impossible</h3>
 
-                    <p style="color:#94A3B8;">
+                    <p>
                         ${this.escapeHTML(error.message)}
                     </p>
 
-                    <p style="color:#94A3B8;font-size:12px;">
-                        Vérifiez votre connexion au serveur
-                        et à l'API CJdropshipping.
+                    <p style="color:#94A3B8;font-size:12px">
+                        Vérifiez votre serveur API CJdropshipping.
                     </p>
 
                 </div>
@@ -700,7 +755,7 @@ class DakproCJImporter {
     }
 
     // ==================================================
-    // AFFICHAGE DYNAMIQUE DES PRODUITS
+    // AFFICHAGE PRODUITS
     // ==================================================
 
     renderProducts(products) {
@@ -721,108 +776,72 @@ class DakproCJImporter {
 
             return `
 
-            <div style="
-                background:#111827;
-                border:1px solid #1F2937;
-                border-radius:12px;
-                overflow:hidden;
-                display:flex;
-                flex-direction:column;
-            ">
-
                 <div style="
-                    position:relative;
-                    height:220px;
-                    background:#1F2937;
+                    background:#111827;
+                    border:1px solid #1F2937;
+                    border-radius:12px;
                     overflow:hidden;
-                ">
-
-                    <img
-                        src="${image}"
-                        alt="${name}"
-                        loading="lazy"
-                        style="
-                            width:100%;
-                            height:100%;
-                            object-fit:contain;
-                            display:block;
-                        "
-                        onerror="
-                            this.style.display='none';
-                            this.nextElementSibling.style.display='flex';
-                        "
-                    >
-
-                    <div style="
-                        display:none;
-                        width:100%;
-                        height:100%;
-                        align-items:center;
-                        justify-content:center;
-                        color:#94A3B8;
-                    ">
-                        Image indisponible
-                    </div>
-
-                    <span style="
-                        position:absolute;
-                        top:10px;
-                        left:10px;
-                        background:#059669;
-                        padding:5px 9px;
-                        border-radius:5px;
-                        font-size:10px;
-                        font-weight:bold;
-                    ">
-                        CJ IMPORT
-                    </span>
-
-                </div>
-
-                <div style="
-                    padding:16px;
                     display:flex;
                     flex-direction:column;
-                    flex:1;
                 ">
 
-                    <h3 style="
-                        font-size:14px;
-                        height:40px;
-                        overflow:hidden;
-                        color:#F8FAFC;
-                    ">
-                        ${name}
-                    </h3>
-
                     <div style="
-                        color:#FBBF24;
-                        font-weight:800;
-                        font-size:18px;
-                        margin-bottom:15px;
+                        height:220px;
+                        background:#1F2937;
                     ">
-                        ${this.formatPrice(product.sellPrice)}
+
+                        <img
+                            src="${image}"
+                            alt="${name}"
+                            loading="lazy"
+                            style="
+                                width:100%;
+                                height:100%;
+                                object-fit:contain;
+                            "
+                            onerror="this.style.display='none'"
+                        >
+
                     </div>
 
-                    <button
-                        data-cj-product="${pid}"
-                        style="
-                            margin-top:auto;
-                            background:linear-gradient(135deg,#0284C7,#1E3A8A);
-                            color:white;
-                            border:none;
-                            padding:12px;
-                            border-radius:8px;
+                    <div style="padding:16px">
+
+                        <h3 style="
+                            font-size:14px;
+                            height:40px;
+                            overflow:hidden;
+                        ">
+                            ${name}
+                        </h3>
+
+                        <div style="
+                            color:#FBBF24;
                             font-weight:800;
-                            cursor:pointer;
-                        "
-                    >
-                        👁️ VOIR ET IMPORTER
-                    </button>
+                            font-size:18px;
+                            margin-bottom:15px;
+                        ">
+                            ${this.formatPrice(product.sellPrice)}
+                        </div>
+
+                        <button
+                            data-cj-product="${pid}"
+                            style="
+                                width:100%;
+                                background:linear-gradient(135deg,#0284C7,#1E3A8A);
+                                color:white;
+                                border:none;
+                                padding:12px;
+                                border-radius:8px;
+                                font-weight:bold;
+                                cursor:pointer;
+                            "
+                        >
+                            👁️ VOIR ET IMPORTER
+                        </button>
+
+                    </div>
 
                 </div>
-
-            </div>
 
             `;
 
@@ -831,12 +850,16 @@ class DakproCJImporter {
     }
 
     // ==================================================
-    // DÉTAILS ET GALERIE D'IMAGES
+    // DÉTAILS PRODUIT
     // ==================================================
 
     loadProductDetail(pid) {
 
         const product = this.productsCache[pid];
+
+        if (!product) return;
+
+        this.selectedProduct = product;
 
         const modal =
             document.getElementById('cj-detail-modal');
@@ -844,40 +867,18 @@ class DakproCJImporter {
         const content =
             document.getElementById('cj-modal-content');
 
-        if (!product) {
-
-            alert('Produit introuvable.');
-
-            return;
-
-        }
-
-        this.selectedProduct = product;
-
-        const basePrice =
-            parseFloat(product.sellPrice) || 0;
-
-        const baseCompare =
-            parseFloat(product.comparePrice) ||
-            basePrice * 1.35;
-
-        const margin = 30;
-
-        const images = product.images || [
-            product.productImage
-        ];
+        const images = product.images || [];
 
         const gallery = images.map((image, index) => `
 
             <img
                 src="${this.escapeHTML(image)}"
-                onclick="
-                    window.dakproImporterInstance.changeMainImage('${this.escapeHTML(pid)}', ${index})
-                "
+                data-image-index="${index}"
                 style="
                     width:75px;
                     height:75px;
-                    object-fit:cover;
+                    object-fit:contain;
+                    background:#0B0F19;
                     border:1px solid #374151;
                     border-radius:8px;
                     cursor:pointer;
@@ -890,7 +891,7 @@ class DakproCJImporter {
 
             <h2 style="
                 color:#FBBF24;
-                padding-right:35px;
+                padding-right:40px;
             ">
                 ${this.escapeHTML(product.productName)}
             </h2>
@@ -924,13 +925,19 @@ class DakproCJImporter {
                         ${gallery}
                     </div>
 
-                    <p style="
-                        font-size:11px;
-                        color:#34D399;
-                        word-break:break-all;
-                    ">
-                        Image fournisseur CJdropshipping
-                    </p>
+                    ${
+                        product.video
+                        ? `
+                            <p style="color:#34D399;font-size:12px">
+                                🎬 Vidéo fournisseur disponible
+                            </p>
+                        `
+                        : `
+                            <p style="color:#94A3B8;font-size:12px">
+                                Aucune vidéo fournisseur disponible.
+                            </p>
+                        `
+                    }
 
                 </div>
 
@@ -941,56 +948,44 @@ class DakproCJImporter {
                         <b>${this.escapeHTML(product.productSku)}</b>
                     </p>
 
-                    <p style="color:#94A3B8;">
+                    <p style="color:#FBBF24">
                         Prix fournisseur :
-                        <b style="color:#FBBF24;">
-                            ${this.formatPrice(basePrice)}
+                        ${this.formatPrice(product.sellPrice)}
+                    </p>
+
+                    <label style="color:#38BDF8">
+                        Marge bénéficiaire (%)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="cj-margin-input"
+                        value="30"
+                        min="0"
+                        max="500"
+                        style="
+                            display:block;
+                            width:100px;
+                            padding:10px;
+                            margin:10px 0;
+                            background:#0B0F19;
+                            color:white;
+                            border:1px solid #374151;
+                            border-radius:6px;
+                        "
+                    >
+
+                    <p style="color:#FBBF24">
+                        Prix de vente :
+                        <b id="cj-final-price">
+                            ${this.formatPrice(product.sellPrice * 1.3)}
                         </b>
                     </p>
 
-                    <div style="
-                        background:#0B0F19;
-                        padding:15px;
-                        border-radius:10px;
-                    ">
-
-                        <label>
-                            Marge bénéficiaire (%)
-                        </label>
-
-                        <input
-                            type="number"
-                            id="cj-margin-input"
-                            value="${margin}"
-                            min="0"
-                            max="500"
-                            style="
-                                display:block;
-                                width:100px;
-                                padding:10px;
-                                margin:10px 0;
-                                background:#111827;
-                                color:white;
-                                border:1px solid #374151;
-                                border-radius:6px;
-                            "
-                        >
-
-                        <p style="color:#FBBF24;">
-                            Prix de vente :
-                            <b id="cj-final-sell-display">
-                                ${this.formatPrice(basePrice * 1.3)}
-                            </b>
-                        </p>
-
-                        <p style="color:#34D399;">
-                            Prix normal :
-                            <b id="cj-final-compare-display">
-                                ${this.formatPrice(baseCompare * 1.3)}
-                            </b>
-                        </p>
-
-                    </div>
+                    <p style="color:#94A3B8;font-size:12px">
+                        Conversion indicative : 1 USD = 655 FCFA.
+                        Les frais de livraison ne sont pas inclus.
+                    </p>
 
                 </div>
 
@@ -1003,19 +998,19 @@ class DakproCJImporter {
                 border-radius:10px;
             ">
 
-                <h4 style="color:#38BDF8;">
+                <h4 style="color:#38BDF8">
                     Description française
                 </h4>
 
-                <p style="color:#CBD5E1;">
+                <p style="color:#CBD5E1">
                     ${this.escapeHTML(product.description)}
                 </p>
 
-                <h4 style="color:#38BDF8;">
-                    English description
+                <h4 style="color:#38BDF8">
+                    Description anglaise
                 </h4>
 
-                <p style="color:#CBD5E1;">
+                <p style="color:#CBD5E1">
                     ${this.escapeHTML(product.descriptionEn)}
                 </p>
 
@@ -1027,8 +1022,7 @@ class DakproCJImporter {
                 margin-top:20px;
             ">
 
-                <button
-                    id="cj-save-draft"
+                <button id="cj-save-draft"
                     style="
                         padding:14px;
                         background:#1F2937;
@@ -1036,13 +1030,11 @@ class DakproCJImporter {
                         border:1px solid #FBBF24;
                         border-radius:8px;
                         font-weight:bold;
-                    "
-                >
+                    ">
                     📥 ENREGISTRER DANS LES BROUILLONS
                 </button>
 
-                <button
-                    id="cj-publish-product"
+                <button id="cj-publish-product"
                     style="
                         padding:14px;
                         background:linear-gradient(135deg,#10B981,#059669);
@@ -1050,8 +1042,7 @@ class DakproCJImporter {
                         border:none;
                         border-radius:8px;
                         font-weight:bold;
-                    "
-                >
+                    ">
                     🚀 PUBLIER SUR LA MARKETPLACE
                 </button>
 
@@ -1061,15 +1052,33 @@ class DakproCJImporter {
 
         modal.style.display = 'flex';
 
+        // Galerie
+
+        content.querySelectorAll('[data-image-index]')
+            .forEach(image => {
+
+                image.addEventListener('click', () => {
+
+                    document.getElementById(
+                        'cj-main-image'
+                    ).src = product.images[
+                        Number(image.dataset.imageIndex)
+                    ];
+
+                });
+
+            });
+
+        // Calcul automatique
+
         document.getElementById('cj-margin-input')
             .addEventListener('input', () => {
 
-                this.updateCalculatedPrices(
-                    basePrice,
-                    baseCompare
-                );
+                this.updateCalculatedPrice();
 
             });
+
+        // Brouillons
 
         document.getElementById('cj-save-draft')
             .addEventListener('click', () => {
@@ -1077,6 +1086,8 @@ class DakproCJImporter {
                 this.triggerImport(false);
 
             });
+
+        // Publication
 
         document.getElementById('cj-publish-product')
             .addEventListener('click', () => {
@@ -1088,65 +1099,50 @@ class DakproCJImporter {
     }
 
     // ==================================================
-    // CHANGEMENT IMAGE PRINCIPALE
+    // CALCUL DU PRIX
     // ==================================================
 
-    changeMainImage(pid, index) {
+    updateCalculatedPrice() {
 
-        const product = this.productsCache[pid];
-
-        if (!product || !product.images[index]) return;
-
-        const mainImage =
-            document.getElementById('cj-main-image');
-
-        if (mainImage) {
-
-            mainImage.src = product.images[index];
-
-        }
-
-    }
-
-    // ==================================================
-    // CALCUL DES PRIX
-    // ==================================================
-
-    updateCalculatedPrices(basePrice, baseCompare) {
-
-        const input =
+        const marginInput =
             document.getElementById('cj-margin-input');
 
-        const sell =
-            document.getElementById('cj-final-sell-display');
+        const display =
+            document.getElementById('cj-final-price');
 
-        const compare =
-            document.getElementById('cj-final-compare-display');
-
-        if (!input || !sell || !compare) return;
+        if (!marginInput || !display) return;
 
         const margin = Math.min(
             500,
-            Math.max(0, parseFloat(input.value) || 0)
+            Math.max(0, Number(marginInput.value) || 0)
         );
 
-        sell.innerText = this.formatPrice(
-            basePrice * (1 + margin / 100)
-        );
+        const basePrice =
+            Number(this.selectedProduct.sellPrice);
 
-        compare.innerText = this.formatPrice(
-            baseCompare * (1 + margin / 100)
-        );
+        const finalPrice =
+            basePrice * (1 + margin / 100);
+
+        display.innerText =
+            this.formatPrice(finalPrice);
 
     }
 
     // ==================================================
-    // IMPORTATION VERS DAKPRO ÉLITE / FIREBASE
+    // PUBLICATION DIRECTE FIREBASE
     // ==================================================
 
     async triggerImport(publishNow) {
 
         if (!this.selectedProduct) return;
+
+        if (!this.database) {
+
+            alert('Firebase Database indisponible.');
+
+            return;
+
+        }
 
         const product = this.selectedProduct;
 
@@ -1155,147 +1151,182 @@ class DakproCJImporter {
 
         const margin = Math.min(
             500,
-            Math.max(0, parseFloat(marginInput?.value) || 0)
+            Math.max(0, Number(marginInput?.value) || 0)
         );
 
-        const basePrice =
-            parseFloat(product.sellPrice) || 0;
+        const fournisseurPrice =
+            Number(product.sellPrice);
 
-        const baseCompare =
-            parseFloat(product.comparePrice) ||
-            basePrice * 1.35;
-
-        const finalSell =
-            basePrice * (1 + margin / 100);
-
-        const finalCompare =
-            baseCompare * (1 + margin / 100);
-
-        const rate =
-            this.currencyRates[this.currentCurrency] || 1;
-
-        const publicationData = {
-
-            actif: publishNow,
-
-            isFlash: true,
-
-            isRecommande: true,
-
-            categorie: "Import CJdropshipping",
-
-            sousCategorie: "Tendance",
-
-            createdAt: Date.now(),
-
-            createdBy: "admin_dakpro_id",
-
-            datePublication:
-                new Date().toLocaleDateString('fr-FR'),
-
-            heurePublication:
-                new Date().toLocaleTimeString('fr-FR', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                }),
-
-            horodatageComplet:
-                new Date().toLocaleString('fr-FR'),
-
-            description: product.description,
-
-            description_en: product.descriptionEn,
-
-            titre: product.productName,
-
-            titre_en: product.productNameEn,
-
-            nom: product.productName,
-
-            nom_en: product.productNameEn,
-
-            sku: product.productSku,
-
-            devise: this.currentCurrency,
-
-            prix: Math.round(finalSell * rate),
-
-            prixNormal: Math.round(finalSell * rate),
-
-            prixPromo: Math.round(finalCompare * rate),
-
-            image: product.productImage,
-
-            images: product.images,
-
-            video: "",
-
-            source: "CJdropshipping",
-
-            fournisseur: "CJdropshipping",
-
-            fournisseurProductId: product.pid,
-
-            lienAffiliation:
-                `https://dakproelite-tbbr.vercel.app/administration.html?produit=import_cj`
-
-        };
-
-        const button = document.getElementById(
-            publishNow ? 'cj-publish-product' : 'cj-save-draft'
+        const finalPriceFCFA = Math.round(
+            fournisseurPrice *
+            (1 + margin / 100) *
+            this.exchangeRate
         );
 
-        const originalText = button?.innerText;
+        if (!Number.isFinite(finalPriceFCFA) || finalPriceFCFA <= 0) {
 
-        if (button) {
+            alert('Prix du produit invalide.');
 
-            button.disabled = true;
-
-            button.innerText = '⏳ ENREGISTREMENT...';
+            return;
 
         }
 
+        const button = document.getElementById(
+            publishNow
+                ? 'cj-publish-product'
+                : 'cj-save-draft'
+        );
+
+        const originalText = button.innerText;
+
+        button.disabled = true;
+
+        button.innerText = '⏳ ENREGISTREMENT FIREBASE...';
+
         try {
 
-            const response = await fetch(
-                '/api/dakpro/products/import',
-                {
-                    method: 'POST',
+            // Création de la référence Firebase
 
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+            const publicationRef =
+                this.database.ref('publications').push();
 
-                    body: JSON.stringify(publicationData)
+            const publicationId =
+                publicationRef.key;
 
-                }
+            const now = new Date();
+
+            const publicationData = {
+
+                // IDENTIFIANT
+
+                id: publicationId,
+
+                // ÉTAT PUBLICATION
+
+                actif: publishNow,
+
+                isFlash: false,
+
+                isRecommande: false,
+
+                // IDENTITÉ PRODUIT
+
+                nom: product.productName,
+
+                nom_en: product.productNameEn,
+
+                titre: product.productName,
+
+                titre_en: product.productNameEn,
+
+                // DESCRIPTIONS
+
+                description: product.description,
+
+                description_en: product.descriptionEn,
+
+                // PRIX
+
+                devise: 'FCFA',
+
+                prix: finalPriceFCFA,
+
+                prixNormal: finalPriceFCFA,
+
+                // Pas de promotion inventée.
+
+                prixPromo: 0,
+
+                prixFournisseur: fournisseurPrice,
+
+                margeBeneficiaire: margin,
+
+                tauxConversion: this.exchangeRate,
+
+                // IMAGES : URL FOURNISSEUR
+
+                image: product.productImage,
+
+                images: product.images,
+
+                // VIDÉO : URL FOURNISSEUR
+
+                video: product.video || '',
+
+                // CATÉGORIE
+
+                categorie: 'Import CJdropshipping',
+
+                sousCategorie: 'Tendance',
+
+                // FOURNISSEUR
+
+                source: 'CJdropshipping',
+
+                fournisseur: 'CJdropshipping',
+
+                fournisseurProductId: product.pid,
+
+                sku: product.productSku,
+
+                // VARIANTES
+
+                variantes: product.variants || [],
+
+                // ADMINISTRATEUR
+
+                createdBy: this.adminId,
+
+                vendeurId: this.adminId,
+
+                vendeurNom: 'DAKPROELITE',
+
+                // DATE
+
+                createdAt: Date.now(),
+
+                datePublication:
+                    now.toLocaleDateString('fr-FR'),
+
+                heurePublication:
+                    now.toLocaleTimeString('fr-FR', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }),
+
+                horodatageComplet:
+                    now.toLocaleString('fr-FR'),
+
+                // AFFILIATION
+
+                lienAffiliation:
+                    'https://dakproelite-tbbr.vercel.app/administration.html?produit=' +
+                    encodeURIComponent(publicationId),
+
+                // INFORMATIONS DROPSHIPPING
+
+                dropshipping: true,
+
+                stockGereParFournisseur: true
+
+            };
+
+            // ÉCRITURE DIRECTE DANS REALTIME DATABASE
+
+            await publicationRef.set(publicationData);
+
+            console.log(
+                'DAKPRO : produit enregistré dans publications/',
+                publicationId
             );
-
-            if (!response.ok) {
-
-                throw new Error(
-                    'Échec de sauvegarde : ' + response.status
-                );
-
-            }
-
-            const result = await response.json();
-
-            if (result.success === false) {
-
-                throw new Error(
-                    result.message || 'Sauvegarde refusée.'
-                );
-
-            }
 
             alert(
 
                 publishNow
 
-                    ? '🚀 Produit publié avec succès sur DAKPRO ÉLITE !'
+                    ? '🚀 Produit publié avec succès dans Firebase Realtime Database !'
 
-                    : '📥 Produit enregistré dans les brouillons !'
+                    : '📥 Produit enregistré dans les brouillons Firebase !'
 
             );
 
@@ -1306,24 +1337,20 @@ class DakproCJImporter {
         } catch (error) {
 
             console.error(
-                'DAKPRO IMPORT FIREBASE :',
+                'DAKPRO FIREBASE PUBLICATION :',
                 error
             );
 
             alert(
-                '❌ Impossible de confirmer l’enregistrement. ' +
+                '❌ Échec de publication : ' +
                 error.message
             );
 
         } finally {
 
-            if (button) {
+            button.disabled = false;
 
-                button.disabled = false;
-
-                button.innerText = originalText;
-
-            }
+            button.innerText = originalText;
 
         }
 
